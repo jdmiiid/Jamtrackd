@@ -1,12 +1,12 @@
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'firebase_options.dart';
-import 'views/login_views.dart';
-import 'views/register_veiws.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:tasktrack/widgets/butt_nav_bar.dart';
+import 'package:tasktrack/widgets/see_tab_bar.dart';
+
+import 'widgets/art_searcher.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(const ProviderScope(child: MyApp()));
 }
 
 class MyApp extends StatelessWidget {
@@ -14,13 +14,10 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.indigo,
-      ),
-      home: const HomePage(),
+      title: 'Personal Taste App',
+      home: HomePage(),
     );
   }
 }
@@ -28,30 +25,35 @@ class MyApp extends StatelessWidget {
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
 
+  final Color primaryColor = const Color(0xff3f704d);
+  final Color secondaryColor = const Color(0xffd07746);
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Home Page'),
-      ),
-      body: FutureBuilder(
-          future: Firebase.initializeApp(
-            options: DefaultFirebaseOptions.currentPlatform,
+    return DefaultTabController(
+      length: 5,
+      child: Scaffold(
+        appBar: PreferredSize(
+          preferredSize: const Size.fromRadius(32),
+          child: AppBar(
+            backgroundColor: primaryColor,
+            title: const Text(
+              'øbiñyu',
+              style: TextStyle(letterSpacing: 10, fontSize: 30),
+            ),
           ),
-          builder: (context, snapshot) {
-            switch (snapshot.connectionState) {
-              case ConnectionState.done:
-                final user = FirebaseAuth.instance.currentUser;
-                if (user?.emailVerified ?? false) {
-                  print("You're good, bro");
-                } else {
-                  print("Mannnnn");
-                }
-                return const Text("Done");
-              default:
-                return const Text('Loading...');
-            }
-          }),
+        ),
+        body: Column(
+          children: const [
+            ArtSearcher(),
+            Flexible(
+              child: SeeTabBar(),
+            ),
+          ],
+        ),
+        backgroundColor: const Color(0xfff8f7de),
+        bottomNavigationBar: const ButtNavBar(),
+      ),
     );
   }
 }
