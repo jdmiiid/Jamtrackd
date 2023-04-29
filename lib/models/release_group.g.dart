@@ -1,13 +1,13 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'release_group_model.dart';
+part of 'release_group.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_ReleaseGroupModel _$$_ReleaseGroupModelFromJson(Map<String, dynamic> json) =>
-    _$_ReleaseGroupModel(
+_$_ReleaseGroup _$$_ReleaseGroupFromJson(Map<String, dynamic> json) =>
+    _$_ReleaseGroup(
       secondaryTypes: json['secondaryTypes'] as List<dynamic>,
       primaryTypeId: json['primaryTypeId'] as String,
       id: json['id'] as String,
@@ -18,8 +18,7 @@ _$_ReleaseGroupModel _$$_ReleaseGroupModelFromJson(Map<String, dynamic> json) =>
       title: json['title'] as String,
     );
 
-Map<String, dynamic> _$$_ReleaseGroupModelToJson(
-        _$_ReleaseGroupModel instance) =>
+Map<String, dynamic> _$$_ReleaseGroupToJson(_$_ReleaseGroup instance) =>
     <String, dynamic>{
       'secondaryTypes': instance.secondaryTypes,
       'primaryTypeId': instance.primaryTypeId,

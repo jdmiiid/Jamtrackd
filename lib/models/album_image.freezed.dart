@@ -3,7 +3,7 @@
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
-part of 'album_image_model.dart';
+part of 'album_image.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -14,12 +14,12 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
-AlbumImageModel _$AlbumImageModelFromJson(Map<String, dynamic> json) {
-  return _AlbumImageModel.fromJson(json);
+AlbumImage _$AlbumImageFromJson(Map<String, dynamic> json) {
+  return _AlbumImage.fromJson(json);
 }
 
 /// @nodoc
-mixin _$AlbumImageModel {
+mixin _$AlbumImage {
   bool get back => throw _privateConstructorUsedError;
   bool get approved => throw _privateConstructorUsedError;
   String get comment => throw _privateConstructorUsedError;
@@ -32,15 +32,15 @@ mixin _$AlbumImageModel {
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
-  $AlbumImageModelCopyWith<AlbumImageModel> get copyWith =>
+  $AlbumImageCopyWith<AlbumImage> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $AlbumImageModelCopyWith<$Res> {
-  factory $AlbumImageModelCopyWith(
-          AlbumImageModel value, $Res Function(AlbumImageModel) then) =
-      _$AlbumImageModelCopyWithImpl<$Res, AlbumImageModel>;
+abstract class $AlbumImageCopyWith<$Res> {
+  factory $AlbumImageCopyWith(
+          AlbumImage value, $Res Function(AlbumImage) then) =
+      _$AlbumImageCopyWithImpl<$Res, AlbumImage>;
   @useResult
   $Res call(
       {bool back,
@@ -55,9 +55,9 @@ abstract class $AlbumImageModelCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$AlbumImageModelCopyWithImpl<$Res, $Val extends AlbumImageModel>
-    implements $AlbumImageModelCopyWith<$Res> {
-  _$AlbumImageModelCopyWithImpl(this._value, this._then);
+class _$AlbumImageCopyWithImpl<$Res, $Val extends AlbumImage>
+    implements $AlbumImageCopyWith<$Res> {
+  _$AlbumImageCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
@@ -116,11 +116,11 @@ class _$AlbumImageModelCopyWithImpl<$Res, $Val extends AlbumImageModel>
 }
 
 /// @nodoc
-abstract class _$$_AlbumImageModelCopyWith<$Res>
-    implements $AlbumImageModelCopyWith<$Res> {
-  factory _$$_AlbumImageModelCopyWith(
-          _$_AlbumImageModel value, $Res Function(_$_AlbumImageModel) then) =
-      __$$_AlbumImageModelCopyWithImpl<$Res>;
+abstract class _$$_AlbumImageCopyWith<$Res>
+    implements $AlbumImageCopyWith<$Res> {
+  factory _$$_AlbumImageCopyWith(
+          _$_AlbumImage value, $Res Function(_$_AlbumImage) then) =
+      __$$_AlbumImageCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -136,11 +136,11 @@ abstract class _$$_AlbumImageModelCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_AlbumImageModelCopyWithImpl<$Res>
-    extends _$AlbumImageModelCopyWithImpl<$Res, _$_AlbumImageModel>
-    implements _$$_AlbumImageModelCopyWith<$Res> {
-  __$$_AlbumImageModelCopyWithImpl(
-      _$_AlbumImageModel _value, $Res Function(_$_AlbumImageModel) _then)
+class __$$_AlbumImageCopyWithImpl<$Res>
+    extends _$AlbumImageCopyWithImpl<$Res, _$_AlbumImage>
+    implements _$$_AlbumImageCopyWith<$Res> {
+  __$$_AlbumImageCopyWithImpl(
+      _$_AlbumImage _value, $Res Function(_$_AlbumImage) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -156,7 +156,7 @@ class __$$_AlbumImageModelCopyWithImpl<$Res>
     Object? thumbnails = null,
     Object? types = null,
   }) {
-    return _then(_$_AlbumImageModel(
+    return _then(_$_AlbumImage(
       back: null == back
           ? _value.back
           : back // ignore: cast_nullable_to_non_nullable
@@ -196,10 +196,8 @@ class __$$_AlbumImageModelCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_AlbumImageModel
-    with DiagnosticableTreeMixin
-    implements _AlbumImageModel {
-  const _$_AlbumImageModel(
+class _$_AlbumImage with DiagnosticableTreeMixin implements _AlbumImage {
+  const _$_AlbumImage(
       {required this.back,
       required this.approved,
       required this.comment,
@@ -211,8 +209,8 @@ class _$_AlbumImageModel
       required final List<dynamic> types})
       : _types = types;
 
-  factory _$_AlbumImageModel.fromJson(Map<String, dynamic> json) =>
-      _$$_AlbumImageModelFromJson(json);
+  factory _$_AlbumImage.fromJson(Map<String, dynamic> json) =>
+      _$$_AlbumImageFromJson(json);
 
   @override
   final bool back;
@@ -240,14 +238,14 @@ class _$_AlbumImageModel
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'AlbumImageModel(back: $back, approved: $approved, comment: $comment, front: $front, id: $id, edit: $edit, image: $image, thumbnails: $thumbnails, types: $types)';
+    return 'AlbumImage(back: $back, approved: $approved, comment: $comment, front: $front, id: $id, edit: $edit, image: $image, thumbnails: $thumbnails, types: $types)';
   }
 
   @override
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
     super.debugFillProperties(properties);
     properties
-      ..add(DiagnosticsProperty('type', 'AlbumImageModel'))
+      ..add(DiagnosticsProperty('type', 'AlbumImage'))
       ..add(DiagnosticsProperty('back', back))
       ..add(DiagnosticsProperty('approved', approved))
       ..add(DiagnosticsProperty('comment', comment))
@@ -263,7 +261,7 @@ class _$_AlbumImageModel
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_AlbumImageModel &&
+            other is _$_AlbumImage &&
             (identical(other.back, back) || other.back == back) &&
             (identical(other.approved, approved) ||
                 other.approved == approved) &&
@@ -294,19 +292,19 @@ class _$_AlbumImageModel
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_AlbumImageModelCopyWith<_$_AlbumImageModel> get copyWith =>
-      __$$_AlbumImageModelCopyWithImpl<_$_AlbumImageModel>(this, _$identity);
+  _$$_AlbumImageCopyWith<_$_AlbumImage> get copyWith =>
+      __$$_AlbumImageCopyWithImpl<_$_AlbumImage>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_AlbumImageModelToJson(
+    return _$$_AlbumImageToJson(
       this,
     );
   }
 }
 
-abstract class _AlbumImageModel implements AlbumImageModel {
-  const factory _AlbumImageModel(
+abstract class _AlbumImage implements AlbumImage {
+  const factory _AlbumImage(
       {required final bool back,
       required final bool approved,
       required final String comment,
@@ -315,10 +313,10 @@ abstract class _AlbumImageModel implements AlbumImageModel {
       required final int edit,
       required final String image,
       required final Object thumbnails,
-      required final List<dynamic> types}) = _$_AlbumImageModel;
+      required final List<dynamic> types}) = _$_AlbumImage;
 
-  factory _AlbumImageModel.fromJson(Map<String, dynamic> json) =
-      _$_AlbumImageModel.fromJson;
+  factory _AlbumImage.fromJson(Map<String, dynamic> json) =
+      _$_AlbumImage.fromJson;
 
   @override
   bool get back;
@@ -340,6 +338,6 @@ abstract class _AlbumImageModel implements AlbumImageModel {
   List<dynamic> get types;
   @override
   @JsonKey(ignore: true)
-  _$$_AlbumImageModelCopyWith<_$_AlbumImageModel> get copyWith =>
+  _$$_AlbumImageCopyWith<_$_AlbumImage> get copyWith =>
       throw _privateConstructorUsedError;
 }

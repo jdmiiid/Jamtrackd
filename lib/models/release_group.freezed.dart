@@ -3,7 +3,7 @@
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
-part of 'release_group_model.dart';
+part of 'release_group.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -14,12 +14,12 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
-ReleaseGroupModel _$ReleaseGroupModelFromJson(Map<String, dynamic> json) {
-  return _ReleaseGroupModel.fromJson(json);
+ReleaseGroup _$ReleaseGroupFromJson(Map<String, dynamic> json) {
+  return _ReleaseGroup.fromJson(json);
 }
 
 /// @nodoc
-mixin _$ReleaseGroupModel {
+mixin _$ReleaseGroup {
   List<dynamic> get secondaryTypes => throw _privateConstructorUsedError;
   String get primaryTypeId => throw _privateConstructorUsedError;
   String get id => throw _privateConstructorUsedError;
@@ -31,15 +31,15 @@ mixin _$ReleaseGroupModel {
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
-  $ReleaseGroupModelCopyWith<ReleaseGroupModel> get copyWith =>
+  $ReleaseGroupCopyWith<ReleaseGroup> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $ReleaseGroupModelCopyWith<$Res> {
-  factory $ReleaseGroupModelCopyWith(
-          ReleaseGroupModel value, $Res Function(ReleaseGroupModel) then) =
-      _$ReleaseGroupModelCopyWithImpl<$Res, ReleaseGroupModel>;
+abstract class $ReleaseGroupCopyWith<$Res> {
+  factory $ReleaseGroupCopyWith(
+          ReleaseGroup value, $Res Function(ReleaseGroup) then) =
+      _$ReleaseGroupCopyWithImpl<$Res, ReleaseGroup>;
   @useResult
   $Res call(
       {List<dynamic> secondaryTypes,
@@ -53,9 +53,9 @@ abstract class $ReleaseGroupModelCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$ReleaseGroupModelCopyWithImpl<$Res, $Val extends ReleaseGroupModel>
-    implements $ReleaseGroupModelCopyWith<$Res> {
-  _$ReleaseGroupModelCopyWithImpl(this._value, this._then);
+class _$ReleaseGroupCopyWithImpl<$Res, $Val extends ReleaseGroup>
+    implements $ReleaseGroupCopyWith<$Res> {
+  _$ReleaseGroupCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
@@ -112,11 +112,11 @@ class _$ReleaseGroupModelCopyWithImpl<$Res, $Val extends ReleaseGroupModel>
 }
 
 /// @nodoc
-abstract class _$$_ReleaseGroupModelCopyWith<$Res>
-    implements $ReleaseGroupModelCopyWith<$Res> {
-  factory _$$_ReleaseGroupModelCopyWith(_$_ReleaseGroupModel value,
-          $Res Function(_$_ReleaseGroupModel) then) =
-      __$$_ReleaseGroupModelCopyWithImpl<$Res>;
+abstract class _$$_ReleaseGroupCopyWith<$Res>
+    implements $ReleaseGroupCopyWith<$Res> {
+  factory _$$_ReleaseGroupCopyWith(
+          _$_ReleaseGroup value, $Res Function(_$_ReleaseGroup) then) =
+      __$$_ReleaseGroupCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -131,11 +131,11 @@ abstract class _$$_ReleaseGroupModelCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_ReleaseGroupModelCopyWithImpl<$Res>
-    extends _$ReleaseGroupModelCopyWithImpl<$Res, _$_ReleaseGroupModel>
-    implements _$$_ReleaseGroupModelCopyWith<$Res> {
-  __$$_ReleaseGroupModelCopyWithImpl(
-      _$_ReleaseGroupModel _value, $Res Function(_$_ReleaseGroupModel) _then)
+class __$$_ReleaseGroupCopyWithImpl<$Res>
+    extends _$ReleaseGroupCopyWithImpl<$Res, _$_ReleaseGroup>
+    implements _$$_ReleaseGroupCopyWith<$Res> {
+  __$$_ReleaseGroupCopyWithImpl(
+      _$_ReleaseGroup _value, $Res Function(_$_ReleaseGroup) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -150,7 +150,7 @@ class __$$_ReleaseGroupModelCopyWithImpl<$Res>
     Object? firstReleaseDate = null,
     Object? title = null,
   }) {
-    return _then(_$_ReleaseGroupModel(
+    return _then(_$_ReleaseGroup(
       secondaryTypes: null == secondaryTypes
           ? _value._secondaryTypes
           : secondaryTypes // ignore: cast_nullable_to_non_nullable
@@ -189,10 +189,8 @@ class __$$_ReleaseGroupModelCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_ReleaseGroupModel
-    with DiagnosticableTreeMixin
-    implements _ReleaseGroupModel {
-  const _$_ReleaseGroupModel(
+class _$_ReleaseGroup with DiagnosticableTreeMixin implements _ReleaseGroup {
+  const _$_ReleaseGroup(
       {required final List<dynamic> secondaryTypes,
       required this.primaryTypeId,
       required this.id,
@@ -204,8 +202,8 @@ class _$_ReleaseGroupModel
       : _secondaryTypes = secondaryTypes,
         _secondaryTypeIds = secondaryTypeIds;
 
-  factory _$_ReleaseGroupModel.fromJson(Map<String, dynamic> json) =>
-      _$$_ReleaseGroupModelFromJson(json);
+  factory _$_ReleaseGroup.fromJson(Map<String, dynamic> json) =>
+      _$$_ReleaseGroupFromJson(json);
 
   final List<dynamic> _secondaryTypes;
   @override
@@ -239,14 +237,14 @@ class _$_ReleaseGroupModel
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'ReleaseGroupModel(secondaryTypes: $secondaryTypes, primaryTypeId: $primaryTypeId, id: $id, primaryType: $primaryType, disambiguation: $disambiguation, secondaryTypeIds: $secondaryTypeIds, firstReleaseDate: $firstReleaseDate, title: $title)';
+    return 'ReleaseGroup(secondaryTypes: $secondaryTypes, primaryTypeId: $primaryTypeId, id: $id, primaryType: $primaryType, disambiguation: $disambiguation, secondaryTypeIds: $secondaryTypeIds, firstReleaseDate: $firstReleaseDate, title: $title)';
   }
 
   @override
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
     super.debugFillProperties(properties);
     properties
-      ..add(DiagnosticsProperty('type', 'ReleaseGroupModel'))
+      ..add(DiagnosticsProperty('type', 'ReleaseGroup'))
       ..add(DiagnosticsProperty('secondaryTypes', secondaryTypes))
       ..add(DiagnosticsProperty('primaryTypeId', primaryTypeId))
       ..add(DiagnosticsProperty('id', id))
@@ -261,7 +259,7 @@ class _$_ReleaseGroupModel
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_ReleaseGroupModel &&
+            other is _$_ReleaseGroup &&
             const DeepCollectionEquality()
                 .equals(other._secondaryTypes, _secondaryTypes) &&
             (identical(other.primaryTypeId, primaryTypeId) ||
@@ -294,20 +292,19 @@ class _$_ReleaseGroupModel
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_ReleaseGroupModelCopyWith<_$_ReleaseGroupModel> get copyWith =>
-      __$$_ReleaseGroupModelCopyWithImpl<_$_ReleaseGroupModel>(
-          this, _$identity);
+  _$$_ReleaseGroupCopyWith<_$_ReleaseGroup> get copyWith =>
+      __$$_ReleaseGroupCopyWithImpl<_$_ReleaseGroup>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_ReleaseGroupModelToJson(
+    return _$$_ReleaseGroupToJson(
       this,
     );
   }
 }
 
-abstract class _ReleaseGroupModel implements ReleaseGroupModel {
-  const factory _ReleaseGroupModel(
+abstract class _ReleaseGroup implements ReleaseGroup {
+  const factory _ReleaseGroup(
       {required final List<dynamic> secondaryTypes,
       required final String primaryTypeId,
       required final String id,
@@ -315,10 +312,10 @@ abstract class _ReleaseGroupModel implements ReleaseGroupModel {
       required final String disambiguation,
       required final List<dynamic> secondaryTypeIds,
       required final String firstReleaseDate,
-      required final String title}) = _$_ReleaseGroupModel;
+      required final String title}) = _$_ReleaseGroup;
 
-  factory _ReleaseGroupModel.fromJson(Map<String, dynamic> json) =
-      _$_ReleaseGroupModel.fromJson;
+  factory _ReleaseGroup.fromJson(Map<String, dynamic> json) =
+      _$_ReleaseGroup.fromJson;
 
   @override
   List<dynamic> get secondaryTypes;
@@ -338,6 +335,6 @@ abstract class _ReleaseGroupModel implements ReleaseGroupModel {
   String get title;
   @override
   @JsonKey(ignore: true)
-  _$$_ReleaseGroupModelCopyWith<_$_ReleaseGroupModel> get copyWith =>
+  _$$_ReleaseGroupCopyWith<_$_ReleaseGroup> get copyWith =>
       throw _privateConstructorUsedError;
 }

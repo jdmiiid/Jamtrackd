@@ -1,13 +1,13 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'album_image_model.dart';
+part of 'album_image.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_AlbumImageModel _$$_AlbumImageModelFromJson(Map<String, dynamic> json) =>
-    _$_AlbumImageModel(
+_$_AlbumImage _$$_AlbumImageFromJson(Map<String, dynamic> json) =>
+    _$_AlbumImage(
       back: json['back'] as bool,
       approved: json['approved'] as bool,
       comment: json['comment'] as String,
@@ -19,7 +19,7 @@ _$_AlbumImageModel _$$_AlbumImageModelFromJson(Map<String, dynamic> json) =>
       types: json['types'] as List<dynamic>,
     );
 
-Map<String, dynamic> _$$_AlbumImageModelToJson(_$_AlbumImageModel instance) =>
+Map<String, dynamic> _$$_AlbumImageToJson(_$_AlbumImage instance) =>
     <String, dynamic>{
       'back': instance.back,
       'approved': instance.approved,
