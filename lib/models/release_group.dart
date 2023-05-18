@@ -11,16 +11,10 @@ part 'release_group.g.dart';
 @freezed
 class ReleaseGroup with _$ReleaseGroup {
   const factory ReleaseGroup({
-    required List secondaryTypes,
-    required String primaryTypeId,
     required String id,
-    required String primaryType,
-    required String disambiguation,
-    required List secondaryTypeIds,
-    required String firstReleaseDate,
     required String title,
   }) = _ReleaseGroup;
 
-  factory ReleaseGroup.fromJson(Map<String, Object?> json) =>
+  factory ReleaseGroup.fromJson(Map<String, dynamic> json) =>
       _$ReleaseGroupFromJson(json);
 }

@@ -11,11 +11,9 @@ class ButtNavBar extends StatelessWidget {
         child: TabBar(
             padding: EdgeInsets.only(top: 5),
             tabs: [
-              Tab(icon: Icon(Icons.brush)),
               Tab(icon: Icon(Icons.album)),
               Tab(icon: Icon(Icons.home)),
-              Tab(icon: Icon(Icons.movie_outlined)),
-              Tab(icon: Icon(Icons.tv)),
+              Tab(icon: Icon(Icons.person))
             ],
             indicatorColor: Colors.white,
             // labelColor: Color(0xffe99e57),

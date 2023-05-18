@@ -1,19 +1,17 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'release_group.dart';
+part of 'artist.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_ReleaseGroup _$$_ReleaseGroupFromJson(Map<String, dynamic> json) =>
-    _$_ReleaseGroup(
+_$_Artist _$$_ArtistFromJson(Map<String, dynamic> json) => _$_Artist(
       id: json['id'] as String,
-      title: json['title'] as String,
+      name: json['name'] as String,
     );
 
-Map<String, dynamic> _$$_ReleaseGroupToJson(_$_ReleaseGroup instance) =>
-    <String, dynamic>{
+Map<String, dynamic> _$$_ArtistToJson(_$_Artist instance) => <String, dynamic>{
       'id': instance.id,
-      'title': instance.title,
+      'name': instance.name,
     };

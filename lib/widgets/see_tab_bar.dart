@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tasktrack/pages/rand_page.dart';
 import '../pages/albums_page.dart';
 import '../pages/feed_page.dart';
 import '../pages/films_page.dart';
@@ -11,11 +12,9 @@ class SeeTabBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TabBarView(children: [
-      PaintingsPage(),
-      AlbumsPage(),
+      AlbumsPage(index: 0, query: 'mac demarco'),
       FeedPage(),
       FilmsPage(),
-      TVPage(),
     ]);
   }
 }

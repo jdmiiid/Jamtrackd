@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:tasktrack/widgets/app_bar.dart';
 import 'package:tasktrack/widgets/butt_nav_bar.dart';
 import 'package:tasktrack/widgets/see_tab_bar.dart';
 
@@ -25,33 +26,23 @@ class MyApp extends StatelessWidget {
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
 
-  final Color primaryColor = const Color(0xff3f704d);
   final Color secondaryColor = const Color(0xffd07746);
 
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: 5,
+      length: 3,
       child: Scaffold(
-        appBar: PreferredSize(
-          preferredSize: const Size.fromRadius(32),
-          child: AppBar(
-            backgroundColor: primaryColor,
-            title: const Text(
-              'øbiñyu',
-              style: TextStyle(letterSpacing: 10, fontSize: 30),
-            ),
-          ),
-        ),
+        appBar: const PreferredSize(
+            preferredSize: Size.fromRadius(32), child: MyAppBar()),
         body: Column(
-          children: const [
-            ArtSearcher(),
+          children: [
             Flexible(
               child: SeeTabBar(),
             ),
           ],
         ),
-        backgroundColor: const Color(0xfff8f7de),
+        backgroundColor: const Color(0xff333333),
         bottomNavigationBar: const ButtNavBar(),
       ),
     );
