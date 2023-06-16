@@ -1,12 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:tasktrack/pages/albums_page.dart';
-import 'package:tasktrack/providers/musicbrainz_providers.dart';
-import 'package:tasktrack/widgets/see_tab_bar.dart';
-
-import '../models/artist.dart';
-import '../models/debouncer.dart';
-import '../providers/futures.dart';
 
 class MyAppBar extends HookConsumerWidget {
   const MyAppBar({super.key});
@@ -14,12 +8,17 @@ class MyAppBar extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return AppBar(
-      backgroundColor: const Color(0xff3f704d),
-      title: const Text(
+      title: Text(
         'øbiñyu',
-        style: TextStyle(letterSpacing: 10, fontSize: 30),
+        style: Theme.of(context).textTheme.headlineMedium,
       ),
-      actions: [IconButton(onPressed: () {}, icon: const Icon(Icons.search))],
+      actions: [
+        IconButton(
+            onPressed: () {
+              context.push('/search_page');
+            },
+            icon: const Icon(Icons.search))
+      ],
     );
   }
 }

@@ -5,14 +5,27 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import '../models/artist.dart';
 import '../models/release_group.dart';
 
+const limit = 10;
+
 final userSearchProvider = StateProvider<String>((ref) => '');
 
-final searchQueryProvider = StateProvider((ref) => "");
+final searchQueryProvider = StateProvider((ref) => '');
+
+class FavoriteNotifier extends StateNotifier<bool> {
+  FavoriteNotifier() : super(false);
+
+  void changeBool() {
+    state = state ? false : true;
+  }
+}
+
+final stateNotifierFavorites =
+    StateNotifierProvider((ref) => FavoriteNotifier());
 
 final artistListProvider =
-    FutureProvider.family<List<Artist>, String>((ref, query) async {
+    FutureProvider.autoDispose.family<List<Artist>, String>((ref, query) async {
   final response = await http.get(Uri.parse(
-      'https://musicbrainz.org/ws/2/artist/?query=artist:$query&fmt=json&limit=5'));
+      'https://musicbrainz.org/ws/2/artist/?query=artist:$query&fmt=json&limit=$limit'));
   if (response.statusCode == 200) {
     final List json = jsonDecode(response.body)['artists'];
     final List<Artist> artistList =
@@ -23,8 +36,8 @@ final artistListProvider =
   }
 });
 
-final releaseGroupListProvider =
-    FutureProvider.family<List<ReleaseGroup>, String?>((ref, mbid) async {
+final releaseGroupListProvider = FutureProvider.autoDispose
+    .family<List<ReleaseGroup>, String?>((ref, mbid) async {
   final response = await http.get(Uri.parse(
       'https://musicbrainz.org/ws/2/artist/$mbid?inc=release-groups&fmt=json'));
   if (response.statusCode == 200) {

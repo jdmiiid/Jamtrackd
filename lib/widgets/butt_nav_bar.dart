@@ -1,24 +1,28 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class ButtNavBar extends StatelessWidget {
-  const ButtNavBar({super.key});
+  ButtNavBar({super.key});
+
+  final List<String> routerTabLocations = ['albums_page', '', 'feed_page'];
 
   @override
   Widget build(BuildContext context) {
-    return const Material(
-      color: Color(0xffd07746),
+    return Material(
+      color: const Color(0xffd07746),
       child: SafeArea(
         child: TabBar(
-            padding: EdgeInsets.only(top: 5),
-            tabs: [
-              Tab(icon: Icon(Icons.album)),
-              Tab(icon: Icon(Icons.home)),
-              Tab(icon: Icon(Icons.person))
-            ],
-            indicatorColor: Colors.white,
-            // labelColor: Color(0xffe99e57),
-            unselectedLabelColor: Colors.white,
-            indicatorSize: TabBarIndicatorSize.label),
+          padding: const EdgeInsets.only(top: 5),
+          tabs: const [
+            Tab(icon: Icon(Icons.album)),
+            Tab(icon: Icon(Icons.home)),
+            Tab(icon: Icon(Icons.person))
+          ],
+          indicatorColor: Colors.white,
+          unselectedLabelColor: Colors.white,
+          indicatorSize: TabBarIndicatorSize.label,
+          onTap: (index) => context.go('/${routerTabLocations[index]}'),
+        ),
       ),
     );
   }
