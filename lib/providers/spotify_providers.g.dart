@@ -151,7 +151,7 @@ final albumSelectionProvider = AutoDisposeFutureProvider<Album?>.internal(
 );
 
 typedef AlbumSelectionRef = AutoDisposeFutureProviderRef<Album?>;
-String _$getTrackDataHash() => r'3ae777160fe1bbcb0782a1be3c986d72be253c5c';
+String _$getTrackDataHash() => r'c04e580f03b20a229dedc50aaf0dc40928506b23';
 
 /// See also [getTrackData].
 @ProviderFor(getTrackData)
@@ -165,4 +165,38 @@ final getTrackDataProvider = AutoDisposeFutureProvider<List<String>>.internal(
 );
 
 typedef GetTrackDataRef = AutoDisposeFutureProviderRef<List<String>>;
+String _$albumRatingCollectionStreamHash() =>
+    r'f0b25a3ac2e25401a8f6977f210564cb83d2642e';
+
+/// See also [albumRatingCollectionStream].
+@ProviderFor(albumRatingCollectionStream)
+final albumRatingCollectionStreamProvider =
+    AutoDisposeStreamProvider<List<AlbumRating>>.internal(
+  albumRatingCollectionStream,
+  name: r'albumRatingCollectionStreamProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$albumRatingCollectionStreamHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+typedef AlbumRatingCollectionStreamRef
+    = AutoDisposeStreamProviderRef<List<AlbumRating>>;
+String _$currUserNameFutureHash() =>
+    r'3a58905f009841c828b18414d40468b40f7869ae';
+
+/// See also [currUserNameFuture].
+@ProviderFor(currUserNameFuture)
+final currUserNameFutureProvider = AutoDisposeFutureProvider<String>.internal(
+  currUserNameFuture,
+  name: r'currUserNameFutureProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$currUserNameFutureHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+typedef CurrUserNameFutureRef = AutoDisposeFutureProviderRef<String>;
 // ignore_for_file: unnecessary_raw_strings, subtype_of_sealed_class, invalid_use_of_internal_member, do_not_use_environment, prefer_const_constructors, public_member_api_docs, avoid_private_typedef_functions

@@ -26,28 +26,18 @@ class MyThemes {
               titleTextStyle:
                   GoogleFonts.pacifico(fontSize: 30, color: darkTheme.primary),
             ),
-            tabBarTheme: TabBarTheme(
-              unselectedLabelColor: darkTheme.primary,
-              labelColor: darkTheme.surface,
-              indicatorSize: TabBarIndicatorSize.tab,
-              indicator: BoxDecoration(
-                gradient:
-                    LinearGradient(colors: [Colors.white70, darkTheme.primary]),
-                borderRadius: BorderRadius.circular(50),
-              ),
-            ),
-            inputDecorationTheme: InputDecorationTheme(
-              filled: true,
-              fillColor: darkTheme.background,
-              enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(5),
-                borderSide: BorderSide(width: 1, color: darkTheme.onBackground),
-              ),
-              focusedBorder: UnderlineInputBorder(
-                borderRadius: BorderRadius.circular(5),
-                borderSide: BorderSide(width: 1, color: darkTheme.onBackground),
-              ),
-            ),
+            // inputDecorationTheme: InputDecorationTheme(
+            //   filled: true,
+            //   fillColor: darkTheme.background,
+            //   enabledBorder: OutlineInputBorder(
+            //     borderRadius: BorderRadius.circular(5),
+            //     borderSide: BorderSide(width: 1, color: darkTheme.onBackground),
+            //   ),
+            //   focusedBorder: UnderlineInputBorder(
+            //     borderRadius: BorderRadius.circular(5),
+            //     borderSide: BorderSide(width: 1, color: darkTheme.onBackground),
+            //   ),
+            // ),
           )
         : ThemeData(
             colorScheme: lightTheme,

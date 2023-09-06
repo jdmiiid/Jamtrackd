@@ -20,7 +20,16 @@ class BottomNavBar extends ConsumerWidget {
           : Theme.of(context).colorScheme.primary,
       child: SafeArea(
         child: TabBar(
-            labelColor: Theme.of(context).tabBarTheme.labelColor,
+            unselectedLabelColor: Theme.of(context).colorScheme.primary,
+            indicatorSize: TabBarIndicatorSize.tab,
+            indicator: BoxDecoration(
+              gradient: LinearGradient(colors: [
+                Colors.white70,
+                Theme.of(context).colorScheme.primary
+              ]),
+              borderRadius: BorderRadius.circular(50),
+            ),
+            labelColor: Theme.of(context).colorScheme.surface,
             indicatorColor: Theme.of(context).tabBarTheme.indicatorColor,
             indicatorPadding: const EdgeInsets.fromLTRB(15, 10, 15, 10),
             tabs: const [
@@ -30,9 +39,9 @@ class BottomNavBar extends ConsumerWidget {
                 child: Text('Ratings'),
               ),
               Tab(
-                  icon: Icon(Icons.home),
+                  icon: Icon(Icons.library_music),
                   iconMargin: EdgeInsets.only(bottom: 0),
-                  child: Text('Home')),
+                  child: Text('Browse')),
               Tab(
                   icon: Icon(Icons.person),
                   iconMargin: EdgeInsets.only(bottom: 0.5),

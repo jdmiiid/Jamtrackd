@@ -1,16 +1,16 @@
 import 'dart:async';
 import 'dart:convert';
 
-import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:http/http.dart' as http;
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:tasktrack/models/album_or_artist.dart';
-import 'package:tasktrack/providers/misc_providers.dart';
+import 'package:tasktrack/providers/firebase_auth_providers.dart';
 
 import '../models/album.dart';
+import '../models/album_rating.dart';
+import 'firebase_firestore_providers.dart';
 
 part 'spotify_providers.g.dart';
 
@@ -21,6 +21,13 @@ final userSearchProvider = StateProvider<String>((ref) => '');
 final artistIdProvider = StateProvider<String>((ref) => '');
 
 final albumIdProvider = StateProvider<String>((ref) => '');
+
+final orderCriterionProvider = StateProvider<String>((ref) => 'createdAt');
+
+final upOrDownProvider = StateProvider<bool>((ref) => true);
+
+final staticOrderProvider =
+    StateProvider<List<Map<String, dynamic>>>((ref) => []);
 
 final albumDataProvider = StateProvider<AlbumOrArtist?>((ref) => null);
 
@@ -155,39 +162,34 @@ Future<Album?> albumSelection(AlbumSelectionRef ref) async {
 Future<List<String>> getTrackData(GetTrackDataRef ref) async {
   final AlbumOrArtist? albumData = ref.read(albumDataProvider);
   final String uniqId = albumData!.id;
-  final isOpen = ref.watch(stateNotifierExpansion) as bool;
 
-  if (isOpen) {
-    return [];
-  } else {
-    final String encodedQuery = Uri.encodeQueryComponent(uniqId);
+  final String encodedQuery = Uri.encodeQueryComponent(uniqId);
 
-    final Uri tracksSearchUri = Uri.parse(
-        'https://api.spotify.com/v1/albums/$encodedQuery/tracks?market=US');
+  final Uri tracksSearchUri = Uri.parse(
+      'https://api.spotify.com/v1/albums/$encodedQuery/tracks?market=US');
 
-    List<String> parseTrackSearchResult(http.Response response) {
-      final data = jsonDecode(response.body);
+  List<String> parseTrackSearchResult(http.Response response) {
+    final data = jsonDecode(response.body);
 
-      final List<String> trackList = [];
+    final List<String> trackList = ['-'];
 
-      for (Map<String, dynamic> item in data['items']) {
-        trackList.add(item['name'] as String);
-      }
-
-      ref.read(stateNotifierTrackList.notifier).state = trackList;
-
-      return trackList;
+    for (Map<String, dynamic> item in data['items']) {
+      trackList.add(item['name'] as String);
     }
 
-    final List<String> tracksResult = await interactSpotifyApi(
-          endpoint: tracksSearchUri,
-          ifConnected: parseTrackSearchResult,
-          ref: ref,
-        ) ??
-        [];
+    ref.read(stateNotifierTrackList.notifier).state = trackList;
 
-    return tracksResult;
+    return trackList;
   }
+
+  final List<String> tracksResult = await interactSpotifyApi(
+        endpoint: tracksSearchUri,
+        ifConnected: parseTrackSearchResult,
+        ref: ref,
+      ) ??
+      [];
+
+  return tracksResult;
 }
 
 Future<T?> interactSpotifyApi<T>({
@@ -209,8 +211,8 @@ Future<T?> interactSpotifyApi<T>({
       case 200:
         return ifConnected(response); // Return the result of ifConnected
       case 401:
-        await getSpotifyAccessToken(
-            ref); // Wait for the access token to be refreshed
+        await getSpotifyAccessToken(ref);
+        // Wait for the access token to be refreshed
         return await interactSpotifyApi(
           endpoint: endpoint,
           ifConnected: ifConnected,
@@ -291,3 +293,44 @@ class TrackListNotifier extends StateNotifier<List<String>> {
 
 final stateNotifierTrackList =
     StateNotifierProvider((ref) => TrackListNotifier());
+
+@riverpod
+Stream<List<AlbumRating>> albumRatingCollectionStream(
+    AlbumRatingCollectionStreamRef ref) {
+  final orderCriterion = ref.watch(orderCriterionProvider);
+  final upOrDown = ref.watch(upOrDownProvider);
+
+  return ref
+      .watch(firebaseFirestoreInstanceProvider)
+      .collection('users')
+      .doc(ref.read(firebaseAuthInstanceProvider).currentUser!.uid)
+      .collection('album_ratings')
+      .orderBy(orderCriterion, descending: upOrDown)
+      .withConverter(
+          fromFirestore: AlbumRating.fromFirestore,
+          toFirestore: AlbumRating.toFirestore)
+      .snapshots()
+      .map(
+    (querySnapshot) {
+      return querySnapshot.docs.map((doc) => doc.data()).toList();
+    },
+  );
+}
+
+final currentUserNameProvider = StateProvider<String>((ref) => '');
+
+@riverpod
+Future<String> currUserNameFuture(CurrUserNameFutureRef ref) {
+  return ref
+      .watch(firebaseFirestoreInstanceProvider)
+      .collection('users')
+      .doc(ref.read(firebaseAuthInstanceProvider).currentUser!.uid)
+      .get()
+      .then(
+    (doc) {
+      ref.read(currentUserNameProvider.notifier).state =
+          doc.data()!['username'];
+      return 'Username';
+    },
+  );
+}

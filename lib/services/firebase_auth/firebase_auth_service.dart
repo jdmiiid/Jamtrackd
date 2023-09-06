@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class FirebaseAuthService {
   final FirebaseAuth _firebaseAuth;
@@ -11,24 +12,35 @@ class FirebaseAuthService {
       {required String email,
       required String firstName,
       required String lastName,
-      required String confPass,
+      required String username,
+      required String phoneNumber,
       required String password}) async {
-    if (password.compareTo(confPass) != 0) {
-      return 'Passwords do not match!';
-    }
-    final String userName = "$firstName $lastName";
-
     try {
-      await _firebaseAuth.createUserWithEmailAndPassword(
-        email: email,
-        password: password,
-      );
-
-      _firebaseAuth.currentUser!.updateDisplayName(userName);
+      await _firebaseAuth
+          .createUserWithEmailAndPassword(
+            email: email,
+            password: password,
+          )
+          .then(
+            (userCredential) => {
+              userCredential.user!.updateDisplayName('$firstName $lastName'),
+              FirebaseFirestore.instance
+                  .collection('users')
+                  .doc(userCredential.user!.uid)
+                  .set({
+                'username': username,
+                'phonenumber': phoneNumber,
+              })
+            },
+          );
 
       return 'Information initialized. Please verify Account.';
     } on FirebaseAuthException catch (e) {
-      return e.message;
+      if (e.code == 'weak-password') {
+        return '';
+      } else {
+        return e.message;
+      }
     }
   }
 

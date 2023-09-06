@@ -30,7 +30,7 @@ class VerifyEmailPage extends ConsumerWidget {
 
     if (isEmailVerified) {
       timer.cancel();
-      return const FeedPage();
+      return FeedPage();
     } else {
       return Scaffold(
         body: Padding(

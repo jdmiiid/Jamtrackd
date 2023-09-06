@@ -1,4 +1,7 @@
+import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+
+import 'firebase_firestore_providers.dart';
 
 class CurrentDropdownProvider extends StateNotifier<double> {
   CurrentDropdownProvider() : super(0.0);
@@ -8,11 +11,25 @@ class CurrentDropdownProvider extends StateNotifier<double> {
   }
 }
 
-final dropdownSelectedDouble =
+final ratingDropdownSelectedDouble =
     StateNotifierProvider.autoDispose<CurrentDropdownProvider, double>(
         (ref) => CurrentDropdownProvider());
 
-final ratingResponseReader = StateProvider((ref) => '');
+// separate these
+
+class TrackListDropdownProvider extends StateNotifier<String> {
+  TrackListDropdownProvider() : super('-');
+
+  void changeTrack(String selectedTrack) {
+    state = selectedTrack;
+  }
+}
+
+final trackDropdownSelectedDouble =
+    StateNotifierProvider.autoDispose<TrackListDropdownProvider, String>(
+        (ref) => TrackListDropdownProvider());
+
+// more separation
 
 class AppBarNotifier extends StateNotifier<bool> {
   AppBarNotifier() : super(true);

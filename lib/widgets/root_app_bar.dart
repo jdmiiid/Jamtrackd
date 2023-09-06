@@ -10,6 +10,7 @@ class RootNavAppBar extends ConsumerWidget implements PreferredSizeWidget {
   final Text title;
   final AppBar appBar;
   final WidgetRef ref;
+  final Widget? leading;
 
   /// you can add more fields that meet your needs
 
@@ -18,6 +19,7 @@ class RootNavAppBar extends ConsumerWidget implements PreferredSizeWidget {
     required this.title,
     required this.appBar,
     required this.ref,
+    this.leading,
   });
 
   @override
@@ -36,6 +38,7 @@ class RootNavAppBar extends ConsumerWidget implements PreferredSizeWidget {
           const SizedBox(height: 12.5)
         ],
       ),
+      leading: leading,
       actions: userData == null
           ? null
           : [
