@@ -9,9 +9,11 @@ part of 'artist.dart';
 _$_Artist _$$_ArtistFromJson(Map<String, dynamic> json) => _$_Artist(
       id: json['id'] as String,
       name: json['name'] as String,
+      images: json['images'] as List<dynamic>?,
     );
 
 Map<String, dynamic> _$$_ArtistToJson(_$_Artist instance) => <String, dynamic>{
       'id': instance.id,
       'name': instance.name,
+      'images': instance.images,
     };

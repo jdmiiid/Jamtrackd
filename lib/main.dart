@@ -1,15 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:tasktrack/models/color_palette.dart';
+import 'package:tasktrack/models/themes.dart';
 import 'package:tasktrack/providers/go_router_providers.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:tasktrack/providers/misc_providers.dart';
+import 'package:tasktrack/services/firebase_auth/our_provider_observer.dart';
 import 'firebase_options.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-  runApp(const ProviderScope(child: MyApp()));
+  await dotenv.load(fileName: '.env');
+  runApp(
+      ProviderScope(observers: [OurProviderObserver()], child: const MyApp()));
 }
 
 class MyApp extends HookConsumerWidget {
@@ -18,43 +23,20 @@ class MyApp extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final GoRouter goRouter = ref.watch(goRouterProvider);
-    return MaterialApp.router(
-      routerConfig: goRouter,
-      title: 'Musak',
-      debugShowCheckedModeBanner: false,
-      // theme: ThemeData.light(useMaterial3: true),
-      theme: ThemeData(
-          primarySwatch: Palette.oToDark,
-          // scaffoldBackgroundColor: Colors.white70,
-          textTheme: const TextTheme(
-              headlineMedium: TextStyle(color: Colors.white),
-              headlineSmall: TextStyle(color: Colors.white),
-              bodyLarge: TextStyle(color: Colors.white),
-              bodyMedium: TextStyle(color: Colors.black),
-              bodySmall: TextStyle(color: Colors.white))),
-      darkTheme: ThemeData.dark(useMaterial3: true),
-    );
-  }
-}
 
-class HomePage extends StatelessWidget {
-  const HomePage({super.key});
+    final themeProvider = ref.watch(stateNotifierTheme) as bool;
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          'øbiñyu',
-          style: Theme.of(context).textTheme.headlineMedium,
-        ),
-        actions: [
-          IconButton(
-              onPressed: () {
-                context.push('/search_page');
-              },
-              icon: const Icon(Icons.search))
-        ],
+    return DefaultTabController(
+      length: 3,
+      initialIndex: 1,
+      child: MaterialApp.router(
+        routerConfig: goRouter,
+        title: 'Disquery',
+        debugShowCheckedModeBanner: false,
+        themeMode: themeProvider ? ThemeMode.dark : ThemeMode.light,
+        theme: MyThemes.colorSchemedThemeData(
+            // mode: MediaQuery.of(context).platformBrightness,
+            isDarkMode: themeProvider),
       ),
     );
   }

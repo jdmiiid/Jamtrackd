@@ -22,6 +22,7 @@ Artist _$ArtistFromJson(Map<String, dynamic> json) {
 mixin _$Artist {
   String get id => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
+  List<dynamic>? get images => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -33,7 +34,7 @@ abstract class $ArtistCopyWith<$Res> {
   factory $ArtistCopyWith(Artist value, $Res Function(Artist) then) =
       _$ArtistCopyWithImpl<$Res, Artist>;
   @useResult
-  $Res call({String id, String name});
+  $Res call({String id, String name, List<dynamic>? images});
 }
 
 /// @nodoc
@@ -51,6 +52,7 @@ class _$ArtistCopyWithImpl<$Res, $Val extends Artist>
   $Res call({
     Object? id = null,
     Object? name = null,
+    Object? images = freezed,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -61,6 +63,10 @@ class _$ArtistCopyWithImpl<$Res, $Val extends Artist>
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
+      images: freezed == images
+          ? _value.images
+          : images // ignore: cast_nullable_to_non_nullable
+              as List<dynamic>?,
     ) as $Val);
   }
 }
@@ -71,7 +77,7 @@ abstract class _$$_ArtistCopyWith<$Res> implements $ArtistCopyWith<$Res> {
       __$$_ArtistCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String id, String name});
+  $Res call({String id, String name, List<dynamic>? images});
 }
 
 /// @nodoc
@@ -86,6 +92,7 @@ class __$$_ArtistCopyWithImpl<$Res>
   $Res call({
     Object? id = null,
     Object? name = null,
+    Object? images = freezed,
   }) {
     return _then(_$_Artist(
       id: null == id
@@ -96,6 +103,10 @@ class __$$_ArtistCopyWithImpl<$Res>
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
+      images: freezed == images
+          ? _value._images
+          : images // ignore: cast_nullable_to_non_nullable
+              as List<dynamic>?,
     ));
   }
 }
@@ -103,7 +114,11 @@ class __$$_ArtistCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$_Artist with DiagnosticableTreeMixin implements _Artist {
-  const _$_Artist({required this.id, required this.name});
+  const _$_Artist(
+      {required this.id,
+      required this.name,
+      required final List<dynamic>? images})
+      : _images = images;
 
   factory _$_Artist.fromJson(Map<String, dynamic> json) =>
       _$$_ArtistFromJson(json);
@@ -112,10 +127,19 @@ class _$_Artist with DiagnosticableTreeMixin implements _Artist {
   final String id;
   @override
   final String name;
+  final List<dynamic>? _images;
+  @override
+  List<dynamic>? get images {
+    final value = _images;
+    if (value == null) return null;
+    if (_images is EqualUnmodifiableListView) return _images;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
+  }
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'Artist(id: $id, name: $name)';
+    return 'Artist(id: $id, name: $name, images: $images)';
   }
 
   @override
@@ -124,7 +148,8 @@ class _$_Artist with DiagnosticableTreeMixin implements _Artist {
     properties
       ..add(DiagnosticsProperty('type', 'Artist'))
       ..add(DiagnosticsProperty('id', id))
-      ..add(DiagnosticsProperty('name', name));
+      ..add(DiagnosticsProperty('name', name))
+      ..add(DiagnosticsProperty('images', images));
   }
 
   @override
@@ -133,12 +158,14 @@ class _$_Artist with DiagnosticableTreeMixin implements _Artist {
         (other.runtimeType == runtimeType &&
             other is _$_Artist &&
             (identical(other.id, id) || other.id == id) &&
-            (identical(other.name, name) || other.name == name));
+            (identical(other.name, name) || other.name == name) &&
+            const DeepCollectionEquality().equals(other._images, _images));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, id, name);
+  int get hashCode => Object.hash(
+      runtimeType, id, name, const DeepCollectionEquality().hash(_images));
 
   @JsonKey(ignore: true)
   @override
@@ -156,7 +183,9 @@ class _$_Artist with DiagnosticableTreeMixin implements _Artist {
 
 abstract class _Artist implements Artist {
   const factory _Artist(
-      {required final String id, required final String name}) = _$_Artist;
+      {required final String id,
+      required final String name,
+      required final List<dynamic>? images}) = _$_Artist;
 
   factory _Artist.fromJson(Map<String, dynamic> json) = _$_Artist.fromJson;
 
@@ -164,6 +193,8 @@ abstract class _Artist implements Artist {
   String get id;
   @override
   String get name;
+  @override
+  List<dynamic>? get images;
   @override
   @JsonKey(ignore: true)
   _$$_ArtistCopyWith<_$_Artist> get copyWith =>
