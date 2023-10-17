@@ -31,7 +31,7 @@ class MyApp extends HookConsumerWidget {
       initialIndex: 1,
       child: MaterialApp.router(
         routerConfig: goRouter,
-        title: 'Disquery',
+        title: 'Setlist',
         debugShowCheckedModeBanner: false,
         themeMode: themeProvider ? ThemeMode.dark : ThemeMode.light,
         theme: MyThemes.colorSchemedThemeData(

@@ -14,12 +14,13 @@ class Post with _$Post {
     required String username,
     required AlbumRating content,
     required String timestamp,
+    required List likes,
+    required String? downloadURL,
   }) = _Post;
 
   factory Post.fromJson(Map<String, dynamic> json) => _$PostFromJson(json);
 
   factory Post.fromFirestore(documentSnapshot, shapshotOptions) {
-    print(documentSnapshot.data());
     final data = documentSnapshot.data() as Map<String, dynamic>;
     return Post(
       postID: documentSnapshot.id,
@@ -27,12 +28,14 @@ class Post with _$Post {
       content: AlbumRating.fromJson(data['content']),
       timestamp: data['timestamp'],
       username: data['username'],
+      downloadURL: data['downloadURL'],
+      likes: data['likes'],
     );
   }
 
   static Map<String, Object?> toFirestore(post, setOptions) => post.toJson();
 
-  static Future<DocumentReference<Post>> createFirestorePost({
+  static Future<void> createFirestorePost({
     required String albId,
     required Post albumPost,
   }) async {
@@ -43,6 +46,5 @@ class Post with _$Post {
         .doc(albId);
 
     await firestoreCollection.set(albumPost);
-    return firestoreCollection;
   }
 }

@@ -21,9 +21,11 @@ class MyCircleAvatar extends ConsumerWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          CircleAvatar(
-            backgroundImage: currentImage,
-            minRadius: 40,
+          FittedBox(
+            child: CircleAvatar(
+              backgroundImage: currentImage,
+              minRadius: 40,
+            ),
           ),
           const SizedBox(height: 3),
           Text(

@@ -1,28 +1,85 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-
 import '../providers/firebase_auth_providers.dart';
 import '../services/firebase_auth/firebase_storage_service.dart';
 import '../widgets/register_avatar.dart';
 import '../widgets/root_app_bar.dart';
 
 class RegisterPage extends ConsumerWidget {
-  RegisterPage({super.key});
+  RegisterPage({Key? key}) : super(key: key);
 
   final TextEditingController _firstName = TextEditingController();
   final TextEditingController _lastName = TextEditingController();
   final TextEditingController _regEmail = TextEditingController();
   final TextEditingController _regPassword = TextEditingController();
+  final TextEditingController _confirmPassword = TextEditingController();
   final TextEditingController _username = TextEditingController();
-  final TextEditingController _phoneNumber = TextEditingController();
   final formKey = GlobalKey<FormState>();
 
-  Widget _registerForm() {
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return Scaffold(
+      appBar: RootNavAppBar(
+        ref: ref,
+        title: Text(
+          'Welcome',
+          style: GoogleFonts.pacifico(fontSize: 30),
+        ),
+        appBar: AppBar(),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.only(top: 25),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Center(child: registerAvatar(context, ref)),
+            _registerForm(ref),
+            const Expanded(child: SizedBox()),
+            Expanded(
+              flex: 2,
+              child: ElevatedButton(
+                onPressed: () async {
+                  _submitForm(ref, context);
+                },
+                style: ElevatedButton.styleFrom(shape: const LinearBorder()),
+                child: Text(
+                  'Sign up',
+                  style: GoogleFonts.robotoCondensed(fontSize: 30),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildTextField({
+    required TextEditingController controller,
+    String hintText = '',
+    bool obscureText = false,
+    String? Function(String?)? validator,
+  }) {
+    return TextFormField(
+      controller: controller,
+      decoration: InputDecoration(
+        hintText: hintText,
+        filled: true,
+      ),
+      obscureText: obscureText,
+      autocorrect: false,
+      validator: validator,
+    );
+  }
+
+  Widget _registerForm(WidgetRef ref) {
     return Expanded(
-      flex: 5,
+      flex: 7,
       child: Form(
         key: formKey,
+        autovalidateMode:
+            AutovalidateMode.always, // Enable real-time validation
         child: Padding(
           padding: const EdgeInsets.only(left: 8, right: 8),
           child: Column(
@@ -32,10 +89,9 @@ class RegisterPage extends ConsumerWidget {
                 children: [
                   Expanded(
                     flex: 6,
-                    child: TextFormField(
+                    child: _buildTextField(
                       controller: _firstName,
-                      decoration: const InputDecoration(
-                          hintText: 'First Name*', filled: true),
+                      hintText: 'First Name*',
                       validator: (firstname) {
                         if (firstname!.trim().isEmpty) {
                           return "First name required";
@@ -46,9 +102,9 @@ class RegisterPage extends ConsumerWidget {
                   const Expanded(child: SizedBox()),
                   Expanded(
                     flex: 6,
-                    child: TextFormField(
+                    child: _buildTextField(
                       controller: _lastName,
-                      decoration: const InputDecoration(hintText: 'Last Name*'),
+                      hintText: 'Last Name*',
                       validator: (value) {
                         if (value!.trim().isEmpty) {
                           return "Last Name Required";
@@ -58,9 +114,9 @@ class RegisterPage extends ConsumerWidget {
                   )
                 ],
               ),
-              TextFormField(
+              _buildTextField(
                 controller: _username,
-                decoration: const InputDecoration(hintText: 'Username*'),
+                hintText: 'Username*',
                 validator: (username) {
                   if (username!.isEmpty || username.length < 3) {
                     return "Username must have 4 characters";
@@ -69,29 +125,23 @@ class RegisterPage extends ConsumerWidget {
                   }
                 },
               ),
-              TextFormField(
+              _buildTextField(
                 controller: _regEmail,
-                decoration: const InputDecoration(hintText: 'Email*'),
+                hintText: 'Email*',
                 validator: (value) {
                   if (value!.isEmpty) {
                     return "Please enter email";
                   }
                 },
               ),
-              TextFormField(
-                controller: _phoneNumber,
-                decoration: const InputDecoration(hintText: 'Phone Number'),
-              ),
               Row(
                 children: [
                   Expanded(
                     flex: 6,
-                    child: TextFormField(
+                    child: _buildTextField(
                       controller: _regPassword,
-                      decoration: const InputDecoration(
-                          hintText: 'Password*', filled: true),
+                      hintText: 'Password*',
                       obscureText: true,
-                      autocorrect: false,
                       validator: (password) {
                         if (password!.length < 5) {
                           return "Must be at least 6 characters";
@@ -104,13 +154,10 @@ class RegisterPage extends ConsumerWidget {
                   ),
                   Expanded(
                     flex: 6,
-                    child: TextFormField(
-                      decoration: const InputDecoration(
-                        hintText: 'Confirm Password',
-                        filled: true,
-                      ),
+                    child: _buildTextField(
+                      controller: _confirmPassword,
+                      hintText: 'Confirm Password',
                       obscureText: true,
-                      autocorrect: false,
                       validator: (confirmpassword) {
                         if (confirmpassword!.isEmpty) {
                           return "Please confirm pass";
@@ -130,66 +177,38 @@ class RegisterPage extends ConsumerWidget {
     );
   }
 
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    return Scaffold(
-      appBar: RootNavAppBar(
-        ref: ref,
-        title: Text(
-          'Welcome',
-          style: GoogleFonts.pacifico(fontSize: 30),
+  Future<void> _submitForm(WidgetRef ref, BuildContext context) async {
+    if (formKey.currentState!.validate()) {
+      showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (context) => const Center(
+          child: CircularProgressIndicator(),
         ),
-        appBar: AppBar(),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.only(top: 25),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Center(child: registerAvatar(context, ref)),
-            _registerForm(),
-            Expanded(
-              child: ElevatedButton(
-                onPressed: () async {
-                  if (formKey.currentState!.validate()) {
-                    showDialog(
-                        context: context,
-                        barrierDismissible: false,
-                        builder: (context) =>
-                            const Center(child: CircularProgressIndicator()));
+      );
 
-                    final createUserMessage = await ref
-                        .watch(firebaseAuthServiceProvider)
-                        .createUserWithEmailAndPassword(
-                            username: _username.text,
-                            phoneNumber: _phoneNumber.text.trim(),
-                            firstName: _firstName.text.trim(),
-                            lastName: _lastName.text.trim(),
-                            email: _regEmail.text,
-                            password: _regPassword.text);
+      final pPicAsset = ref.watch(pPicAssetProvider);
 
-                    if (context.mounted) {
-                      if (createUserMessage!.isNotEmpty) {
-                        FirebaseStorageService().uploadImageAsset(
-                            ref, ref.watch(pPicAssetProvider)!);
-                        ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(content: Text(createUserMessage)));
-                      }
-
-                      Navigator.of(context).pop();
-                    }
-                  }
-                },
-                style: ElevatedButton.styleFrom(shape: const LinearBorder()),
-                child: Text(
-                  'Sign up',
-                  style: GoogleFonts.robotoCondensed(fontSize: 30),
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
+      await ref
+          .watch(firebaseAuthServiceProvider)
+          .createUserWithEmailAndPassword(
+            username: _username.text,
+            firstName: _firstName.text.trim(),
+            lastName: _lastName.text.trim(),
+            email: _regEmail.text,
+            password: _regPassword.text,
+            pPicAsset: pPicAsset,
+          )
+          .then(
+        (createUserMessage) async {
+          if (createUserMessage != null) {
+            print(createUserMessage);
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text(createUserMessage)),
+            );
+          }
+        },
+      );
+    }
   }
 }

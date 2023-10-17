@@ -3,6 +3,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import 'firebase_firestore_providers.dart';
 
+// CurrentDropdownProvider
 class CurrentDropdownProvider extends StateNotifier<double> {
   CurrentDropdownProvider() : super(0.0);
 
@@ -13,10 +14,10 @@ class CurrentDropdownProvider extends StateNotifier<double> {
 
 final ratingDropdownSelectedDouble =
     StateNotifierProvider.autoDispose<CurrentDropdownProvider, double>(
-        (ref) => CurrentDropdownProvider());
+  (ref) => CurrentDropdownProvider(),
+);
 
-// separate these
-
+// TrackListDropdownProvider
 class TrackListDropdownProvider extends StateNotifier<String> {
   TrackListDropdownProvider() : super('-');
 
@@ -27,30 +28,32 @@ class TrackListDropdownProvider extends StateNotifier<String> {
 
 final trackDropdownSelectedDouble =
     StateNotifierProvider.autoDispose<TrackListDropdownProvider, String>(
-        (ref) => TrackListDropdownProvider());
+  (ref) => TrackListDropdownProvider(),
+);
 
-// more separation
-
+// AppBarNotifier
 class AppBarNotifier extends StateNotifier<bool> {
   AppBarNotifier() : super(true);
 
   void changeBool() {
-    state = state ? false : true;
+    state = !state;
   }
 }
 
 final stateNotifierAppBar = StateNotifierProvider((ref) => AppBarNotifier());
 
+// NavBarNotifier
 class NavBarNotifier extends StateNotifier<bool> {
   NavBarNotifier() : super(false);
 
   void changeBool() {
-    state = state ? false : true;
+    state = !state;
   }
 }
 
 final stateNotifierNavBar = StateNotifierProvider((ref) => NavBarNotifier());
 
+// ThemeNotifier
 class ThemeNotifier extends StateNotifier<bool> {
   ThemeNotifier() : super(true);
 
@@ -58,12 +61,13 @@ class ThemeNotifier extends StateNotifier<bool> {
   // false, if light
 
   void changeBool() {
-    state = state ? false : true;
+    state = !state;
   }
 }
 
 final stateNotifierTheme = StateNotifierProvider((ref) => ThemeNotifier());
 
+// ExpansionNotifier
 class ExpansionNotifier extends StateNotifier<bool> {
   ExpansionNotifier() : super(true);
 
@@ -71,9 +75,15 @@ class ExpansionNotifier extends StateNotifier<bool> {
   // false, if open
 
   void changeBool() {
-    state = state ? false : true;
+    state = !state;
   }
 }
 
 final stateNotifierExpansion =
     StateNotifierProvider((ref) => ExpansionNotifier());
+
+final selectedToggleIndexProvider = StateProvider<int>((ref) => 0);
+
+final showSortsProvider = StateProvider<bool>((ref) => false);
+
+final addToStatColumn = AutoDisposeStateProvider<int>((ref) => 0);

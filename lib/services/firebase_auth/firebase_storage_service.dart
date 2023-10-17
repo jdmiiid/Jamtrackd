@@ -7,10 +7,8 @@ import 'package:tasktrack/providers/firebase_auth_providers.dart';
 
 part 'firebase_storage_service.g.dart';
 
-final pPicURLProvider = StateProvider<String>((ref) => '');
-final pPicAssetProvider = StateProvider<File?>((ref) => null);
 
-final postIDProvider = StateProvider<String>((ref) => '');
+final pPicAssetProvider = StateProvider<File?>((ref) => null);
 
 class FirebaseStorageService {
   FirebaseStorageService();
@@ -21,8 +19,6 @@ class FirebaseStorageService {
       Reference ref, File imageFile, WidgetRef widgetRef) async {
     try {
       await ref.putFile(imageFile);
-      final picURL = await ref.getDownloadURL();
-      widgetRef.read(pPicURLProvider.notifier).state = picURL;
     } on FirebaseException catch (e) {
       print(e);
     }
@@ -48,32 +44,30 @@ class FirebaseStorageService {
     }
   }
 
-  Future<void> uploadImageAsset(WidgetRef ref, File imageAsset) async {
-    final userData = ref.watch(firebaseAuthCurrentUserProvider);
-    final pPicRef = storageRef.child('profile_pics/${userData!.uid}');
-    await _uploadImage(pPicRef, imageAsset, ref);
+  Future<String?> uploadImageAsset(String uid, File imageAsset) async {
+    final pPicRef = storageRef.child('profile_pics/$uid');
+    try {
+      final uploadTask = pPicRef.putFile(imageAsset);
+      final snapshot = await uploadTask.whenComplete(() {});
+      final downloadUrl = await snapshot.ref.getDownloadURL();
+      return downloadUrl;
+    } catch (e) {
+      // Handle the exception when the upload or retrieval fails
+      print('Error uploading image: $e');
+      return null;
+    }
   }
 }
 
-// For comments
-class UpdatedDownloadUrlNotifier extends StateNotifier<String> {
-  UpdatedDownloadUrlNotifier() : super('');
-
-  Future<void> retrieveUserImageUrl(WidgetRef ref, String uniqUID) async {
-    final storageRef = FirebaseStorage.instance.ref();
-    final dURL =
-        await storageRef.child('profile_pics/$uniqUID').getDownloadURL();
-    state = dURL;
-  }
-}
-
-final stateNotifierDownloadURL =
-    StateNotifierProvider<UpdatedDownloadUrlNotifier, String>(
-  (ref) => UpdatedDownloadUrlNotifier(),
-);
-
+// For RETRIEVING DOWNLOADURL
 @riverpod
-Future<String> retrieveImageUrl(RetrieveImageUrlRef ref, String uniqUID) async {
+Future<String?> retrieveUserDownloadUrl(
+    RetrieveUserDownloadUrlRef ref, String uniqUID) async {
   final storageRef = FirebaseStorage.instance.ref();
-  return await storageRef.child('profile_pics/$uniqUID').getDownloadURL();
+  try {
+    return await storageRef.child('profile_pics/$uniqUID').getDownloadURL();
+  } catch (e) {
+    // Handle the exception when the profile picture doesn't exist
+    return null;
+  }
 }

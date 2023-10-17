@@ -5,7 +5,6 @@
 // per: https://pub.dev/packages/freezed
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:tasktrack/models/post.dart';
 
 // import '../json_converters/firestore_timestamp_json_converter.dart';
 

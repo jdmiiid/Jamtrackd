@@ -12,6 +12,8 @@ _$_Post _$$_PostFromJson(Map<String, dynamic> json) => _$_Post(
       username: json['username'] as String,
       content: AlbumRating.fromJson(json['content']),
       timestamp: json['timestamp'] as String,
+      likes: json['likes'] as List<dynamic>,
+      downloadURL: json['downloadURL'] as String?,
     );
 
 Map<String, dynamic> _$$_PostToJson(_$_Post instance) => <String, dynamic>{
@@ -20,4 +22,6 @@ Map<String, dynamic> _$$_PostToJson(_$_Post instance) => <String, dynamic>{
       'username': instance.username,
       'content': instance.content.toJson(),
       'timestamp': instance.timestamp,
+      'likes': instance.likes,
+      'downloadURL': instance.downloadURL,
     };

@@ -1,70 +1,92 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:tasktrack/models/debouncer.dart';
 
-import '../providers/misc_providers.dart';
+import '../models/debouncer.dart';
 import '../providers/spotify_providers.dart';
 
 class ArtSearcher extends HookConsumerWidget {
-  ArtSearcher({super.key});
+  ArtSearcher({Key? key}) : super(key: key);
 
   static String userQuery = '';
   final _debouncer = Debouncer(milliseconds: 750);
-
   final fieldText = TextEditingController();
-
-  void clearText() {
-    fieldText.clear();
-  }
-
-  void routeReturn(WidgetRef ref, BuildContext context) {
-    ref.read(stateNotifierAppBar.notifier).changeBool();
-    context.pop();
-  }
+  final isFocusedProvider = StateProvider<bool>((ref) => true);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final currentTheme = Theme.of(context);
-    //Gets the Theme, copies the data, but overrides the borders for search bar
     return Theme(
-      data: currentTheme.copyWith(
-        inputDecorationTheme: InputDecorationTheme(
-          enabledBorder: UnderlineInputBorder(
-              borderSide:
-                  BorderSide(color: Theme.of(context).colorScheme.onSurface)),
-        ),
-      ),
+      data: _getThemedInputDecoration(context),
       child: Material(
         elevation: 3.0,
-        child: TextFormField(
-          controller: fieldText,
-          textAlignVertical: TextAlignVertical.center,
-          onChanged: (text) {
-            _debouncer.run(() {
-              userQuery = text;
-              ref.read(userSearchProvider.notifier).state = userQuery;
-            });
-          },
-          decoration: InputDecoration(
-              prefixIcon: IconButton(
-                onPressed: () {
-                  routeReturn(ref, context);
-                },
-                icon: const Icon(Icons.arrow_back),
-              ),
-              suffixIcon: IconButton(
-                onPressed: () {
-                  fieldText.text == ''
-                      ? routeReturn(ref, context)
-                      : ref.read(userSearchProvider.notifier).state = '';
-                  clearText();
-                },
-                icon: const Icon(Icons.clear),
-              ),
-              hintText: 'Artist name here...'),
+        child: _buildSearchField(context, ref),
+      ),
+    );
+  }
+
+  ThemeData _getThemedInputDecoration(BuildContext context) {
+    final currentTheme = Theme.of(context);
+    return currentTheme.copyWith(
+      inputDecorationTheme: InputDecorationTheme(
+        enabledBorder: UnderlineInputBorder(
+          borderSide: BorderSide(color: currentTheme.colorScheme.onSurface),
         ),
       ),
     );
   }
+
+  Widget _buildSearchField(BuildContext context, WidgetRef ref) {
+    final isFocused = ref.watch(isFocusedProvider);
+    final isFocusedNotifier = ref.watch(isFocusedProvider.notifier);
+
+    return TextFormField(
+      onTap: () {
+        if (!isFocused) {
+          isFocusedNotifier.state = true;
+        }
+      },
+      onTapOutside: (outsideTap) {
+        if (isFocused) {
+          FocusScope.of(context).unfocus();
+          isFocusedNotifier.state = false;
+        }
+      },
+      onChanged: (text) {
+        _debouncer.run(() {
+          userQuery = text;
+          ref.watch(userSearchProvider.notifier).state = userQuery;
+        });
+      },
+      controller: fieldText,
+      autofocus: true,
+      textAlignVertical: TextAlignVertical.center,
+      decoration: _buildInputDecoration(isFocused, ref, context),
+    );
+  }
+
+  InputDecoration _buildInputDecoration(
+      bool isFocused, WidgetRef ref, BuildContext context) {
+    final isFocusedNotifier = ref.watch(isFocusedProvider.notifier);
+    return InputDecoration(
+      prefixIcon: isFocused
+          ? GestureDetector(
+              child: Icon(Icons.clear),
+              onTap: () {
+                if (ref.watch(userSearchProvider).isNotEmpty) {
+                  clearText();
+                  ref.watch(userSearchProvider.notifier).state = '';
+                } else {
+                  FocusScope.of(context).unfocus();
+                  isFocusedNotifier.state = false;
+                }
+              },
+            )
+          : GestureDetector(
+              child: Icon(Icons.search),
+              onTap: () => print(isFocused),
+            ),
+      hintText: 'Artist name here...',
+    );
+  }
+
+  void clearText() => fieldText.clear();
 }

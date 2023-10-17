@@ -11,11 +11,8 @@ _$_Comment _$$_CommentFromJson(Map<String, dynamic> json) => _$_Comment(
       timestamp: json['timestamp'] as String,
       userId: json['userId'] as String,
       username: json['username'] as String?,
-      pPicURL: json['pPicURL'] as String?,
+      pPicUrl: json['pPicUrl'] as String?,
       commentID: json['commentID'] as String,
-      subComments: (json['subComments'] as List<dynamic>?)
-          ?.map((e) => Comment.fromJson(e as Map<String, dynamic>))
-          .toList(),
     );
 
 Map<String, dynamic> _$$_CommentToJson(_$_Comment instance) =>
@@ -24,7 +21,6 @@ Map<String, dynamic> _$$_CommentToJson(_$_Comment instance) =>
       'timestamp': instance.timestamp,
       'userId': instance.userId,
       'username': instance.username,
-      'pPicURL': instance.pPicURL,
+      'pPicUrl': instance.pPicUrl,
       'commentID': instance.commentID,
-      'subComments': instance.subComments?.map((e) => e.toJson()).toList(),
     };

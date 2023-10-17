@@ -3,23 +3,22 @@ import 'package:go_router/go_router.dart';
 
 // 1. Import the riverpod_annotation package
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:tasktrack/pages/albums_page.dart';
+
 import 'package:tasktrack/pages/login_page.dart';
 import 'package:tasktrack/pages/review_page_look.dart';
 import 'package:tasktrack/pages/verify_email_page.dart';
 import '../pages/albums_list_page.dart';
-import '../pages/settings_page.dart';
+import '../pages/profile_page.dart';
 import '../pages/register_page.dart';
 import '../pages/search_page.dart';
-import '../pages/album_rating_page.dart';
-import '../pages/test_page.dart';
+import '../pages/settings_page.dart';
 import 'firebase_auth_providers.dart';
 
 // 2. Add a part file
 part 'go_router_providers.g.dart';
 
 // 3. Update the declaration and use the @riverpod annotation
-@riverpod
+@Riverpod(keepAlive: true)
 GoRouter goRouter(GoRouterRef ref) {
   return GoRouter(
     initialLocation: '/',
@@ -33,21 +32,21 @@ GoRouter goRouter(GoRouterRef ref) {
         ),
       ),
       GoRoute(
+        path: '/profile_page',
+        pageBuilder: (context, state) => const NoTransitionPage(
+          child: ProfilePage(),
+        ),
+      ),
+      GoRoute(
         path: '/settings_page',
         pageBuilder: (context, state) => const NoTransitionPage(
           child: SettingsPage(),
         ),
       ),
-      GoRoute(
-        path: '/albums_page',
-        pageBuilder: (context, state) => NoTransitionPage(
-          child: AlbumsPage(),
-        ),
-      ),
-      GoRoute(
-        path: '/ratings_page',
-        builder: (context, state) => AlbumRatingPage(),
-      ),
+      // GoRoute(
+      //   path: '/ratings_page',
+      //   builder: (context, state) => AlbumRatingPage(),
+      // ),
       GoRoute(
         path: '/review_look_page',
         builder: (context, state) => ReviewPageLook(),

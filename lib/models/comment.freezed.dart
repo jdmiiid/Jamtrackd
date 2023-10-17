@@ -24,9 +24,8 @@ mixin _$Comment {
   String get timestamp => throw _privateConstructorUsedError;
   String get userId => throw _privateConstructorUsedError;
   String? get username => throw _privateConstructorUsedError;
-  String? get pPicURL => throw _privateConstructorUsedError;
+  String? get pPicUrl => throw _privateConstructorUsedError;
   String get commentID => throw _privateConstructorUsedError;
-  List<Comment>? get subComments => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -43,9 +42,8 @@ abstract class $CommentCopyWith<$Res> {
       String timestamp,
       String userId,
       String? username,
-      String? pPicURL,
-      String commentID,
-      List<Comment>? subComments});
+      String? pPicUrl,
+      String commentID});
 }
 
 /// @nodoc
@@ -65,9 +63,8 @@ class _$CommentCopyWithImpl<$Res, $Val extends Comment>
     Object? timestamp = null,
     Object? userId = null,
     Object? username = freezed,
-    Object? pPicURL = freezed,
+    Object? pPicUrl = freezed,
     Object? commentID = null,
-    Object? subComments = freezed,
   }) {
     return _then(_value.copyWith(
       text: null == text
@@ -86,18 +83,14 @@ class _$CommentCopyWithImpl<$Res, $Val extends Comment>
           ? _value.username
           : username // ignore: cast_nullable_to_non_nullable
               as String?,
-      pPicURL: freezed == pPicURL
-          ? _value.pPicURL
-          : pPicURL // ignore: cast_nullable_to_non_nullable
+      pPicUrl: freezed == pPicUrl
+          ? _value.pPicUrl
+          : pPicUrl // ignore: cast_nullable_to_non_nullable
               as String?,
       commentID: null == commentID
           ? _value.commentID
           : commentID // ignore: cast_nullable_to_non_nullable
               as String,
-      subComments: freezed == subComments
-          ? _value.subComments
-          : subComments // ignore: cast_nullable_to_non_nullable
-              as List<Comment>?,
     ) as $Val);
   }
 }
@@ -114,9 +107,8 @@ abstract class _$$_CommentCopyWith<$Res> implements $CommentCopyWith<$Res> {
       String timestamp,
       String userId,
       String? username,
-      String? pPicURL,
-      String commentID,
-      List<Comment>? subComments});
+      String? pPicUrl,
+      String commentID});
 }
 
 /// @nodoc
@@ -133,9 +125,8 @@ class __$$_CommentCopyWithImpl<$Res>
     Object? timestamp = null,
     Object? userId = null,
     Object? username = freezed,
-    Object? pPicURL = freezed,
+    Object? pPicUrl = freezed,
     Object? commentID = null,
-    Object? subComments = freezed,
   }) {
     return _then(_$_Comment(
       text: null == text
@@ -154,18 +145,14 @@ class __$$_CommentCopyWithImpl<$Res>
           ? _value.username
           : username // ignore: cast_nullable_to_non_nullable
               as String?,
-      pPicURL: freezed == pPicURL
-          ? _value.pPicURL
-          : pPicURL // ignore: cast_nullable_to_non_nullable
+      pPicUrl: freezed == pPicUrl
+          ? _value.pPicUrl
+          : pPicUrl // ignore: cast_nullable_to_non_nullable
               as String?,
       commentID: null == commentID
           ? _value.commentID
           : commentID // ignore: cast_nullable_to_non_nullable
               as String,
-      subComments: freezed == subComments
-          ? _value._subComments
-          : subComments // ignore: cast_nullable_to_non_nullable
-              as List<Comment>?,
     ));
   }
 }
@@ -178,10 +165,8 @@ class _$_Comment implements _Comment {
       required this.timestamp,
       required this.userId,
       required this.username,
-      required this.pPicURL,
-      required this.commentID,
-      required final List<Comment>? subComments})
-      : _subComments = subComments;
+      required this.pPicUrl,
+      required this.commentID});
 
   factory _$_Comment.fromJson(Map<String, dynamic> json) =>
       _$$_CommentFromJson(json);
@@ -195,22 +180,13 @@ class _$_Comment implements _Comment {
   @override
   final String? username;
   @override
-  final String? pPicURL;
+  final String? pPicUrl;
   @override
   final String commentID;
-  final List<Comment>? _subComments;
-  @override
-  List<Comment>? get subComments {
-    final value = _subComments;
-    if (value == null) return null;
-    if (_subComments is EqualUnmodifiableListView) return _subComments;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(value);
-  }
 
   @override
   String toString() {
-    return 'Comment(text: $text, timestamp: $timestamp, userId: $userId, username: $username, pPicURL: $pPicURL, commentID: $commentID, subComments: $subComments)';
+    return 'Comment(text: $text, timestamp: $timestamp, userId: $userId, username: $username, pPicUrl: $pPicUrl, commentID: $commentID)';
   }
 
   @override
@@ -224,24 +200,15 @@ class _$_Comment implements _Comment {
             (identical(other.userId, userId) || other.userId == userId) &&
             (identical(other.username, username) ||
                 other.username == username) &&
-            (identical(other.pPicURL, pPicURL) || other.pPicURL == pPicURL) &&
+            (identical(other.pPicUrl, pPicUrl) || other.pPicUrl == pPicUrl) &&
             (identical(other.commentID, commentID) ||
-                other.commentID == commentID) &&
-            const DeepCollectionEquality()
-                .equals(other._subComments, _subComments));
+                other.commentID == commentID));
   }
 
   @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(
-      runtimeType,
-      text,
-      timestamp,
-      userId,
-      username,
-      pPicURL,
-      commentID,
-      const DeepCollectionEquality().hash(_subComments));
+      runtimeType, text, timestamp, userId, username, pPicUrl, commentID);
 
   @JsonKey(ignore: true)
   @override
@@ -263,9 +230,8 @@ abstract class _Comment implements Comment {
       required final String timestamp,
       required final String userId,
       required final String? username,
-      required final String? pPicURL,
-      required final String commentID,
-      required final List<Comment>? subComments}) = _$_Comment;
+      required final String? pPicUrl,
+      required final String commentID}) = _$_Comment;
 
   factory _Comment.fromJson(Map<String, dynamic> json) = _$_Comment.fromJson;
 
@@ -278,11 +244,9 @@ abstract class _Comment implements Comment {
   @override
   String? get username;
   @override
-  String? get pPicURL;
+  String? get pPicUrl;
   @override
   String get commentID;
-  @override
-  List<Comment>? get subComments;
   @override
   @JsonKey(ignore: true)
   _$$_CommentCopyWith<_$_Comment> get copyWith =>

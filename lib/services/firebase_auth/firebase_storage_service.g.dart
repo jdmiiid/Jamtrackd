@@ -6,7 +6,8 @@ part of 'firebase_storage_service.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$retrieveImageUrlHash() => r'3361440fd9b41030de7f074b3b762fd4eb55a251';
+String _$retrieveUserDownloadUrlHash() =>
+    r'3f19ec02cf2696c1a6b5336aa5da81c470da739a';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -29,29 +30,27 @@ class _SystemHash {
   }
 }
 
-typedef RetrieveImageUrlRef = AutoDisposeFutureProviderRef<String>;
+/// See also [retrieveUserDownloadUrl].
+@ProviderFor(retrieveUserDownloadUrl)
+const retrieveUserDownloadUrlProvider = RetrieveUserDownloadUrlFamily();
 
-/// See also [retrieveImageUrl].
-@ProviderFor(retrieveImageUrl)
-const retrieveImageUrlProvider = RetrieveImageUrlFamily();
+/// See also [retrieveUserDownloadUrl].
+class RetrieveUserDownloadUrlFamily extends Family<AsyncValue<String?>> {
+  /// See also [retrieveUserDownloadUrl].
+  const RetrieveUserDownloadUrlFamily();
 
-/// See also [retrieveImageUrl].
-class RetrieveImageUrlFamily extends Family<AsyncValue<String>> {
-  /// See also [retrieveImageUrl].
-  const RetrieveImageUrlFamily();
-
-  /// See also [retrieveImageUrl].
-  RetrieveImageUrlProvider call(
+  /// See also [retrieveUserDownloadUrl].
+  RetrieveUserDownloadUrlProvider call(
     String uniqUID,
   ) {
-    return RetrieveImageUrlProvider(
+    return RetrieveUserDownloadUrlProvider(
       uniqUID,
     );
   }
 
   @override
-  RetrieveImageUrlProvider getProviderOverride(
-    covariant RetrieveImageUrlProvider provider,
+  RetrieveUserDownloadUrlProvider getProviderOverride(
+    covariant RetrieveUserDownloadUrlProvider provider,
   ) {
     return call(
       provider.uniqUID,
@@ -70,35 +69,70 @@ class RetrieveImageUrlFamily extends Family<AsyncValue<String>> {
       _allTransitiveDependencies;
 
   @override
-  String? get name => r'retrieveImageUrlProvider';
+  String? get name => r'retrieveUserDownloadUrlProvider';
 }
 
-/// See also [retrieveImageUrl].
-class RetrieveImageUrlProvider extends AutoDisposeFutureProvider<String> {
-  /// See also [retrieveImageUrl].
-  RetrieveImageUrlProvider(
-    this.uniqUID,
-  ) : super.internal(
-          (ref) => retrieveImageUrl(
-            ref,
+/// See also [retrieveUserDownloadUrl].
+class RetrieveUserDownloadUrlProvider
+    extends AutoDisposeFutureProvider<String?> {
+  /// See also [retrieveUserDownloadUrl].
+  RetrieveUserDownloadUrlProvider(
+    String uniqUID,
+  ) : this._internal(
+          (ref) => retrieveUserDownloadUrl(
+            ref as RetrieveUserDownloadUrlRef,
             uniqUID,
           ),
-          from: retrieveImageUrlProvider,
-          name: r'retrieveImageUrlProvider',
+          from: retrieveUserDownloadUrlProvider,
+          name: r'retrieveUserDownloadUrlProvider',
           debugGetCreateSourceHash:
               const bool.fromEnvironment('dart.vm.product')
                   ? null
-                  : _$retrieveImageUrlHash,
-          dependencies: RetrieveImageUrlFamily._dependencies,
+                  : _$retrieveUserDownloadUrlHash,
+          dependencies: RetrieveUserDownloadUrlFamily._dependencies,
           allTransitiveDependencies:
-              RetrieveImageUrlFamily._allTransitiveDependencies,
+              RetrieveUserDownloadUrlFamily._allTransitiveDependencies,
+          uniqUID: uniqUID,
         );
+
+  RetrieveUserDownloadUrlProvider._internal(
+    super._createNotifier, {
+    required super.name,
+    required super.dependencies,
+    required super.allTransitiveDependencies,
+    required super.debugGetCreateSourceHash,
+    required super.from,
+    required this.uniqUID,
+  }) : super.internal();
 
   final String uniqUID;
 
   @override
+  Override overrideWith(
+    FutureOr<String?> Function(RetrieveUserDownloadUrlRef provider) create,
+  ) {
+    return ProviderOverride(
+      origin: this,
+      override: RetrieveUserDownloadUrlProvider._internal(
+        (ref) => create(ref as RetrieveUserDownloadUrlRef),
+        from: from,
+        name: null,
+        dependencies: null,
+        allTransitiveDependencies: null,
+        debugGetCreateSourceHash: null,
+        uniqUID: uniqUID,
+      ),
+    );
+  }
+
+  @override
+  AutoDisposeFutureProviderElement<String?> createElement() {
+    return _RetrieveUserDownloadUrlProviderElement(this);
+  }
+
+  @override
   bool operator ==(Object other) {
-    return other is RetrieveImageUrlProvider && other.uniqUID == uniqUID;
+    return other is RetrieveUserDownloadUrlProvider && other.uniqUID == uniqUID;
   }
 
   @override
@@ -109,4 +143,19 @@ class RetrieveImageUrlProvider extends AutoDisposeFutureProvider<String> {
     return _SystemHash.finish(hash);
   }
 }
-// ignore_for_file: unnecessary_raw_strings, subtype_of_sealed_class, invalid_use_of_internal_member, do_not_use_environment, prefer_const_constructors, public_member_api_docs, avoid_private_typedef_functions
+
+mixin RetrieveUserDownloadUrlRef on AutoDisposeFutureProviderRef<String?> {
+  /// The parameter `uniqUID` of this provider.
+  String get uniqUID;
+}
+
+class _RetrieveUserDownloadUrlProviderElement
+    extends AutoDisposeFutureProviderElement<String?>
+    with RetrieveUserDownloadUrlRef {
+  _RetrieveUserDownloadUrlProviderElement(super.provider);
+
+  @override
+  String get uniqUID => (origin as RetrieveUserDownloadUrlProvider).uniqUID;
+}
+// ignore_for_file: type=lint
+// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

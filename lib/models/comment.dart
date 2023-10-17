@@ -7,14 +7,14 @@ part 'comment.g.dart';
 
 @freezed
 class Comment with _$Comment {
-  const factory Comment(
-      {required String text,
-      required String timestamp,
-      required String userId,
-      required String? username,
-      required String? pPicURL,
-      required String commentID,
-      required List<Comment>? subComments}) = _Comment;
+  const factory Comment({
+    required String text,
+    required String timestamp,
+    required String userId,
+    required String? username,
+    required String? pPicUrl,
+    required String commentID,
+  }) = _Comment;
 
   factory Comment.fromJson(Map<String, dynamic> json) =>
       _$CommentFromJson(json);
@@ -23,13 +23,13 @@ class Comment with _$Comment {
     print(documentSnapshot.data());
     final data = documentSnapshot.data() as Map<String, dynamic>;
     return Comment(
-        commentID: documentSnapshot.id,
-        text: data['text'],
-        timestamp: data['timestamp'],
-        userId: data['userId'],
-        username: data['username'],
-        pPicURL: data['pPicUrl'],
-        subComments: data['sucComments']);
+      commentID: documentSnapshot.id,
+      text: data['text'],
+      timestamp: data['timestamp'],
+      userId: data['userId'],
+      username: data['username'],
+      pPicUrl: data['pPicUrl'],
+    );
   }
 
   static Map<String, Object?> toFirestore(comment, setOptions) =>

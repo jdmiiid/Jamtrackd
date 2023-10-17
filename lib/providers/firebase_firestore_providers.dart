@@ -1,16 +1,26 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:tasktrack/providers/firebase_auth_providers.dart';
 
 import '../models/comment.dart';
+
 import '../models/post.dart';
+import '../models/special_user.dart';
+import 'spotify_providers.dart';
 
 part 'firebase_firestore_providers.g.dart';
 
 final reviewLookProvider = StateProvider<Post?>((ref) => null);
 
 final rLookNeedsSetUpProvider = StateProvider<bool>((ref) => true);
+
+final tappedUserProvider = StateProvider<SpecialUser?>((ref) => null);
+
+final orderCriterionProvider = StateProvider<String>((ref) => 'timestamp');
+
+final upOrDownProvider = StateProvider<bool>((ref) => true);
 
 CollectionReference getUsersCollectionRef() {
   return FirebaseFirestore.instance.collection('users');
@@ -22,32 +32,134 @@ CollectionReference getPostsCollectionRef() {
 
 // Reusable function to retrieve a user's following list
 @riverpod
-Future<List<String>> retrieveFollowingList(RetrieveFollowingListRef ref) async {
+Stream<List<String>> retrieveFollowingListStream(
+    RetrieveFollowingListStreamRef ref) async* {
   final userID = ref.watch(firebaseAuthCurrentUserProvider)!.uid;
 
   final followingCollectionRef =
       getUsersCollectionRef().doc(userID).collection('following');
-  final querySnapshot = await followingCollectionRef.get();
 
-  return querySnapshot.docs.map((doc) => doc.id).toList();
+  yield* followingCollectionRef.snapshots().map((querySnapshot) {
+    final followingList = querySnapshot.docs.map((doc) => doc.id).toList();
+    followingList.add(userID);
+    return followingList;
+  });
 }
 
-// Reusable function to retrieve posts based on a query
-Future<List<Post>> retrievePosts(Query<Post> query) async {
-  final querySnapshot = await query.get();
-  return querySnapshot.docs.map((doc) => doc.data()).toList();
+@riverpod
+Future<SpecialUser?> userInfoFromUID(UserInfoFromUIDRef ref, String uid) async {
+  final firebaseQuery = getUsersCollectionRef().doc(uid);
+
+  final specialUser = await firebaseQuery
+      .withConverter(
+          fromFirestore: SpecialUser.fromFirestore,
+          toFirestore: SpecialUser.toFirestore)
+      .get();
+
+  return specialUser.data();
+}
+
+// Unique User Sorting Algo
+@riverpod
+Future<List<SpecialUser?>> queriedUserSearch(QueriedUserSearchRef ref,
+    {int userLimit = 10}) async {
+  final String searchQuery = ref.watch(userSearchProvider);
+
+  final List<SpecialUser?> listOfSpecialUsers = [];
+
+  final displayNameQuery = getUsersCollectionRef()
+      .where('displayName', isGreaterThanOrEqualTo: searchQuery)
+      .limit((userLimit / 2).floor())
+      .withConverter(
+          fromFirestore: SpecialUser.fromFirestore,
+          toFirestore: SpecialUser.toFirestore)
+      .get();
+
+  final usernameQuery = getUsersCollectionRef()
+      .where('username', isGreaterThanOrEqualTo: searchQuery)
+      .limit((userLimit / 2).floor())
+      .withConverter(
+          fromFirestore: SpecialUser.fromFirestore,
+          toFirestore: SpecialUser.toFirestore)
+      .get();
+
+  final results = await Future.wait([displayNameQuery, usernameQuery]);
+
+  listOfSpecialUsers.addAll(collectSpecialUsersFromResults(results));
+  listOfSpecialUsers.sort((a, b) {
+    return calculateRelevanceScore(b, searchQuery)
+        .compareTo(calculateRelevanceScore(a, searchQuery));
+  });
+
+  return listOfSpecialUsers.take(userLimit).toList();
+}
+
+List<SpecialUser?> collectSpecialUsersFromResults(List<QuerySnapshot> results) {
+  final listOfSpecialUsers = <SpecialUser?>[];
+  for (final querySnapshot in results) {
+    listOfSpecialUsers
+        .addAll(querySnapshot.docs.map((doc) => doc.data() as SpecialUser?));
+  }
+  return listOfSpecialUsers;
+}
+
+double calculateRelevanceScore(SpecialUser? user, String searchQuery) {
+  if (user == null) {
+    return 0.0;
+  }
+
+  final searchSet = Set<String>.from(searchQuery.split(' '));
+  final displayNameSet = Set<String>.from(user.displayName?.split(' ') ?? []);
+  final usernameSet = Set<String>.from(user.username!.split(' '));
+
+  final displayNameScore = calculateJaccardIndex(searchSet, displayNameSet);
+  final usernameScore = calculateJaccardIndex(searchSet, usernameSet);
+
+  final weightedScore = displayNameScore * 0.7 + usernameScore * 0.3;
+
+  return weightedScore;
+}
+
+double calculateJaccardIndex(Set<String> set1, Set<String> set2) {
+  final intersection = set1.intersection(set2).length;
+  final union = set1.union(set2).length;
+
+  return (intersection / union) * intersection;
+}
+// Part of the User Sorting Algo
+
+@riverpod
+Future<List<String>> retrieveFollowingListByIDFuture(
+    RetrieveFollowingListByIDFutureRef ref, String tappedUserID) async {
+  final followingCollectionRef =
+      getUsersCollectionRef().doc(tappedUserID).collection('following');
+
+  final QuerySnapshot querySnapshot = await followingCollectionRef.get();
+
+  final List<String> followingList =
+      querySnapshot.docs.map((doc) => doc.id).toList();
+
+  return followingList;
+}
+
+@riverpod
+Future<List<String>> retrieveFollowerListByIDFuture(
+    RetrieveFollowerListByIDFutureRef ref, String tappedUserID) async {
+  final followerCollectionRef =
+      getUsersCollectionRef().doc(tappedUserID).collection('followers');
+
+  final QuerySnapshot querySnapshot = await followerCollectionRef.get();
+
+  final List<String> followerList =
+      querySnapshot.docs.map((doc) => doc.id).toList();
+
+  return followerList;
 }
 
 // Reusable function to retrieve comments based on a query
 Future<List<Comment>> retrieveCommentList(Query<Comment> query) async {
   final querySnapshot = await query.get();
   return querySnapshot.docs.map((doc) => doc.data()).toList();
-}
-
-// Reusable function to retrieve comments based on a query
-Future<List<String>> retrievePostLikeList(Query query) async {
-  final querySnapshot = await query.get();
-  return querySnapshot.docs.map((doc) => doc.id).toList();
 }
 
 // Reusable function to retrieve comments based on a query
@@ -61,19 +173,17 @@ FirebaseFirestore firebaseFirestoreInstance(FirebaseFirestoreInstanceRef ref) {
   return FirebaseFirestore.instance;
 }
 
-@riverpod
-Future<String> retrieveUsername(RetrieveUsernameRef ref) async {
-  final userID = ref.watch(firebaseAuthCurrentUserProvider)!.uid;
-  final documentSnapshot = await getUsersCollectionRef().doc(userID).get();
-  return documentSnapshot['username'];
+// Reusable function to retrieve posts based on a query
+Future<List<Post>> retrievePosts(Query<Post> query) async {
+  final querySnapshot = await query.get();
+  return querySnapshot.docs.map((doc) => doc.data()).toList();
 }
 
 class UpdatedPostsNotifier extends StateNotifier<List<Post>> {
   UpdatedPostsNotifier() : super([]);
 
-  Future<void> _fetchPosts(
-      List<String> followedUserIds, int limit, WidgetRef ref,
-      {bool isInitial = false}) async {
+  Future<void> fetchFollowUpPosts(
+      int limit, WidgetRef ref, List<String> followedUserIds) async {
     final query = getPostsCollectionRef()
         .where('author', whereIn: followedUserIds)
         .orderBy('timestamp', descending: true)
@@ -83,32 +193,28 @@ class UpdatedPostsNotifier extends StateNotifier<List<Post>> {
           toFirestore: (post, _) => Post.toFirestore(post, _),
         );
 
-    final newPosts = isInitial
-        ? await retrievePosts(query)
-        : await retrievePosts(query.startAfter([state.last.timestamp]));
+    final newPosts =
+        await retrievePosts(query.startAfter([state.last.timestamp]));
 
     if (newPosts.length < limit) {
       ref.read(hasMorePostsProvider.notifier).state = false;
     }
 
-    if (isInitial) {
-      ref.read(hasMorePostsProvider.notifier).state = true;
-      state = newPosts;
-    } else {
-      final currentList = state + newPosts;
-      state = currentList;
-    }
+    state = state + newPosts;
   }
 
-  Future<void> fetchPosts(
-      List<String> followedUserIds, int limit, WidgetRef ref,
-      {bool isInitial = false}) async {
-    await _fetchPosts(followedUserIds, limit, ref, isInitial: isInitial);
-    if (isInitial) {
-      print('initialpostsused');
-    } else {
-      print('morepostsused');
-    }
+  Future<void> fetchInitialPosts(
+      int limit, WidgetRef ref, List<String> followedUserIds) async {
+    final query = getPostsCollectionRef()
+        .where('author', whereIn: followedUserIds)
+        .orderBy('timestamp', descending: true)
+        .limit(limit)
+        .withConverter<Post>(
+          fromFirestore: (snapshot, _) => Post.fromFirestore(snapshot, _),
+          toFirestore: (post, _) => Post.toFirestore(post, _),
+        );
+
+    state = await retrievePosts(query);
   }
 }
 
@@ -191,57 +297,164 @@ Future<void> createCommentDoc(
   await firestoreCollection.doc().set(newComment);
 }
 
-// For likes
-class UpdatedPostLikesNotifier extends StateNotifier<List<String>> {
-  UpdatedPostLikesNotifier() : super([]);
+Future<void> addFirestorePostLike({
+  required String userId,
+  required String postId,
+}) async {
+  final firestoreCollection = FirebaseFirestore.instance
+      .collection('posts')
+      .doc(postId)
+      .collection('postLikes')
+      .doc(userId);
 
-  Future<void> _fetchPostLikes(String postId) async {
-    final query = getPostsCollectionRef().doc(postId).collection('postLikes');
+  await firestoreCollection.set({});
+}
 
-    state = await retrievePostLikeList(query);
-  }
+Future<void> deleteFirestorePostLike(
+    {required String userId, required String postId}) async {
+  final firestoreCollection = FirebaseFirestore.instance
+      .collection('posts')
+      .doc(postId)
+      .collection('postLikes')
+      .doc(userId);
 
-  Future<void> fetchPostLikes(String postId) async {
-    await _fetchPostLikes(postId);
+  await firestoreCollection.delete();
+}
+
+Future<void> addFirestoreFollow({
+  required String userGetterId,
+  required String userGiverId,
+}) async {
+  final firestore = FirebaseFirestore.instance;
+  final batch = firestore.batch();
+
+  final getterFollowersRef = firestore
+      .collection('users')
+      .doc(userGetterId)
+      .collection('followers')
+      .doc(userGiverId);
+  final giverFollowingRef = firestore
+      .collection('users')
+      .doc(userGiverId)
+      .collection('following')
+      .doc(userGetterId);
+
+  // Must type cast for Firebase to accept
+  batch.set(getterFollowersRef, <String, dynamic>{});
+  batch.set(giverFollowingRef, <String, dynamic>{});
+
+  try {
+    await batch.commit();
+  } catch (e) {
+    print('Error adding follower: $e');
   }
 }
 
-final stateNotifierPostLikesList =
-    StateNotifierProvider<UpdatedPostLikesNotifier, List<String>>(
-  (ref) => UpdatedPostLikesNotifier(),
-);
+Future<void> deleteFirestoreFollow({
+  required String userGetterId,
+  required String userGiverId,
+}) async {
+  final firestore = FirebaseFirestore.instance;
+  final batch = firestore.batch();
 
-// For likes list
-class UpdatedCommentLikesNotifier extends StateNotifier<List<String>> {
-  UpdatedCommentLikesNotifier() : super([]);
+  final getterFollowersRef = firestore
+      .collection('users')
+      .doc(userGetterId)
+      .collection('followers')
+      .doc(userGiverId);
+  final giverFollowingRef = firestore
+      .collection('users')
+      .doc(userGiverId)
+      .collection('following')
+      .doc(userGetterId);
 
-  Future<void> _fetchCommentLikes(String commentId) async {
-    final query =
-        getPostsCollectionRef().doc(commentId).collection('commentLikes');
+  batch.delete(getterFollowersRef);
+  batch.delete(giverFollowingRef);
 
-    state = await retrieveCommentLikeList(query);
-  }
-
-  Future<void> fetchCommentLikes(String commentId) async {
-    await _fetchCommentLikes(commentId);
+  try {
+    await batch.commit();
+  } catch (e) {
+    print('Error deleting follower: $e');
   }
 }
 
-final stateNotifierCommentLikesList =
-    StateNotifierProvider<UpdatedCommentLikesNotifier, List<String>>(
-  (ref) => UpdatedCommentLikesNotifier(),
-);
-
-// For likes count
 @riverpod
-Future<int> commentLikeInt(
-    CommentLikeIntRef ref, String postId, String commentId) async {
-  final querySnapshot = await getPostsCollectionRef()
+Future<List<String>> fetchCommentLikes(FetchCommentLikesRef ref,
+    {required postId, required commentId}) async {
+  final query = FirebaseFirestore.instance
+      .collection('posts')
+      .doc(postId)
+      .collection('comments')
+      .doc(commentId)
+      .collection('commentLikes');
+
+  final querySnapshot = await query.get();
+  // ref.read(stateNotifierCommentLikeList.notifier).state =
+  return querySnapshot.docs.map((doc) => doc.id).toList();
+}
+
+Future<void> addFirestoreCommentLike({
+  required String userId,
+  required String postId,
+  required String commentId,
+}) async {
+  final firestoreCollection = FirebaseFirestore.instance
+      .collection('posts')
       .doc(postId)
       .collection('comments')
       .doc(commentId)
       .collection('commentLikes')
-      .get();
+      .doc(userId);
 
-  return querySnapshot.size;
+  await firestoreCollection.set({});
+}
+
+Future<void> deleteFirestoreCommentLike(
+    {required String userId,
+    required String postId,
+    required String commentId}) async {
+  final firestoreCollection = FirebaseFirestore.instance
+      .collection('posts')
+      .doc(postId)
+      .collection('comments')
+      .doc(commentId)
+      .collection('commentLikes')
+      .doc(userId);
+
+  await firestoreCollection.delete();
+}
+
+@riverpod
+Stream<List<Post>> postCollectionStream(PostCollectionStreamRef ref,
+    {String tappedUserID = ''}) async* {
+  final String orderCriterion = ref.watch(orderCriterionProvider);
+  final bool upOrDown = ref.watch(upOrDownProvider);
+
+  // Reference to Firestore collection
+  final CollectionReference postsCollection = getPostsCollectionRef();
+
+  // Query for documents where "author" field is equal to currentUserUid
+  Query baseQuery = postsCollection.where('author', isEqualTo: tappedUserID);
+
+  // Additional query conditions for "timestamp" and "rating"
+  if (orderCriterion == 'timestamp') {
+    baseQuery = baseQuery.orderBy('timestamp', descending: upOrDown);
+  } else if (orderCriterion == 'rating') {
+    baseQuery = baseQuery.orderBy('content.rating', descending: upOrDown);
+    // Modify 'yourNestedField' and 'isGreaterThan' condition as needed.
+  }
+
+  // Convert documents to a list of Post objects
+  final List<Post> posts = await baseQuery
+      .withConverter<Post>(
+        fromFirestore: (snapshot, _) => Post.fromFirestore(snapshot, _),
+        toFirestore: (post, _) => Post.toFirestore(post, _),
+      )
+      .get()
+      .then((querySnapshot) {
+    return querySnapshot.docs.map((doc) => doc.data()).toList();
+  });
+
+  // Yield the resulting list of posts
+  yield posts;
 }

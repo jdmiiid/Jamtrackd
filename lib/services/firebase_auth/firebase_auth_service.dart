@@ -1,5 +1,9 @@
+import 'dart:io';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+
+import 'firebase_storage_service.dart';
 
 class FirebaseAuthService {
   final FirebaseAuth _firebaseAuth;
@@ -8,13 +12,14 @@ class FirebaseAuthService {
 
   Stream<User?> get authStateChange => _firebaseAuth.authStateChanges();
 
-  Future<String?> createUserWithEmailAndPassword(
-      {required String email,
-      required String firstName,
-      required String lastName,
-      required String username,
-      required String phoneNumber,
-      required String password}) async {
+  Future<String?> createUserWithEmailAndPassword({
+    required String email,
+    required String firstName,
+    required String lastName,
+    required String username,
+    required String password,
+    File? pPicAsset,
+  }) async {
     try {
       await _firebaseAuth
           .createUserWithEmailAndPassword(
@@ -23,25 +28,26 @@ class FirebaseAuthService {
           )
           .then(
             (userCredential) => {
+              userCredential.user!.sendEmailVerification().then((_) async {
+                await FirebaseStorageService()
+                    .uploadImageAsset(userCredential.user!.uid, pPicAsset!)
+                    .then((downloadUrl) async {
+                  await userCredential.user!.updatePhotoURL(downloadUrl);
+                });
+              }),
               userCredential.user!.updateDisplayName('$firstName $lastName'),
               FirebaseFirestore.instance
                   .collection('users')
                   .doc(userCredential.user!.uid)
-                  .set({
-                'username': username,
-                'phonenumber': phoneNumber,
-              })
+                  .set({'username': username})
             },
           );
 
-      return 'Information initialized. Please verify Account.';
+      // return 'Information initialized. Please verify Account.';
     } on FirebaseAuthException catch (e) {
-      if (e.code == 'weak-password') {
-        return '';
-      } else {
-        return e.message;
-      }
+      return e.message;
     }
+    return null;
   }
 
   Future<String?> signInWithEmailAndPassword(

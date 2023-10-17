@@ -1,51 +1,28 @@
 import 'dart:async';
 import 'dart:convert';
-
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:http/http.dart' as http;
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:tasktrack/models/album_or_artist.dart';
-import 'package:tasktrack/providers/firebase_auth_providers.dart';
-
-import '../models/album.dart';
-import '../models/album_rating.dart';
-import 'firebase_firestore_providers.dart';
 
 part 'spotify_providers.g.dart';
 
-final spotifyTokenProvider = StateProvider((ref) => '');
-
+// State Providers
+final spotifyTokenProvider = StateProvider<String>((ref) => '');
 final userSearchProvider = StateProvider<String>((ref) => '');
-
 final artistIdProvider = StateProvider<String>((ref) => '');
-
 final albumIdProvider = StateProvider<String>((ref) => '');
-
-final orderCriterionProvider = StateProvider<String>((ref) => 'createdAt');
-
-final upOrDownProvider = StateProvider<bool>((ref) => true);
-
 final staticOrderProvider =
     StateProvider<List<Map<String, dynamic>>>((ref) => []);
-
 final albumDataProvider = StateProvider<AlbumOrArtist?>((ref) => null);
 
-//Tracklist Code
-class TracklistNotifier extends StateNotifier<List<String>> {
-  TracklistNotifier(List<String> initialTracklist) : super(initialTracklist);
-
-  void updateMyTiles(int oldIndex, int newIndex, List<String> tracklist) {
-    final tile = tracklist.removeAt(oldIndex);
-    tracklist.insert(newIndex, tile);
-    state = tracklist;
-  }
-}
-//Tracklist Code
-
+// Riverpod Async Functions
 @riverpod
-Future<List<AlbumOrArtist>> queriedSearch(QueriedSearchRef ref,
-    {int artistLimit = 3, int albumLimit = 7}) async {
+Future<List<AlbumOrArtist>> queriedAlbumSearch(QueriedAlbumSearchRef ref,
+    {int artistLimit = 3,
+    int albumLimit = 7,
+    bool albumsOrUsers = false}) async {
   final String query = ref.watch(userSearchProvider);
   final String encodedQuery = Uri.encodeQueryComponent(query);
 
@@ -54,38 +31,17 @@ Future<List<AlbumOrArtist>> queriedSearch(QueriedSearchRef ref,
   final Uri albumSearchUri = Uri.parse(
       'https://api.spotify.com/v1/search?q=$encodedQuery&type=album&market=US&limit=$albumLimit&offset=0');
 
-  //connect success for Artists
-  List<AlbumOrArtist> parseArtistSearchResult(http.Response response) {
+  List<AlbumOrArtist> parseSearchResult(http.Response response, String key) {
     final data = jsonDecode(response.body);
-    final List jsonItemList = data['artists']['items'];
+    final List jsonItemList = data[key]['items'];
 
-    final List<AlbumOrArtist> albumOrArtistList = [];
-
-    for (var item in jsonItemList) {
-      albumOrArtistList.add(AlbumOrArtist.fromJson(item));
-    }
-
-    return albumOrArtistList;
-  }
-
-  //connect success for Albums
-  List<AlbumOrArtist> parseAlbumSearchResult(http.Response response) {
-    final data = jsonDecode(response.body);
-    final List jsonItemList = data['albums']['items'];
-
-    final List<AlbumOrArtist> albumOrArtistList = [];
-
-    for (var item in jsonItemList) {
-      albumOrArtistList.add(AlbumOrArtist.fromJson(item));
-    }
-
-    return albumOrArtistList;
+    return jsonItemList.map((item) => AlbumOrArtist.fromJson(item)).toList();
   }
 
   final List<AlbumOrArtist> artistResult =
       await interactSpotifyApi<List<AlbumOrArtist>>(
             endpoint: artistSearchUri,
-            ifConnected: parseArtistSearchResult,
+            ifConnected: (response) => parseSearchResult(response, 'artists'),
             ref: ref,
           ) ??
           [];
@@ -93,14 +49,12 @@ Future<List<AlbumOrArtist>> queriedSearch(QueriedSearchRef ref,
   final List<AlbumOrArtist> albumResult =
       await interactSpotifyApi<List<AlbumOrArtist>>(
             endpoint: albumSearchUri,
-            ifConnected: parseAlbumSearchResult,
+            ifConnected: (response) => parseSearchResult(response, 'albums'),
             ref: ref,
           ) ??
           [];
 
-  // Combine the results into a single list
-  final List<AlbumOrArtist> combinedResult = [...artistResult, ...albumResult];
-  return combinedResult;
+  return [...artistResult, ...albumResult];
 }
 
 @riverpod
@@ -115,13 +69,7 @@ Future<List<AlbumOrArtist>> artistSelection(ArtistSelectionRef ref) async {
     final data = jsonDecode(response.body);
     final List jsonItemList = data['items'];
 
-    final List<AlbumOrArtist> albumOrArtistList = [];
-
-    for (var item in jsonItemList) {
-      albumOrArtistList.add(AlbumOrArtist.fromJson(item));
-    }
-
-    return albumOrArtistList;
+    return jsonItemList.map((item) => AlbumOrArtist.fromJson(item)).toList();
   }
 
   final List<AlbumOrArtist> albumResult =
@@ -135,67 +83,55 @@ Future<List<AlbumOrArtist>> artistSelection(ArtistSelectionRef ref) async {
   return albumResult;
 }
 
-// Might be useless. Come back and delete this, if necessary.
-@riverpod
-Future<Album?> albumSelection(AlbumSelectionRef ref) async {
-  final uniqId = ref.watch(albumIdProvider);
-  final String encodedQuery = Uri.encodeQueryComponent(uniqId);
-
-  final Uri albumSearchUri =
-      Uri.parse('https://api.spotify.com/v1/albums/$encodedQuery');
-
-  Album parseAlbumSearchResult(http.Response response) {
-    final data = jsonDecode(response.body);
-    return Album.fromJson(data);
-  }
-
-  final Album? albumResult = await interactSpotifyApi<Album>(
-    endpoint: albumSearchUri,
-    ifConnected: parseAlbumSearchResult,
-    ref: ref,
-  );
-
-  return albumResult;
-}
-
 @riverpod
 Future<List<String>> getTrackData(GetTrackDataRef ref) async {
   final AlbumOrArtist? albumData = ref.read(albumDataProvider);
   final String uniqId = albumData!.id;
+  final List<String> trackList = ['-'];
+  int offset = 0;
+  const int limit = 12;
 
-  final String encodedQuery = Uri.encodeQueryComponent(uniqId);
+  while (true) {
+    final Uri tracksSearchUri = Uri.parse(
+        'https://api.spotify.com/v1/albums/$uniqId/tracks?market=US&offset=$offset&limit=$limit');
 
-  final Uri tracksSearchUri = Uri.parse(
-      'https://api.spotify.com/v1/albums/$encodedQuery/tracks?market=US');
+    List<String> parseTrackSearchResult(http.Response response) {
+      if (response.statusCode == 200) {
+        final data = jsonDecode(response.body);
+        final items = data['items']
+            as List<dynamic>; // Ensure 'items' is treated as a List
 
-  List<String> parseTrackSearchResult(http.Response response) {
-    final data = jsonDecode(response.body);
-
-    final List<String> trackList = ['-'];
-
-    for (Map<String, dynamic> item in data['items']) {
-      trackList.add(item['name'] as String);
+        return items.map((item) => (item['name'] as String)).toList();
+      } else {
+        print('Failed to fetch track data: ${response.statusCode}');
+        throw Exception('Failed to fetch track data: ${response.statusCode}');
+      }
     }
 
-    ref.read(stateNotifierTrackList.notifier).state = trackList;
+    final List<String>? newTrackList = await interactSpotifyApi<List<String>>(
+      endpoint: tracksSearchUri,
+      ifConnected: parseTrackSearchResult,
+      ref: ref,
+    );
 
-    return trackList;
+    if (newTrackList != null) {
+      trackList.addAll(newTrackList);
+
+      if (newTrackList.length < limit) {
+        return trackList;
+      } else {
+        offset += limit;
+      }
+    } else {
+      break;
+    }
   }
-
-  final List<String> tracksResult = await interactSpotifyApi(
-        endpoint: tracksSearchUri,
-        ifConnected: parseTrackSearchResult,
-        ref: ref,
-      ) ??
-      [];
-
-  return tracksResult;
+  return trackList;
 }
 
 Future<T?> interactSpotifyApi<T>({
   required Uri endpoint,
   required T Function(http.Response) ifConnected,
-  //Could be WidgetRef or some auto generated Ref
   required ref,
 }) async {
   final String currentToken = ref.read(spotifyTokenProvider);
@@ -209,21 +145,19 @@ Future<T?> interactSpotifyApi<T>({
 
     switch (response.statusCode) {
       case 200:
-        return ifConnected(response); // Return the result of ifConnected
+        return ifConnected(response);
       case 401:
         await getSpotifyAccessToken(ref);
-        // Wait for the access token to be refreshed
         return await interactSpotifyApi(
           endpoint: endpoint,
           ifConnected: ifConnected,
           ref: ref,
-        ); // Return the result of the recursive call
+        );
     }
   } catch (e) {
-    print('error: $e');
+    print('error moma sus: $e');
   }
 
-  // Return null if the request fails or returns a non-200 status code
   return null;
 }
 
@@ -256,21 +190,19 @@ Future<void> getSpotifyAccessToken(WidgetRef ref) async {
       final data = jsonDecode(response.body);
       ref.read(spotifyTokenProvider.notifier).state = data['access_token'];
     } else {
-      print('Shit, we tried and failed (getToken): ${response.statusCode}');
+      print('Failed to get Spotify access token: ${response.statusCode}');
     }
   } catch (e) {
     print('Error: $e');
   }
 }
 
+// State Notifiers
 class FavoritesNotifier extends StateNotifier<bool> {
   FavoritesNotifier() : super(false);
 
-  // true, if dark
-  // false, if light
-
   void changeBool() {
-    state = state ? false : true;
+    state = !state;
   }
 }
 
@@ -280,57 +212,16 @@ final stateNotifierFavorites =
 class TrackListNotifier extends StateNotifier<List<String>> {
   TrackListNotifier() : super([]);
 
-  void updateMyTiles(int oldIndex, int newIndex, List<String> tracklist) {
-    if (oldIndex < newIndex) {
-      newIndex--;
+  void updateMyTiles(List<String> tracklist) {
+    if (tracklist.first == '-') {
+      state = tracklist;
+    } else {
+      state.addAll(tracklist);
     }
-
-    final tile = tracklist.removeAt(oldIndex);
-    tracklist.insert(newIndex, tile);
-    state = tracklist;
   }
 }
 
 final stateNotifierTrackList =
-    StateNotifierProvider((ref) => TrackListNotifier());
-
-@riverpod
-Stream<List<AlbumRating>> albumRatingCollectionStream(
-    AlbumRatingCollectionStreamRef ref) {
-  final orderCriterion = ref.watch(orderCriterionProvider);
-  final upOrDown = ref.watch(upOrDownProvider);
-
-  return ref
-      .watch(firebaseFirestoreInstanceProvider)
-      .collection('users')
-      .doc(ref.read(firebaseAuthInstanceProvider).currentUser!.uid)
-      .collection('album_ratings')
-      .orderBy(orderCriterion, descending: upOrDown)
-      .withConverter(
-          fromFirestore: AlbumRating.fromFirestore,
-          toFirestore: AlbumRating.toFirestore)
-      .snapshots()
-      .map(
-    (querySnapshot) {
-      return querySnapshot.docs.map((doc) => doc.data()).toList();
-    },
-  );
-}
-
-final currentUserNameProvider = StateProvider<String>((ref) => '');
-
-@riverpod
-Future<String> currUserNameFuture(CurrUserNameFutureRef ref) {
-  return ref
-      .watch(firebaseFirestoreInstanceProvider)
-      .collection('users')
-      .doc(ref.read(firebaseAuthInstanceProvider).currentUser!.uid)
-      .get()
-      .then(
-    (doc) {
-      ref.read(currentUserNameProvider.notifier).state =
-          doc.data()!['username'];
-      return 'Username';
-    },
-  );
-}
+    StateNotifierProvider<TrackListNotifier, List<String>>(
+  (ref) => TrackListNotifier(),
+);

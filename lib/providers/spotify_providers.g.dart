@@ -6,7 +6,8 @@ part of 'spotify_providers.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$queriedSearchHash() => r'af6f580e715b72825b410bf2784eb6d95d3e1ff3';
+String _$queriedAlbumSearchHash() =>
+    r'191d0a52b57f7e080e0598ab6fabb76ed4e5adf9';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -29,35 +30,36 @@ class _SystemHash {
   }
 }
 
-typedef QueriedSearchRef = AutoDisposeFutureProviderRef<List<AlbumOrArtist>>;
+/// See also [queriedAlbumSearch].
+@ProviderFor(queriedAlbumSearch)
+const queriedAlbumSearchProvider = QueriedAlbumSearchFamily();
 
-/// See also [queriedSearch].
-@ProviderFor(queriedSearch)
-const queriedSearchProvider = QueriedSearchFamily();
+/// See also [queriedAlbumSearch].
+class QueriedAlbumSearchFamily extends Family<AsyncValue<List<AlbumOrArtist>>> {
+  /// See also [queriedAlbumSearch].
+  const QueriedAlbumSearchFamily();
 
-/// See also [queriedSearch].
-class QueriedSearchFamily extends Family<AsyncValue<List<AlbumOrArtist>>> {
-  /// See also [queriedSearch].
-  const QueriedSearchFamily();
-
-  /// See also [queriedSearch].
-  QueriedSearchProvider call({
+  /// See also [queriedAlbumSearch].
+  QueriedAlbumSearchProvider call({
     int artistLimit = 3,
     int albumLimit = 7,
+    bool albumsOrUsers = false,
   }) {
-    return QueriedSearchProvider(
+    return QueriedAlbumSearchProvider(
       artistLimit: artistLimit,
       albumLimit: albumLimit,
+      albumsOrUsers: albumsOrUsers,
     );
   }
 
   @override
-  QueriedSearchProvider getProviderOverride(
-    covariant QueriedSearchProvider provider,
+  QueriedAlbumSearchProvider getProviderOverride(
+    covariant QueriedAlbumSearchProvider provider,
   ) {
     return call(
       artistLimit: provider.artistLimit,
       albumLimit: provider.albumLimit,
+      albumsOrUsers: provider.albumsOrUsers,
     );
   }
 
@@ -73,41 +75,86 @@ class QueriedSearchFamily extends Family<AsyncValue<List<AlbumOrArtist>>> {
       _allTransitiveDependencies;
 
   @override
-  String? get name => r'queriedSearchProvider';
+  String? get name => r'queriedAlbumSearchProvider';
 }
 
-/// See also [queriedSearch].
-class QueriedSearchProvider
+/// See also [queriedAlbumSearch].
+class QueriedAlbumSearchProvider
     extends AutoDisposeFutureProvider<List<AlbumOrArtist>> {
-  /// See also [queriedSearch].
-  QueriedSearchProvider({
-    this.artistLimit = 3,
-    this.albumLimit = 7,
-  }) : super.internal(
-          (ref) => queriedSearch(
-            ref,
+  /// See also [queriedAlbumSearch].
+  QueriedAlbumSearchProvider({
+    int artistLimit = 3,
+    int albumLimit = 7,
+    bool albumsOrUsers = false,
+  }) : this._internal(
+          (ref) => queriedAlbumSearch(
+            ref as QueriedAlbumSearchRef,
             artistLimit: artistLimit,
             albumLimit: albumLimit,
+            albumsOrUsers: albumsOrUsers,
           ),
-          from: queriedSearchProvider,
-          name: r'queriedSearchProvider',
+          from: queriedAlbumSearchProvider,
+          name: r'queriedAlbumSearchProvider',
           debugGetCreateSourceHash:
               const bool.fromEnvironment('dart.vm.product')
                   ? null
-                  : _$queriedSearchHash,
-          dependencies: QueriedSearchFamily._dependencies,
+                  : _$queriedAlbumSearchHash,
+          dependencies: QueriedAlbumSearchFamily._dependencies,
           allTransitiveDependencies:
-              QueriedSearchFamily._allTransitiveDependencies,
+              QueriedAlbumSearchFamily._allTransitiveDependencies,
+          artistLimit: artistLimit,
+          albumLimit: albumLimit,
+          albumsOrUsers: albumsOrUsers,
         );
+
+  QueriedAlbumSearchProvider._internal(
+    super._createNotifier, {
+    required super.name,
+    required super.dependencies,
+    required super.allTransitiveDependencies,
+    required super.debugGetCreateSourceHash,
+    required super.from,
+    required this.artistLimit,
+    required this.albumLimit,
+    required this.albumsOrUsers,
+  }) : super.internal();
 
   final int artistLimit;
   final int albumLimit;
+  final bool albumsOrUsers;
+
+  @override
+  Override overrideWith(
+    FutureOr<List<AlbumOrArtist>> Function(QueriedAlbumSearchRef provider)
+        create,
+  ) {
+    return ProviderOverride(
+      origin: this,
+      override: QueriedAlbumSearchProvider._internal(
+        (ref) => create(ref as QueriedAlbumSearchRef),
+        from: from,
+        name: null,
+        dependencies: null,
+        allTransitiveDependencies: null,
+        debugGetCreateSourceHash: null,
+        artistLimit: artistLimit,
+        albumLimit: albumLimit,
+        albumsOrUsers: albumsOrUsers,
+      ),
+    );
+  }
+
+  @override
+  AutoDisposeFutureProviderElement<List<AlbumOrArtist>> createElement() {
+    return _QueriedAlbumSearchProviderElement(this);
+  }
 
   @override
   bool operator ==(Object other) {
-    return other is QueriedSearchProvider &&
+    return other is QueriedAlbumSearchProvider &&
         other.artistLimit == artistLimit &&
-        other.albumLimit == albumLimit;
+        other.albumLimit == albumLimit &&
+        other.albumsOrUsers == albumsOrUsers;
   }
 
   @override
@@ -115,12 +162,39 @@ class QueriedSearchProvider
     var hash = _SystemHash.combine(0, runtimeType.hashCode);
     hash = _SystemHash.combine(hash, artistLimit.hashCode);
     hash = _SystemHash.combine(hash, albumLimit.hashCode);
+    hash = _SystemHash.combine(hash, albumsOrUsers.hashCode);
 
     return _SystemHash.finish(hash);
   }
 }
 
-String _$artistSelectionHash() => r'c497551dc8b8a4cadffd51013ace49d44b2ff290';
+mixin QueriedAlbumSearchRef
+    on AutoDisposeFutureProviderRef<List<AlbumOrArtist>> {
+  /// The parameter `artistLimit` of this provider.
+  int get artistLimit;
+
+  /// The parameter `albumLimit` of this provider.
+  int get albumLimit;
+
+  /// The parameter `albumsOrUsers` of this provider.
+  bool get albumsOrUsers;
+}
+
+class _QueriedAlbumSearchProviderElement
+    extends AutoDisposeFutureProviderElement<List<AlbumOrArtist>>
+    with QueriedAlbumSearchRef {
+  _QueriedAlbumSearchProviderElement(super.provider);
+
+  @override
+  int get artistLimit => (origin as QueriedAlbumSearchProvider).artistLimit;
+  @override
+  int get albumLimit => (origin as QueriedAlbumSearchProvider).albumLimit;
+  @override
+  bool get albumsOrUsers =>
+      (origin as QueriedAlbumSearchProvider).albumsOrUsers;
+}
+
+String _$artistSelectionHash() => r'5fbb94e617bd4399aad2966e476e35a058481e6e';
 
 /// See also [artistSelection].
 @ProviderFor(artistSelection)
@@ -136,22 +210,7 @@ final artistSelectionProvider =
 );
 
 typedef ArtistSelectionRef = AutoDisposeFutureProviderRef<List<AlbumOrArtist>>;
-String _$albumSelectionHash() => r'be49eca7c90b8492ae659b83ccb2c5ac1432b56a';
-
-/// See also [albumSelection].
-@ProviderFor(albumSelection)
-final albumSelectionProvider = AutoDisposeFutureProvider<Album?>.internal(
-  albumSelection,
-  name: r'albumSelectionProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$albumSelectionHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
-
-typedef AlbumSelectionRef = AutoDisposeFutureProviderRef<Album?>;
-String _$getTrackDataHash() => r'c04e580f03b20a229dedc50aaf0dc40928506b23';
+String _$getTrackDataHash() => r'3c8ead42a96ea7fd2675bced4b6cdb3f8a82adfe';
 
 /// See also [getTrackData].
 @ProviderFor(getTrackData)
@@ -165,38 +224,5 @@ final getTrackDataProvider = AutoDisposeFutureProvider<List<String>>.internal(
 );
 
 typedef GetTrackDataRef = AutoDisposeFutureProviderRef<List<String>>;
-String _$albumRatingCollectionStreamHash() =>
-    r'f0b25a3ac2e25401a8f6977f210564cb83d2642e';
-
-/// See also [albumRatingCollectionStream].
-@ProviderFor(albumRatingCollectionStream)
-final albumRatingCollectionStreamProvider =
-    AutoDisposeStreamProvider<List<AlbumRating>>.internal(
-  albumRatingCollectionStream,
-  name: r'albumRatingCollectionStreamProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$albumRatingCollectionStreamHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
-
-typedef AlbumRatingCollectionStreamRef
-    = AutoDisposeStreamProviderRef<List<AlbumRating>>;
-String _$currUserNameFutureHash() =>
-    r'3a58905f009841c828b18414d40468b40f7869ae';
-
-/// See also [currUserNameFuture].
-@ProviderFor(currUserNameFuture)
-final currUserNameFutureProvider = AutoDisposeFutureProvider<String>.internal(
-  currUserNameFuture,
-  name: r'currUserNameFutureProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$currUserNameFutureHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
-
-typedef CurrUserNameFutureRef = AutoDisposeFutureProviderRef<String>;
-// ignore_for_file: unnecessary_raw_strings, subtype_of_sealed_class, invalid_use_of_internal_member, do_not_use_environment, prefer_const_constructors, public_member_api_docs, avoid_private_typedef_functions
+// ignore_for_file: type=lint
+// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

@@ -29,8 +29,6 @@ class _SystemHash {
   }
 }
 
-typedef SvgColorsRef = AutoDisposeProviderRef<SvgColors>;
-
 /// See also [svgColors].
 @ProviderFor(svgColors)
 const svgColorsProvider = SvgColorsFamily();
@@ -77,10 +75,10 @@ class SvgColorsFamily extends Family<SvgColors> {
 class SvgColorsProvider extends AutoDisposeProvider<SvgColors> {
   /// See also [svgColors].
   SvgColorsProvider(
-    this.currentTheme,
-  ) : super.internal(
+    ThemeData currentTheme,
+  ) : this._internal(
           (ref) => svgColors(
-            ref,
+            ref as SvgColorsRef,
             currentTheme,
           ),
           from: svgColorsProvider,
@@ -91,9 +89,43 @@ class SvgColorsProvider extends AutoDisposeProvider<SvgColors> {
                   : _$svgColorsHash,
           dependencies: SvgColorsFamily._dependencies,
           allTransitiveDependencies: SvgColorsFamily._allTransitiveDependencies,
+          currentTheme: currentTheme,
         );
 
+  SvgColorsProvider._internal(
+    super._createNotifier, {
+    required super.name,
+    required super.dependencies,
+    required super.allTransitiveDependencies,
+    required super.debugGetCreateSourceHash,
+    required super.from,
+    required this.currentTheme,
+  }) : super.internal();
+
   final ThemeData currentTheme;
+
+  @override
+  Override overrideWith(
+    SvgColors Function(SvgColorsRef provider) create,
+  ) {
+    return ProviderOverride(
+      origin: this,
+      override: SvgColorsProvider._internal(
+        (ref) => create(ref as SvgColorsRef),
+        from: from,
+        name: null,
+        dependencies: null,
+        allTransitiveDependencies: null,
+        debugGetCreateSourceHash: null,
+        currentTheme: currentTheme,
+      ),
+    );
+  }
+
+  @override
+  AutoDisposeProviderElement<SvgColors> createElement() {
+    return _SvgColorsProviderElement(this);
+  }
 
   @override
   bool operator ==(Object other) {
@@ -108,4 +140,18 @@ class SvgColorsProvider extends AutoDisposeProvider<SvgColors> {
     return _SystemHash.finish(hash);
   }
 }
-// ignore_for_file: unnecessary_raw_strings, subtype_of_sealed_class, invalid_use_of_internal_member, do_not_use_environment, prefer_const_constructors, public_member_api_docs, avoid_private_typedef_functions
+
+mixin SvgColorsRef on AutoDisposeProviderRef<SvgColors> {
+  /// The parameter `currentTheme` of this provider.
+  ThemeData get currentTheme;
+}
+
+class _SvgColorsProviderElement extends AutoDisposeProviderElement<SvgColors>
+    with SvgColorsRef {
+  _SvgColorsProviderElement(super.provider);
+
+  @override
+  ThemeData get currentTheme => (origin as SvgColorsProvider).currentTheme;
+}
+// ignore_for_file: type=lint
+// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

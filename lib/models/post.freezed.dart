@@ -25,6 +25,8 @@ mixin _$Post {
   String get username => throw _privateConstructorUsedError;
   AlbumRating get content => throw _privateConstructorUsedError;
   String get timestamp => throw _privateConstructorUsedError;
+  List<dynamic> get likes => throw _privateConstructorUsedError;
+  String? get downloadURL => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -41,7 +43,9 @@ abstract class $PostCopyWith<$Res> {
       String author,
       String username,
       AlbumRating content,
-      String timestamp});
+      String timestamp,
+      List<dynamic> likes,
+      String? downloadURL});
 
   $AlbumRatingCopyWith<$Res> get content;
 }
@@ -64,6 +68,8 @@ class _$PostCopyWithImpl<$Res, $Val extends Post>
     Object? username = null,
     Object? content = null,
     Object? timestamp = null,
+    Object? likes = null,
+    Object? downloadURL = freezed,
   }) {
     return _then(_value.copyWith(
       postID: null == postID
@@ -86,6 +92,14 @@ class _$PostCopyWithImpl<$Res, $Val extends Post>
           ? _value.timestamp
           : timestamp // ignore: cast_nullable_to_non_nullable
               as String,
+      likes: null == likes
+          ? _value.likes
+          : likes // ignore: cast_nullable_to_non_nullable
+              as List<dynamic>,
+      downloadURL: freezed == downloadURL
+          ? _value.downloadURL
+          : downloadURL // ignore: cast_nullable_to_non_nullable
+              as String?,
     ) as $Val);
   }
 
@@ -109,7 +123,9 @@ abstract class _$$_PostCopyWith<$Res> implements $PostCopyWith<$Res> {
       String author,
       String username,
       AlbumRating content,
-      String timestamp});
+      String timestamp,
+      List<dynamic> likes,
+      String? downloadURL});
 
   @override
   $AlbumRatingCopyWith<$Res> get content;
@@ -129,6 +145,8 @@ class __$$_PostCopyWithImpl<$Res> extends _$PostCopyWithImpl<$Res, _$_Post>
     Object? username = null,
     Object? content = null,
     Object? timestamp = null,
+    Object? likes = null,
+    Object? downloadURL = freezed,
   }) {
     return _then(_$_Post(
       postID: null == postID
@@ -151,6 +169,14 @@ class __$$_PostCopyWithImpl<$Res> extends _$PostCopyWithImpl<$Res, _$_Post>
           ? _value.timestamp
           : timestamp // ignore: cast_nullable_to_non_nullable
               as String,
+      likes: null == likes
+          ? _value._likes
+          : likes // ignore: cast_nullable_to_non_nullable
+              as List<dynamic>,
+      downloadURL: freezed == downloadURL
+          ? _value.downloadURL
+          : downloadURL // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -163,7 +189,10 @@ class _$_Post implements _Post {
       required this.author,
       required this.username,
       required this.content,
-      required this.timestamp});
+      required this.timestamp,
+      required final List<dynamic> likes,
+      required this.downloadURL})
+      : _likes = likes;
 
   factory _$_Post.fromJson(Map<String, dynamic> json) => _$$_PostFromJson(json);
 
@@ -177,10 +206,20 @@ class _$_Post implements _Post {
   final AlbumRating content;
   @override
   final String timestamp;
+  final List<dynamic> _likes;
+  @override
+  List<dynamic> get likes {
+    if (_likes is EqualUnmodifiableListView) return _likes;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_likes);
+  }
+
+  @override
+  final String? downloadURL;
 
   @override
   String toString() {
-    return 'Post(postID: $postID, author: $author, username: $username, content: $content, timestamp: $timestamp)';
+    return 'Post(postID: $postID, author: $author, username: $username, content: $content, timestamp: $timestamp, likes: $likes, downloadURL: $downloadURL)';
   }
 
   @override
@@ -194,13 +233,23 @@ class _$_Post implements _Post {
                 other.username == username) &&
             (identical(other.content, content) || other.content == content) &&
             (identical(other.timestamp, timestamp) ||
-                other.timestamp == timestamp));
+                other.timestamp == timestamp) &&
+            const DeepCollectionEquality().equals(other._likes, _likes) &&
+            (identical(other.downloadURL, downloadURL) ||
+                other.downloadURL == downloadURL));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, postID, author, username, content, timestamp);
+  int get hashCode => Object.hash(
+      runtimeType,
+      postID,
+      author,
+      username,
+      content,
+      timestamp,
+      const DeepCollectionEquality().hash(_likes),
+      downloadURL);
 
   @JsonKey(ignore: true)
   @override
@@ -222,7 +271,9 @@ abstract class _Post implements Post {
       required final String author,
       required final String username,
       required final AlbumRating content,
-      required final String timestamp}) = _$_Post;
+      required final String timestamp,
+      required final List<dynamic> likes,
+      required final String? downloadURL}) = _$_Post;
 
   factory _Post.fromJson(Map<String, dynamic> json) = _$_Post.fromJson;
 
@@ -236,6 +287,10 @@ abstract class _Post implements Post {
   AlbumRating get content;
   @override
   String get timestamp;
+  @override
+  List<dynamic> get likes;
+  @override
+  String? get downloadURL;
   @override
   @JsonKey(ignore: true)
   _$$_PostCopyWith<_$_Post> get copyWith => throw _privateConstructorUsedError;

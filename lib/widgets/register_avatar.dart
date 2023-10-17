@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg_provider/flutter_svg_provider.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -17,7 +18,7 @@ Widget registerAvatar(BuildContext context, WidgetRef ref) {
           child: CircleAvatar(
             radius: 70,
             backgroundImage: profilePicFile == null
-                ? const Svg('assets/images/no-photo.svg')
+                ? const AssetImage('assets/images/no_profile_pic.jpeg')
                 : FileImage(profilePicFile) as ImageProvider,
           ),
         ),

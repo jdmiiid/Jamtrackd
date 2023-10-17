@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:tasktrack/providers/spotify_providers.dart';
-import 'package:tasktrack/widgets/album_grid_view.dart';
 import 'package:tasktrack/widgets/bottom_nav_bar.dart';
 
 import '../models/album_or_artist.dart';

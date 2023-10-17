@@ -20,6 +20,7 @@ class LoginPage extends ConsumerWidget {
     final colors = ref.watch(svgColorsProvider(currentTheme));
 
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: RootNavAppBar(
           ref: ref,
           title: Text(

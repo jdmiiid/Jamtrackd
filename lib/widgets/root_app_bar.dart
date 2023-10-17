@@ -1,18 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:tasktrack/providers/firebase_auth_providers.dart';
 
 import '../providers/misc_providers.dart';
 
 class RootNavAppBar extends ConsumerWidget implements PreferredSizeWidget {
-  // final Color backgroundColor = Colors.red;
   final Text title;
   final AppBar appBar;
   final WidgetRef ref;
   final Widget? leading;
-
-  /// you can add more fields that meet your needs
+  final List<Widget>? actions;
 
   const RootNavAppBar({
     super.key,
@@ -20,12 +16,13 @@ class RootNavAppBar extends ConsumerWidget implements PreferredSizeWidget {
     required this.appBar,
     required this.ref,
     this.leading,
+    this.actions,
   });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final userData = ref.watch(firebaseAuthCurrentUserProvider);
     return AppBar(
+      elevation: 3,
       foregroundColor: Theme.of(context).appBarTheme.foregroundColor,
       backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
       title: Column(
@@ -39,16 +36,7 @@ class RootNavAppBar extends ConsumerWidget implements PreferredSizeWidget {
         ],
       ),
       leading: leading,
-      actions: userData == null
-          ? null
-          : [
-              IconButton(
-                  onPressed: () {
-                    ref.read(stateNotifierAppBar.notifier).changeBool();
-                    context.push('/search_page');
-                  },
-                  icon: const Icon(Icons.search))
-            ],
+      actions: actions,
     );
   }
 

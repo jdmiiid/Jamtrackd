@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:tasktrack/models/special_user.dart';
+import 'package:tasktrack/providers/firebase_auth_providers.dart';
+import 'package:tasktrack/providers/firebase_firestore_providers.dart';
 
 import '../providers/misc_providers.dart';
 
 class BottomNavBar extends ConsumerWidget {
   BottomNavBar({super.key});
 
-  final List<String> routerTabLocations = ['albums_page', '/', 'settings_page'];
+  final List<String> routerTabLocations = ['search_page', '/', 'profile_page'];
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -34,9 +37,9 @@ class BottomNavBar extends ConsumerWidget {
             indicatorPadding: const EdgeInsets.fromLTRB(15, 10, 15, 10),
             tabs: const [
               Tab(
-                icon: Icon(Icons.album),
-                iconMargin: EdgeInsets.only(bottom: 0.5),
-                child: Text('Ratings'),
+                icon: Icon(Icons.search),
+                iconMargin: EdgeInsets.only(bottom: 1),
+                child: Text('Search'),
               ),
               Tab(
                   icon: Icon(Icons.library_music),
@@ -50,6 +53,10 @@ class BottomNavBar extends ConsumerWidget {
             onTap: (index) {
               if (appBarBool == false) {
                 ref.read(stateNotifierAppBar.notifier).changeBool();
+              }
+
+              if (index == 2) {
+                ref.read(tappedUserProvider.notifier).state = null;
               }
               context.go('/${routerTabLocations[index]}');
             }),
