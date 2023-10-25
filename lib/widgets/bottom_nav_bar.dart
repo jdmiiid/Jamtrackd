@@ -14,8 +14,8 @@ class BottomNavBar extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final bool appBarBool = ref.watch(stateNotifierAppBar) as bool;
-    final bool isDarkMode = ref.watch(stateNotifierTheme) as bool;
+    final bool appBarBool = ref.watch(appBarProvider);
+    final bool isDarkMode = ref.watch(themeProvider);
 
     return Container(
       color: isDarkMode
@@ -52,7 +52,7 @@ class BottomNavBar extends ConsumerWidget {
             ],
             onTap: (index) {
               if (appBarBool == false) {
-                ref.read(stateNotifierAppBar.notifier).changeBool();
+                ref.read(appBarProvider.notifier).update((state) => !state);
               }
 
               if (index == 2) {

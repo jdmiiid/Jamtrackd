@@ -18,7 +18,7 @@ class SvgColors {
 
 @riverpod
 SvgColors svgColors(SvgColorsRef ref, ThemeData currentTheme) {
-  final bool isDarkMode = ref.watch(stateNotifierTheme) as bool;
+  final bool isDarkMode = ref.watch(themeProvider);
   return SvgColors(
     currentTheme.colorScheme.primary.value.toRadixString(16).substring(2),
     currentTheme.colorScheme.surface.value.toRadixString(16).substring(2),

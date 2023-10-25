@@ -96,6 +96,7 @@ class RegisterPage extends ConsumerWidget {
                         if (firstname!.trim().isEmpty) {
                           return "First name required";
                         }
+                        return null;
                       },
                     ),
                   ),
@@ -109,6 +110,7 @@ class RegisterPage extends ConsumerWidget {
                         if (value!.trim().isEmpty) {
                           return "Last Name Required";
                         }
+                        return null;
                       },
                     ),
                   )
@@ -123,6 +125,7 @@ class RegisterPage extends ConsumerWidget {
                   } else if (!RegExp(r'^\S+$').hasMatch(username)) {
                     return "Username cannot contain spaces";
                   }
+                  return null;
                 },
               ),
               _buildTextField(
@@ -132,6 +135,7 @@ class RegisterPage extends ConsumerWidget {
                   if (value!.isEmpty) {
                     return "Please enter email";
                   }
+                  return null;
                 },
               ),
               Row(
@@ -146,6 +150,7 @@ class RegisterPage extends ConsumerWidget {
                         if (password!.length < 5) {
                           return "Must be at least 6 characters";
                         }
+                        return null;
                       },
                     ),
                   ),
@@ -165,6 +170,7 @@ class RegisterPage extends ConsumerWidget {
                             confirmpassword.trim()) {
                           return "Passwords do not match!";
                         }
+                        return null;
                       },
                     ),
                   ),

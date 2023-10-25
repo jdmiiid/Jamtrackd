@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:tasktrack/providers/firebase_auth_providers.dart';
@@ -47,8 +46,11 @@ Stream<List<String>> retrieveFollowingListStream(
 }
 
 @riverpod
-Future<SpecialUser?> userInfoFromUID(UserInfoFromUIDRef ref, String uid) async {
-  final firebaseQuery = getUsersCollectionRef().doc(uid);
+Future<SpecialUser?> userInfoFromUID(
+    UserInfoFromUIDRef ref, String? uid) async {
+  final varUID = uid ?? ref.watch(firebaseAuthCurrentUserProvider)!.uid;
+
+  final firebaseQuery = getUsersCollectionRef().doc(varUID);
 
   final specialUser = await firebaseQuery
       .withConverter(

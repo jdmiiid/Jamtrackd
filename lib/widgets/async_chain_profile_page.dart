@@ -270,43 +270,38 @@ Widget buildAlbumGrid(
                       Expanded(
                         child: Padding(
                           padding: const EdgeInsets.only(left: 8),
-                          child: Container(
-                            decoration: BoxDecoration(
-                                border: Border.all(color: Colors.red)),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
-                                Flexible(
-                                  flex: 3,
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceEvenly,
-                                    children: [
-                                      StatelessProfileStatColumn(
-                                          itemCount: userRatingData.length,
-                                          labelText: 'Reviews'),
-                                      StatelessFollowerColumn(
-                                        itemCount: oneTimeFollowerCount.length,
-                                        isCurrentUser: tappedUser.userID ==
-                                            ref
-                                                .watch(
-                                                    firebaseAuthCurrentUserProvider)!
-                                                .uid,
-                                      ),
-                                      StatelessProfileStatColumn(
-                                          itemCount:
-                                              oneTimeFollowingList.length,
-                                          labelText: 'Following'),
-                                    ],
-                                  ),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              Flexible(
+                                flex: 3,
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceEvenly,
+                                  children: [
+                                    StatelessProfileStatColumn(
+                                        itemCount: userRatingData.length,
+                                        labelText: 'Reviews'),
+                                    StatelessFollowerColumn(
+                                      itemCount: oneTimeFollowerCount.length,
+                                      isCurrentUser: tappedUser.userID ==
+                                          ref
+                                              .watch(
+                                                  firebaseAuthCurrentUserProvider)!
+                                              .uid,
+                                    ),
+                                    StatelessProfileStatColumn(
+                                        itemCount: oneTimeFollowingList.length,
+                                        labelText: 'Following'),
+                                  ],
                                 ),
-                                Flexible(
-                                    child: StatelessLongToggleButton(
-                                  isFollowingProvider: isFollowing,
-                                  tappedUserID: tappedUser.userID!,
-                                ))
-                              ],
-                            ),
+                              ),
+                              Flexible(
+                                  child: StatelessLongToggleButton(
+                                isFollowingProvider: isFollowing,
+                                tappedUserID: tappedUser.userID!,
+                              ))
+                            ],
                           ),
                         ),
                       ),

@@ -30,7 +30,7 @@ class RootNavAppBar extends ConsumerWidget implements PreferredSizeWidget {
           GestureDetector(
               child: title,
               onTap: () {
-                ref.watch(stateNotifierTheme.notifier).changeBool();
+                ref.watch(themeProvider.notifier).toggleTheme();
               }),
           const SizedBox(height: 12.5)
         ],

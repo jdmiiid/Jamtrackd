@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -15,7 +16,7 @@ class VerifyEmailPage extends ConsumerWidget {
     return ref.watch(firebaseAuthUserChangesStreamProvider).when(
         data: (newUser) {
           final timer = Timer.periodic(
-              const Duration(seconds: 1), (_) => newUser!.reload());
+              const Duration(seconds: 20), (_) => newUser?.reload());
           if (newUser!.emailVerified) {
             timer.cancel();
             return const FeedPage();

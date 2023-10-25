@@ -6,7 +6,7 @@ part of 'theme_providers.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$svgColorsHash() => r'cab34d0e6ed4f9463c14006a13da02e7861014d3';
+String _$svgColorsHash() => r'0ea597dc77f1bc3e37266d1ca7ef5a795102bb0f';
 
 /// Copied from Dart SDK
 class _SystemHash {

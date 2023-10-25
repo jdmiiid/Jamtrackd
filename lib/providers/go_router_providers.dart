@@ -7,6 +7,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:tasktrack/pages/login_page.dart';
 import 'package:tasktrack/pages/review_page_look.dart';
 import 'package:tasktrack/pages/verify_email_page.dart';
+import '../pages/album_rating_page.dart';
 import '../pages/albums_list_page.dart';
 import '../pages/profile_page.dart';
 import '../pages/register_page.dart';
@@ -43,10 +44,10 @@ GoRouter goRouter(GoRouterRef ref) {
           child: SettingsPage(),
         ),
       ),
-      // GoRoute(
-      //   path: '/ratings_page',
-      //   builder: (context, state) => AlbumRatingPage(),
-      // ),
+      GoRoute(
+        path: '/ratings_page',
+        builder: (context, state) => AlbumRatingPage(),
+      ),
       GoRoute(
         path: '/review_look_page',
         builder: (context, state) => ReviewPageLook(),

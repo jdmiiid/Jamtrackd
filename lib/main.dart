@@ -13,8 +13,9 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   await dotenv.load(fileName: '.env');
+ 
   runApp(
-      ProviderScope(observers: [OurProviderObserver()], child: const MyApp()));
+      ProviderScope(observers: [OurProviderObserver()],  child: const MyApp()));
 }
 
 class MyApp extends HookConsumerWidget {
@@ -23,8 +24,7 @@ class MyApp extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final GoRouter goRouter = ref.watch(goRouterProvider);
-
-    final themeProvider = ref.watch(stateNotifierTheme) as bool;
+    final isDarkMode = ref.watch(themeProvider);
 
     return DefaultTabController(
       length: 3,
@@ -33,10 +33,10 @@ class MyApp extends HookConsumerWidget {
         routerConfig: goRouter,
         title: 'Setlist',
         debugShowCheckedModeBanner: false,
-        themeMode: themeProvider ? ThemeMode.dark : ThemeMode.light,
+        themeMode: isDarkMode ? ThemeMode.dark : ThemeMode.light,
         theme: MyThemes.colorSchemedThemeData(
             // mode: MediaQuery.of(context).platformBrightness,
-            isDarkMode: themeProvider),
+            isDarkMode: isDarkMode),
       ),
     );
   }

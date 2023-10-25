@@ -77,7 +77,9 @@ class LoginPage extends ConsumerWidget {
 
                         Navigator.of(context).pop();
                       }
-                      ref.read(stateNotifierNavBar.notifier).changeBool();
+                      ref
+                          .read(navBarProvider.notifier)
+                          .update((state) => !state);
                     },
                     child: const Text(
                       'Login',

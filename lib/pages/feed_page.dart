@@ -101,9 +101,10 @@ class _FeedPageState extends ConsumerState<FeedPage> {
                                 } else {
                                   return Center(
                                       child: Container(
-                                          padding: EdgeInsets.only(top: 8),
-                                          child:
-                                              Text('You reached the bottom!')));
+                                          padding:
+                                              const EdgeInsets.only(top: 8),
+                                          child: const Text(
+                                              'You reached the bottom!')));
                                 }
                               },
                               separatorBuilder: (context, index) => Divider(
@@ -116,7 +117,7 @@ class _FeedPageState extends ConsumerState<FeedPage> {
                         );
                 });
               } else {
-                return Text('Loading ya gay cuck');
+                return const Text('Loading ya gay cuck');
               }
             },
           ),
@@ -125,7 +126,7 @@ class _FeedPageState extends ConsumerState<FeedPage> {
       },
       error: (Object error, StackTrace stackTrace) =>
           Text('Error within followingList Feedpage: $error'),
-      loading: () => Center(child: CircularProgressIndicator()),
+      loading: () => const Center(child: CircularProgressIndicator()),
     );
   }
 
@@ -171,10 +172,13 @@ class _FeedPageState extends ConsumerState<FeedPage> {
 
     return postSpecificUserObjectAsync.when(
         loading: () =>
-            Text('loading within postspecificUserObject in postItem'),
+            const Text('loading within postspecificUserObject in postItem'),
         error: (Object error, StackTrace stackTrace) =>
             Text('error $error inside of postspecificasycn in PostItem'),
         data: (SpecialUser? postSpecificUser) {
+          final StateProvider<bool> likedProvider =
+              StateProvider<bool>((ref) => post.likes.contains(post.author));
+
           return SizedBox(
             height: MediaQuery.of(context).size.height * .3,
             child: Row(
@@ -335,7 +339,7 @@ class _FeedPageState extends ConsumerState<FeedPage> {
                                     child: PostLikeButton(
                                       postLikeCount: post.likes.length,
                                       indexedPostData: post,
-                                      liked: post.likes.contains(post.author),
+                                      postLikedProvider: likedProvider,
                                     ),
                                   ),
                                 ),

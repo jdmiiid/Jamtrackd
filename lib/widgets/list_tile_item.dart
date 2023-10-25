@@ -21,10 +21,10 @@ class CommentListTileItem extends ConsumerStatefulWidget {
   final bool liked;
 
   @override
-  _CommentListTileItemState createState() => _CommentListTileItemState();
+  CommentListTileItemState createState() => CommentListTileItemState();
 }
 
-class _CommentListTileItemState extends ConsumerState<CommentListTileItem> {
+class CommentListTileItemState extends ConsumerState<CommentListTileItem> {
   late int _itemCount;
 
   @override
@@ -148,66 +148,63 @@ class _CommentListTileItemState extends ConsumerState<CommentListTileItem> {
   }
 }
 
-class PostLikeButton extends ConsumerStatefulWidget {
+class PostLikeButton extends ConsumerWidget {
   const PostLikeButton({
     required this.postLikeCount,
     required this.indexedPostData,
-    required this.liked,
+    required this.postLikedProvider,
     Key? key,
   }) : super(key: key);
 
   final int postLikeCount;
   final Post indexedPostData;
-  final bool liked;
+  final StateProvider<bool> postLikedProvider;
 
   @override
-  PostLikeButtonState createState() => PostLikeButtonState();
-}
+  Widget build(BuildContext context, WidgetRef ref) {
+    final String userID = ref.watch(firebaseAuthCurrentUserProvider)!.uid;
+    final bool liked = ref.watch(postLikedProvider);
+    final StateProvider<int> intToAddToPostLikesProvider =
+        StateProvider<int>((ref) => 0);
+    final intToAddToPostLikes = ref.watch(intToAddToPostLikesProvider);
 
-class PostLikeButtonState extends ConsumerState<PostLikeButton> {
-  int _itemCount = 0;
-  late int _likeState;
-
-  @override
-  void initState() {
-    _likeState = widget.liked ? 1 : 0;
-    super.initState();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final userID = ref.watch(firebaseAuthCurrentUserProvider)!.uid;
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Text(
-          '${widget.indexedPostData.content.rating.toString()} | ${widget.postLikeCount + _itemCount} ',
+          '${indexedPostData.content.rating.toString()} | ${postLikeCount + intToAddToPostLikes}',
           style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 17),
         ),
         GestureDetector(
-          onTap: () => setState(() {
-            if (_likeState > 0) {
-              print('Deleting...');
-              _itemCount--;
-              _likeState--;
+          onTap: () {
+            if (liked) {
+              ref.read(postLikedProvider.notifier).update((state) => !state);
+
+              ref
+                  .read(intToAddToPostLikesProvider.notifier)
+                  .update((state) => state--);
+
+              print('Deleting post Like');
+
               deleteFirestorePostLike(
-                userId: userID,
-                postId: widget.indexedPostData.postID,
-              );
+                  userId: userID, postId: indexedPostData.postID);
             } else {
+              ref.read(postLikedProvider.notifier).update((state) => !state);
+
+              ref
+                  .read(intToAddToPostLikesProvider.notifier)
+                  .update((state) => state++);
+
               print('Adding...');
-              _itemCount++;
-              _likeState++;
+
               addFirestorePostLike(
                 userId: userID,
-                postId: widget.indexedPostData.postID,
+                postId: indexedPostData.postID,
               );
             }
-          }),
-          child: _likeState > 0
-              ? Icon(
-                  Icons.favorite,
-                )
+          },
+          child: liked
+              ? Icon(Icons.favorite)
               : Icon(
                   Icons.favorite_border_outlined,
                 ),

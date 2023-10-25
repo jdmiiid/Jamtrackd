@@ -24,7 +24,7 @@ final retrieveFollowingListStreamProvider =
 
 typedef RetrieveFollowingListStreamRef
     = AutoDisposeStreamProviderRef<List<String>>;
-String _$userInfoFromUIDHash() => r'66d0ab0c9bfdd002e14771a0842b2570b1ecd58b';
+String _$userInfoFromUIDHash() => r'1bc2382ad9fa498c748de1b01d9dd4bf5a1d4c4f';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -58,7 +58,7 @@ class UserInfoFromUIDFamily extends Family<AsyncValue<SpecialUser?>> {
 
   /// See also [userInfoFromUID].
   UserInfoFromUIDProvider call(
-    String uid,
+    String? uid,
   ) {
     return UserInfoFromUIDProvider(
       uid,
@@ -93,7 +93,7 @@ class UserInfoFromUIDFamily extends Family<AsyncValue<SpecialUser?>> {
 class UserInfoFromUIDProvider extends AutoDisposeFutureProvider<SpecialUser?> {
   /// See also [userInfoFromUID].
   UserInfoFromUIDProvider(
-    String uid,
+    String? uid,
   ) : this._internal(
           (ref) => userInfoFromUID(
             ref as UserInfoFromUIDRef,
@@ -121,7 +121,7 @@ class UserInfoFromUIDProvider extends AutoDisposeFutureProvider<SpecialUser?> {
     required this.uid,
   }) : super.internal();
 
-  final String uid;
+  final String? uid;
 
   @override
   Override overrideWith(
@@ -162,7 +162,7 @@ class UserInfoFromUIDProvider extends AutoDisposeFutureProvider<SpecialUser?> {
 
 mixin UserInfoFromUIDRef on AutoDisposeFutureProviderRef<SpecialUser?> {
   /// The parameter `uid` of this provider.
-  String get uid;
+  String? get uid;
 }
 
 class _UserInfoFromUIDProviderElement
@@ -171,7 +171,7 @@ class _UserInfoFromUIDProviderElement
   _UserInfoFromUIDProviderElement(super.provider);
 
   @override
-  String get uid => (origin as UserInfoFromUIDProvider).uid;
+  String? get uid => (origin as UserInfoFromUIDProvider).uid;
 }
 
 String _$queriedUserSearchHash() => r'8f5a7ce9b115431c5ac4a629a3ea03e356ff58d0';
