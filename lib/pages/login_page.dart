@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:tasktrack/providers/misc_providers.dart';
-import 'package:tasktrack/widgets/root_app_bar.dart';
-import 'package:tasktrack/widgets/root_svg_picture.dart';
+import '../providers/misc_providers.dart';
+import '../widgets/root_app_bar.dart';
+import '../widgets/root_svg_picture.dart';
 import '../providers/firebase_auth_providers.dart';
 import '../providers/theme_providers.dart';
 

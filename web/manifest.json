@@ -1,6 +1,6 @@
 {
-    "name": "tasktrack",
-    "short_name": "tasktrack",
+    "name": "Jamtrackd",
+    "short_name": "Jamtrackd",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",

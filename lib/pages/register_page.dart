@@ -2,7 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:tasktrack/providers/firebase_firestore_providers.dart';
+import '../providers/firebase_firestore_providers.dart';
 import '../models/special_user_data.dart';
 import '../providers/firebase_auth_providers.dart';
 import '../services/firebase_auth/firebase_storage_service.dart';

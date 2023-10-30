@@ -3,8 +3,8 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:tasktrack/providers/firebase_firestore_providers.dart';
-import 'package:tasktrack/widgets/bottom_nav_bar.dart';
+import '../providers/firebase_firestore_providers.dart';
+import '../widgets/bottom_nav_bar.dart';
 
 import '../models/post.dart';
 import '../models/special_user_data.dart';

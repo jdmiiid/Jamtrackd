@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.jdmiiim.tasktrack">
+    package="com.jdmiiim.Jamtrackd">
    <application
-        android:label="tasktrack"
+        android:label="Jamtrackd"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

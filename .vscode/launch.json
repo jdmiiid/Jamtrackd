@@ -2,18 +2,18 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "tasktrack",
+            "name": "Jamtrackd",
             "request": "launch",
             "type": "dart"
         },
         {
-            "name": "tasktrack (profile mode)",
+            "name": "Jamtrackd (profile mode)",
             "request": "launch",
             "type": "dart",
             "flutterMode": "profile"
         },
         {
-            "name": "tasktrack (release mode)",
+            "name": "Jamtrackd (release mode)",
             "request": "launch",
             "type": "dart",
             "flutterMode": "release"

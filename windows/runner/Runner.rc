@@ -90,12 +90,12 @@ BEGIN
         BLOCK "040904e4"
         BEGIN
             VALUE "CompanyName", "com.jdmiiim" "\0"
-            VALUE "FileDescription", "tasktrack" "\0"
+            VALUE "FileDescription", "Jamtrackd" "\0"
             VALUE "FileVersion", VERSION_AS_STRING "\0"
-            VALUE "InternalName", "tasktrack" "\0"
+            VALUE "InternalName", "Jamtrackd" "\0"
             VALUE "LegalCopyright", "Copyright (C) 2023 com.jdmiiim. All rights reserved." "\0"
-            VALUE "OriginalFilename", "tasktrack.exe" "\0"
-            VALUE "ProductName", "tasktrack" "\0"
+            VALUE "OriginalFilename", "Jamtrackd.exe" "\0"
+            VALUE "ProductName", "Jamtrackd" "\0"
             VALUE "ProductVersion", VERSION_AS_STRING "\0"
         END
     END

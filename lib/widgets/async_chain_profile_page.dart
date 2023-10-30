@@ -2,9 +2,9 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:tasktrack/providers/firebase_auth_providers.dart';
-import 'package:tasktrack/widgets/profile_stat_colum.dart';
-import 'package:tasktrack/widgets/root_app_bar.dart';
+import '../providers/firebase_auth_providers.dart';
+import '../widgets/profile_stat_colum.dart';
+import '../widgets/root_app_bar.dart';
 
 import '../models/post.dart';
 import '../models/special_user_data.dart';

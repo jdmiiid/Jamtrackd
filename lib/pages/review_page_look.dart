@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
-import 'package:tasktrack/widgets/list_tile_item.dart';
+import '../widgets/list_tile_item.dart';
 import '../models/comment.dart';
 import '../models/post.dart';
 import '../providers/firebase_auth_providers.dart';

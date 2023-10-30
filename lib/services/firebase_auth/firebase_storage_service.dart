@@ -3,7 +3,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:tasktrack/providers/firebase_auth_providers.dart';
+import 'package:Jamtrackd/providers/firebase_auth_providers.dart';
 
 part 'firebase_storage_service.g.dart';
 

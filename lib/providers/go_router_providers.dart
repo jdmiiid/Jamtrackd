@@ -4,9 +4,9 @@ import 'package:go_router/go_router.dart';
 // 1. Import the riverpod_annotation package
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-import 'package:tasktrack/pages/login_page.dart';
-import 'package:tasktrack/pages/review_page_look.dart';
-import 'package:tasktrack/pages/verify_email_page.dart';
+import '../pages/login_page.dart';
+import '../pages/review_page_look.dart';
+import '../pages/verify_email_page.dart';
 import '../pages/album_rating_page.dart';
 import '../pages/albums_list_page.dart';
 import '../pages/profile_page.dart';

@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:tasktrack/models/themes.dart';
-import 'package:tasktrack/providers/go_router_providers.dart';
+import '../models/themes.dart';
+import '../providers/go_router_providers.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:tasktrack/providers/misc_providers.dart';
-import 'package:tasktrack/services/firebase_auth/our_provider_observer.dart';
+import '../providers/misc_providers.dart';
+import '../services/firebase_auth/our_provider_observer.dart';
 import 'firebase_options.dart';
 
 void main() async {

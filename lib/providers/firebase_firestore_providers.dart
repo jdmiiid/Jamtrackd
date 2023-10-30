@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:tasktrack/providers/firebase_auth_providers.dart';
+import '../providers/firebase_auth_providers.dart';
 
 import '../models/comment.dart';
 

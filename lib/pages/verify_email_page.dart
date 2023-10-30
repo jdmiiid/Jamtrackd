@@ -2,7 +2,7 @@ import 'dart:async';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:tasktrack/providers/firebase_auth_providers.dart';
+import '../providers/firebase_auth_providers.dart';
 
 import 'feed_page.dart';
 

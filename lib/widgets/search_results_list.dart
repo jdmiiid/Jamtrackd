@@ -3,10 +3,10 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:tasktrack/providers/firebase_firestore_providers.dart';
-import 'package:tasktrack/providers/misc_providers.dart';
-import 'package:tasktrack/widgets/circle_avatar.dart';
-import 'package:tasktrack/widgets/toggle_buttons.dart';
+import '../providers/firebase_firestore_providers.dart';
+import '../providers/misc_providers.dart';
+import '../widgets/circle_avatar.dart';
+import '../widgets/toggle_buttons.dart';
 import '../models/album_or_artist.dart';
 
 import '../models/special_user_data.dart';

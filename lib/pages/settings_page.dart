@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:tasktrack/providers/firebase_auth_providers.dart';
+import '../providers/firebase_auth_providers.dart';
 
 class SettingsPage extends ConsumerWidget {
   const SettingsPage({super.key});

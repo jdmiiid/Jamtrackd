@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:tasktrack/models/album_or_artist.dart';
-import 'package:tasktrack/providers/spotify_providers.dart';
+import '../models/album_or_artist.dart';
+import '../providers/spotify_providers.dart';
 
 class MyCircleAvatar extends ConsumerWidget {
   const MyCircleAvatar(this.suggestions, this.index, {super.key});

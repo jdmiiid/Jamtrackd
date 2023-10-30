@@ -2,9 +2,9 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:tasktrack/models/comment.dart';
-import 'package:tasktrack/providers/firebase_auth_providers.dart';
-import 'package:tasktrack/providers/firebase_firestore_providers.dart';
+import '../models/comment.dart';
+import '../providers/firebase_auth_providers.dart';
+import '../providers/firebase_firestore_providers.dart';
 
 import '../models/post.dart';
 

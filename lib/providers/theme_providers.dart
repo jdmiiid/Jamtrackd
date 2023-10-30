@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:tasktrack/providers/misc_providers.dart';
+import '../providers/misc_providers.dart';
 
 part 'theme_providers.g.dart';
 

@@ -1,4 +1,4 @@
-package com.jdmiiim.tasktrack
+package com.jdmiiim.Jamtrackd
 
 import io.flutter.embedding.android.FlutterActivity
 

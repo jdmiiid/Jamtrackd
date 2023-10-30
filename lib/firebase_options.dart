@@ -58,7 +58,8 @@ class DefaultFirebaseOptions {
     messagingSenderId: '77492506614',
     projectId: 'jdmiiim',
     storageBucket: 'jdmiiim.appspot.com',
-    iosClientId: '77492506614-8ke8rve7qbfmbg3svhj6b52g6ru4de7a.apps.googleusercontent.com',
-    iosBundleId: 'com.jdmiiim.tasktrack',
+    iosClientId:
+        '77492506614-8ke8rve7qbfmbg3svhj6b52g6ru4de7a.apps.googleusercontent.com',
+    iosBundleId: 'com.jdmiiim.Jamtrackd',
   );
 }

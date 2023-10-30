@@ -4,7 +4,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:http/http.dart' as http;
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:tasktrack/models/album_or_artist.dart';
+import '../models/album_or_artist.dart';
 
 part 'spotify_providers.g.dart';
 
