@@ -74,7 +74,5 @@ GoRouter goRouter(GoRouterRef ref) {
         builder: (context, state) => RegisterPage(),
       ),
     ],
-    refreshListenable:
-        ref.watch(firebaseAuthUserChangesStreamProvider.select((user) => null)),
   );
 }

@@ -24,7 +24,8 @@ final retrieveFollowingListStreamProvider =
 
 typedef RetrieveFollowingListStreamRef
     = AutoDisposeStreamProviderRef<List<String>>;
-String _$userInfoFromUIDHash() => r'1bc2382ad9fa498c748de1b01d9dd4bf5a1d4c4f';
+String _$specialUserDataFromUIDHash() =>
+    r'b9b8cdbc99a39da594393ad10f578d1fcea1981e';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -47,27 +48,28 @@ class _SystemHash {
   }
 }
 
-/// See also [userInfoFromUID].
-@ProviderFor(userInfoFromUID)
-const userInfoFromUIDProvider = UserInfoFromUIDFamily();
+/// See also [specialUserDataFromUID].
+@ProviderFor(specialUserDataFromUID)
+const specialUserDataFromUIDProvider = SpecialUserDataFromUIDFamily();
 
-/// See also [userInfoFromUID].
-class UserInfoFromUIDFamily extends Family<AsyncValue<SpecialUser?>> {
-  /// See also [userInfoFromUID].
-  const UserInfoFromUIDFamily();
+/// See also [specialUserDataFromUID].
+class SpecialUserDataFromUIDFamily
+    extends Family<AsyncValue<SpecialUserData?>> {
+  /// See also [specialUserDataFromUID].
+  const SpecialUserDataFromUIDFamily();
 
-  /// See also [userInfoFromUID].
-  UserInfoFromUIDProvider call(
+  /// See also [specialUserDataFromUID].
+  SpecialUserDataFromUIDProvider call(
     String? uid,
   ) {
-    return UserInfoFromUIDProvider(
+    return SpecialUserDataFromUIDProvider(
       uid,
     );
   }
 
   @override
-  UserInfoFromUIDProvider getProviderOverride(
-    covariant UserInfoFromUIDProvider provider,
+  SpecialUserDataFromUIDProvider getProviderOverride(
+    covariant SpecialUserDataFromUIDProvider provider,
   ) {
     return call(
       provider.uid,
@@ -86,32 +88,33 @@ class UserInfoFromUIDFamily extends Family<AsyncValue<SpecialUser?>> {
       _allTransitiveDependencies;
 
   @override
-  String? get name => r'userInfoFromUIDProvider';
+  String? get name => r'specialUserDataFromUIDProvider';
 }
 
-/// See also [userInfoFromUID].
-class UserInfoFromUIDProvider extends AutoDisposeFutureProvider<SpecialUser?> {
-  /// See also [userInfoFromUID].
-  UserInfoFromUIDProvider(
+/// See also [specialUserDataFromUID].
+class SpecialUserDataFromUIDProvider
+    extends AutoDisposeFutureProvider<SpecialUserData?> {
+  /// See also [specialUserDataFromUID].
+  SpecialUserDataFromUIDProvider(
     String? uid,
   ) : this._internal(
-          (ref) => userInfoFromUID(
-            ref as UserInfoFromUIDRef,
+          (ref) => specialUserDataFromUID(
+            ref as SpecialUserDataFromUIDRef,
             uid,
           ),
-          from: userInfoFromUIDProvider,
-          name: r'userInfoFromUIDProvider',
+          from: specialUserDataFromUIDProvider,
+          name: r'specialUserDataFromUIDProvider',
           debugGetCreateSourceHash:
               const bool.fromEnvironment('dart.vm.product')
                   ? null
-                  : _$userInfoFromUIDHash,
-          dependencies: UserInfoFromUIDFamily._dependencies,
+                  : _$specialUserDataFromUIDHash,
+          dependencies: SpecialUserDataFromUIDFamily._dependencies,
           allTransitiveDependencies:
-              UserInfoFromUIDFamily._allTransitiveDependencies,
+              SpecialUserDataFromUIDFamily._allTransitiveDependencies,
           uid: uid,
         );
 
-  UserInfoFromUIDProvider._internal(
+  SpecialUserDataFromUIDProvider._internal(
     super._createNotifier, {
     required super.name,
     required super.dependencies,
@@ -125,12 +128,13 @@ class UserInfoFromUIDProvider extends AutoDisposeFutureProvider<SpecialUser?> {
 
   @override
   Override overrideWith(
-    FutureOr<SpecialUser?> Function(UserInfoFromUIDRef provider) create,
+    FutureOr<SpecialUserData?> Function(SpecialUserDataFromUIDRef provider)
+        create,
   ) {
     return ProviderOverride(
       origin: this,
-      override: UserInfoFromUIDProvider._internal(
-        (ref) => create(ref as UserInfoFromUIDRef),
+      override: SpecialUserDataFromUIDProvider._internal(
+        (ref) => create(ref as SpecialUserDataFromUIDRef),
         from: from,
         name: null,
         dependencies: null,
@@ -142,13 +146,13 @@ class UserInfoFromUIDProvider extends AutoDisposeFutureProvider<SpecialUser?> {
   }
 
   @override
-  AutoDisposeFutureProviderElement<SpecialUser?> createElement() {
-    return _UserInfoFromUIDProviderElement(this);
+  AutoDisposeFutureProviderElement<SpecialUserData?> createElement() {
+    return _SpecialUserDataFromUIDProviderElement(this);
   }
 
   @override
   bool operator ==(Object other) {
-    return other is UserInfoFromUIDProvider && other.uid == uid;
+    return other is SpecialUserDataFromUIDProvider && other.uid == uid;
   }
 
   @override
@@ -160,28 +164,30 @@ class UserInfoFromUIDProvider extends AutoDisposeFutureProvider<SpecialUser?> {
   }
 }
 
-mixin UserInfoFromUIDRef on AutoDisposeFutureProviderRef<SpecialUser?> {
+mixin SpecialUserDataFromUIDRef
+    on AutoDisposeFutureProviderRef<SpecialUserData?> {
   /// The parameter `uid` of this provider.
   String? get uid;
 }
 
-class _UserInfoFromUIDProviderElement
-    extends AutoDisposeFutureProviderElement<SpecialUser?>
-    with UserInfoFromUIDRef {
-  _UserInfoFromUIDProviderElement(super.provider);
+class _SpecialUserDataFromUIDProviderElement
+    extends AutoDisposeFutureProviderElement<SpecialUserData?>
+    with SpecialUserDataFromUIDRef {
+  _SpecialUserDataFromUIDProviderElement(super.provider);
 
   @override
-  String? get uid => (origin as UserInfoFromUIDProvider).uid;
+  String? get uid => (origin as SpecialUserDataFromUIDProvider).uid;
 }
 
-String _$queriedUserSearchHash() => r'8f5a7ce9b115431c5ac4a629a3ea03e356ff58d0';
+String _$queriedUserSearchHash() => r'43e4f44e3df4365f45852ca020867613ed1f663b';
 
 /// See also [queriedUserSearch].
 @ProviderFor(queriedUserSearch)
 const queriedUserSearchProvider = QueriedUserSearchFamily();
 
 /// See also [queriedUserSearch].
-class QueriedUserSearchFamily extends Family<AsyncValue<List<SpecialUser?>>> {
+class QueriedUserSearchFamily
+    extends Family<AsyncValue<List<SpecialUserData?>>> {
   /// See also [queriedUserSearch].
   const QueriedUserSearchFamily();
 
@@ -220,7 +226,7 @@ class QueriedUserSearchFamily extends Family<AsyncValue<List<SpecialUser?>>> {
 
 /// See also [queriedUserSearch].
 class QueriedUserSearchProvider
-    extends AutoDisposeFutureProvider<List<SpecialUser?>> {
+    extends AutoDisposeFutureProvider<List<SpecialUserData?>> {
   /// See also [queriedUserSearch].
   QueriedUserSearchProvider({
     int userLimit = 10,
@@ -255,7 +261,8 @@ class QueriedUserSearchProvider
 
   @override
   Override overrideWith(
-    FutureOr<List<SpecialUser?>> Function(QueriedUserSearchRef provider) create,
+    FutureOr<List<SpecialUserData?>> Function(QueriedUserSearchRef provider)
+        create,
   ) {
     return ProviderOverride(
       origin: this,
@@ -272,7 +279,7 @@ class QueriedUserSearchProvider
   }
 
   @override
-  AutoDisposeFutureProviderElement<List<SpecialUser?>> createElement() {
+  AutoDisposeFutureProviderElement<List<SpecialUserData?>> createElement() {
     return _QueriedUserSearchProviderElement(this);
   }
 
@@ -290,13 +297,14 @@ class QueriedUserSearchProvider
   }
 }
 
-mixin QueriedUserSearchRef on AutoDisposeFutureProviderRef<List<SpecialUser?>> {
+mixin QueriedUserSearchRef
+    on AutoDisposeFutureProviderRef<List<SpecialUserData?>> {
   /// The parameter `userLimit` of this provider.
   int get userLimit;
 }
 
 class _QueriedUserSearchProviderElement
-    extends AutoDisposeFutureProviderElement<List<SpecialUser?>>
+    extends AutoDisposeFutureProviderElement<List<SpecialUserData?>>
     with QueriedUserSearchRef {
   _QueriedUserSearchProviderElement(super.provider);
 

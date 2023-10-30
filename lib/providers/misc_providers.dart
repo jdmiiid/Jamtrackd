@@ -13,17 +13,8 @@ final appBarProvider = StateProvider<bool>((ref) => true);
 // NavBarNotifier
 final navBarProvider = StateProvider<bool>((ref) => false);
 
-//ThemeNotifier
-class ThemeNotifier extends StateNotifier<bool> {
-  ThemeNotifier() : super(true);
-
-  void toggleTheme() {
-    state = !state;
-  }
-}
-
-final themeProvider =
-    StateNotifierProvider<ThemeNotifier, bool>((ref) => ThemeNotifier());
+//ThemeProvider
+final themeProvider = StateProvider<bool>((ref) => true);
 
 // ExpansionNotifier
 final expansionProvider = StateProvider<bool>((ref) => true);

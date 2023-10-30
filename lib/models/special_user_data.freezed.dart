@@ -3,7 +3,7 @@
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
-part of 'special_user.dart';
+part of 'special_user_data.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -14,42 +14,42 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
-SpecialUser _$SpecialUserFromJson(Map<String, dynamic> json) {
-  return _SpecialUser.fromJson(json);
+SpecialUserData _$SpecialUserDataFromJson(Map<String, dynamic> json) {
+  return _SpecialUserData.fromJson(json);
 }
 
 /// @nodoc
-mixin _$SpecialUser {
+mixin _$SpecialUserData {
   String? get username => throw _privateConstructorUsedError;
   String? get bio => throw _privateConstructorUsedError;
-  String? get displayName => throw _privateConstructorUsedError;
-  String? get downloadURL => throw _privateConstructorUsedError;
   String? get userID => throw _privateConstructorUsedError;
+  String? get displayName => throw _privateConstructorUsedError;
+  String? get photoURL => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
-  $SpecialUserCopyWith<SpecialUser> get copyWith =>
+  $SpecialUserDataCopyWith<SpecialUserData> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $SpecialUserCopyWith<$Res> {
-  factory $SpecialUserCopyWith(
-          SpecialUser value, $Res Function(SpecialUser) then) =
-      _$SpecialUserCopyWithImpl<$Res, SpecialUser>;
+abstract class $SpecialUserDataCopyWith<$Res> {
+  factory $SpecialUserDataCopyWith(
+          SpecialUserData value, $Res Function(SpecialUserData) then) =
+      _$SpecialUserDataCopyWithImpl<$Res, SpecialUserData>;
   @useResult
   $Res call(
       {String? username,
       String? bio,
+      String? userID,
       String? displayName,
-      String? downloadURL,
-      String? userID});
+      String? photoURL});
 }
 
 /// @nodoc
-class _$SpecialUserCopyWithImpl<$Res, $Val extends SpecialUser>
-    implements $SpecialUserCopyWith<$Res> {
-  _$SpecialUserCopyWithImpl(this._value, this._then);
+class _$SpecialUserDataCopyWithImpl<$Res, $Val extends SpecialUserData>
+    implements $SpecialUserDataCopyWith<$Res> {
+  _$SpecialUserDataCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
@@ -61,9 +61,9 @@ class _$SpecialUserCopyWithImpl<$Res, $Val extends SpecialUser>
   $Res call({
     Object? username = freezed,
     Object? bio = freezed,
-    Object? displayName = freezed,
-    Object? downloadURL = freezed,
     Object? userID = freezed,
+    Object? displayName = freezed,
+    Object? photoURL = freezed,
   }) {
     return _then(_value.copyWith(
       username: freezed == username
@@ -74,44 +74,44 @@ class _$SpecialUserCopyWithImpl<$Res, $Val extends SpecialUser>
           ? _value.bio
           : bio // ignore: cast_nullable_to_non_nullable
               as String?,
+      userID: freezed == userID
+          ? _value.userID
+          : userID // ignore: cast_nullable_to_non_nullable
+              as String?,
       displayName: freezed == displayName
           ? _value.displayName
           : displayName // ignore: cast_nullable_to_non_nullable
               as String?,
-      downloadURL: freezed == downloadURL
-          ? _value.downloadURL
-          : downloadURL // ignore: cast_nullable_to_non_nullable
-              as String?,
-      userID: freezed == userID
-          ? _value.userID
-          : userID // ignore: cast_nullable_to_non_nullable
+      photoURL: freezed == photoURL
+          ? _value.photoURL
+          : photoURL // ignore: cast_nullable_to_non_nullable
               as String?,
     ) as $Val);
   }
 }
 
 /// @nodoc
-abstract class _$$_SpecialUserCopyWith<$Res>
-    implements $SpecialUserCopyWith<$Res> {
-  factory _$$_SpecialUserCopyWith(
-          _$_SpecialUser value, $Res Function(_$_SpecialUser) then) =
-      __$$_SpecialUserCopyWithImpl<$Res>;
+abstract class _$$_SpecialUserDataCopyWith<$Res>
+    implements $SpecialUserDataCopyWith<$Res> {
+  factory _$$_SpecialUserDataCopyWith(
+          _$_SpecialUserData value, $Res Function(_$_SpecialUserData) then) =
+      __$$_SpecialUserDataCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
       {String? username,
       String? bio,
+      String? userID,
       String? displayName,
-      String? downloadURL,
-      String? userID});
+      String? photoURL});
 }
 
 /// @nodoc
-class __$$_SpecialUserCopyWithImpl<$Res>
-    extends _$SpecialUserCopyWithImpl<$Res, _$_SpecialUser>
-    implements _$$_SpecialUserCopyWith<$Res> {
-  __$$_SpecialUserCopyWithImpl(
-      _$_SpecialUser _value, $Res Function(_$_SpecialUser) _then)
+class __$$_SpecialUserDataCopyWithImpl<$Res>
+    extends _$SpecialUserDataCopyWithImpl<$Res, _$_SpecialUserData>
+    implements _$$_SpecialUserDataCopyWith<$Res> {
+  __$$_SpecialUserDataCopyWithImpl(
+      _$_SpecialUserData _value, $Res Function(_$_SpecialUserData) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -119,11 +119,11 @@ class __$$_SpecialUserCopyWithImpl<$Res>
   $Res call({
     Object? username = freezed,
     Object? bio = freezed,
-    Object? displayName = freezed,
-    Object? downloadURL = freezed,
     Object? userID = freezed,
+    Object? displayName = freezed,
+    Object? photoURL = freezed,
   }) {
-    return _then(_$_SpecialUser(
+    return _then(_$_SpecialUserData(
       username: freezed == username
           ? _value.username
           : username // ignore: cast_nullable_to_non_nullable
@@ -132,17 +132,17 @@ class __$$_SpecialUserCopyWithImpl<$Res>
           ? _value.bio
           : bio // ignore: cast_nullable_to_non_nullable
               as String?,
+      userID: freezed == userID
+          ? _value.userID
+          : userID // ignore: cast_nullable_to_non_nullable
+              as String?,
       displayName: freezed == displayName
           ? _value.displayName
           : displayName // ignore: cast_nullable_to_non_nullable
               as String?,
-      downloadURL: freezed == downloadURL
-          ? _value.downloadURL
-          : downloadURL // ignore: cast_nullable_to_non_nullable
-              as String?,
-      userID: freezed == userID
-          ? _value.userID
-          : userID // ignore: cast_nullable_to_non_nullable
+      photoURL: freezed == photoURL
+          ? _value.photoURL
+          : photoURL // ignore: cast_nullable_to_non_nullable
               as String?,
     ));
   }
@@ -150,102 +150,100 @@ class __$$_SpecialUserCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_SpecialUser with DiagnosticableTreeMixin implements _SpecialUser {
-  const _$_SpecialUser(
-      {this.username,
-      this.bio,
-      this.displayName,
-      this.downloadURL,
-      this.userID});
+class _$_SpecialUserData
+    with DiagnosticableTreeMixin
+    implements _SpecialUserData {
+  const _$_SpecialUserData(
+      {this.username, this.bio, this.userID, this.displayName, this.photoURL});
 
-  factory _$_SpecialUser.fromJson(Map<String, dynamic> json) =>
-      _$$_SpecialUserFromJson(json);
+  factory _$_SpecialUserData.fromJson(Map<String, dynamic> json) =>
+      _$$_SpecialUserDataFromJson(json);
 
   @override
   final String? username;
   @override
   final String? bio;
   @override
+  final String? userID;
+  @override
   final String? displayName;
   @override
-  final String? downloadURL;
-  @override
-  final String? userID;
+  final String? photoURL;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'SpecialUser(username: $username, bio: $bio, displayName: $displayName, downloadURL: $downloadURL, userID: $userID)';
+    return 'SpecialUserData(username: $username, bio: $bio, userID: $userID, displayName: $displayName, photoURL: $photoURL)';
   }
 
   @override
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
     super.debugFillProperties(properties);
     properties
-      ..add(DiagnosticsProperty('type', 'SpecialUser'))
+      ..add(DiagnosticsProperty('type', 'SpecialUserData'))
       ..add(DiagnosticsProperty('username', username))
       ..add(DiagnosticsProperty('bio', bio))
+      ..add(DiagnosticsProperty('userID', userID))
       ..add(DiagnosticsProperty('displayName', displayName))
-      ..add(DiagnosticsProperty('downloadURL', downloadURL))
-      ..add(DiagnosticsProperty('userID', userID));
+      ..add(DiagnosticsProperty('photoURL', photoURL));
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_SpecialUser &&
+            other is _$_SpecialUserData &&
             (identical(other.username, username) ||
                 other.username == username) &&
             (identical(other.bio, bio) || other.bio == bio) &&
+            (identical(other.userID, userID) || other.userID == userID) &&
             (identical(other.displayName, displayName) ||
                 other.displayName == displayName) &&
-            (identical(other.downloadURL, downloadURL) ||
-                other.downloadURL == downloadURL) &&
-            (identical(other.userID, userID) || other.userID == userID));
+            (identical(other.photoURL, photoURL) ||
+                other.photoURL == photoURL));
   }
 
   @JsonKey(ignore: true)
   @override
   int get hashCode =>
-      Object.hash(runtimeType, username, bio, displayName, downloadURL, userID);
+      Object.hash(runtimeType, username, bio, userID, displayName, photoURL);
 
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_SpecialUserCopyWith<_$_SpecialUser> get copyWith =>
-      __$$_SpecialUserCopyWithImpl<_$_SpecialUser>(this, _$identity);
+  _$$_SpecialUserDataCopyWith<_$_SpecialUserData> get copyWith =>
+      __$$_SpecialUserDataCopyWithImpl<_$_SpecialUserData>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_SpecialUserToJson(
+    return _$$_SpecialUserDataToJson(
       this,
     );
   }
 }
 
-abstract class _SpecialUser implements SpecialUser {
-  const factory _SpecialUser(
+abstract class _SpecialUserData implements SpecialUserData {
+  const factory _SpecialUserData(
       {final String? username,
       final String? bio,
+      final String? userID,
       final String? displayName,
-      final String? downloadURL,
-      final String? userID}) = _$_SpecialUser;
+      final String? photoURL}) = _$_SpecialUserData;
 
-  factory _SpecialUser.fromJson(Map<String, dynamic> json) =
-      _$_SpecialUser.fromJson;
+  factory _SpecialUserData.fromJson(Map<String, dynamic> json) =
+      _$_SpecialUserData.fromJson;
 
   @override
   String? get username;
   @override
   String? get bio;
   @override
-  String? get displayName;
-  @override
-  String? get downloadURL;
-  @override
   String? get userID;
   @override
+  String? get displayName;
+  @override
+  String? get photoURL;
+  @override
   @JsonKey(ignore: true)
-  _$$_SpecialUserCopyWith<_$_SpecialUser> get copyWith =>
+  _$$_SpecialUserDataCopyWith<_$_SpecialUserData> get copyWith =>
       throw _privateConstructorUsedError;
 }

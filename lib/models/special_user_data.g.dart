@@ -1,25 +1,25 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'special_user.dart';
+part of 'special_user_data.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_SpecialUser _$$_SpecialUserFromJson(Map<String, dynamic> json) =>
-    _$_SpecialUser(
+_$_SpecialUserData _$$_SpecialUserDataFromJson(Map<String, dynamic> json) =>
+    _$_SpecialUserData(
       username: json['username'] as String?,
       bio: json['bio'] as String?,
-      displayName: json['displayName'] as String?,
-      downloadURL: json['downloadURL'] as String?,
       userID: json['userID'] as String?,
+      displayName: json['displayName'] as String?,
+      photoURL: json['photoURL'] as String?,
     );
 
-Map<String, dynamic> _$$_SpecialUserToJson(_$_SpecialUser instance) =>
+Map<String, dynamic> _$$_SpecialUserDataToJson(_$_SpecialUserData instance) =>
     <String, dynamic>{
       'username': instance.username,
       'bio': instance.bio,
-      'displayName': instance.displayName,
-      'downloadURL': instance.downloadURL,
       'userID': instance.userID,
+      'displayName': instance.displayName,
+      'photoURL': instance.photoURL,
     };

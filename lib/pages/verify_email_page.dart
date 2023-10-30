@@ -1,8 +1,6 @@
 import 'dart:async';
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:tasktrack/providers/firebase_auth_providers.dart';
 
@@ -15,12 +13,13 @@ class VerifyEmailPage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return ref.watch(firebaseAuthUserChangesStreamProvider).when(
         data: (newUser) {
-          final timer = Timer.periodic(
-              const Duration(seconds: 20), (_) => newUser?.reload());
           if (newUser!.emailVerified) {
-            timer.cancel();
             return const FeedPage();
           } else {
+            print('else statement triggered in verifyemailpage');
+            //Used to be a timer, but user Future instead
+            // because reload method causes a rebuild
+            Future.delayed(const Duration(seconds: 20), () => newUser.reload());
             return Scaffold(
               body: Padding(
                 padding: const EdgeInsets.all(15.0),
@@ -29,7 +28,7 @@ class VerifyEmailPage extends ConsumerWidget {
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     const AutoSizeText(
-                      'A verification email has ben sent to your inbox.',
+                      'A verification email has been sent to your inbox.',
                       textAlign: TextAlign.center,
                       minFontSize: 20,
                     ),

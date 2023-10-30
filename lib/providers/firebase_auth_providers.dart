@@ -19,11 +19,16 @@ Stream<User?> firebaseAuthStateChangesStream(
 @Riverpod(keepAlive: true)
 Stream<User?> firebaseAuthUserChangesStream(
     FirebaseAuthUserChangesStreamRef ref) async* {
+  print(ref.watch(firebaseAuthInstanceProvider).userChanges());
   yield* ref.watch(firebaseAuthInstanceProvider).userChanges();
 }
 
 @Riverpod(keepAlive: true)
 User? firebaseAuthCurrentUser(FirebaseAuthCurrentUserRef ref) {
+  print(ref
+      .watch(firebaseAuthUserChangesStreamProvider)
+      .unwrapPrevious()
+      .valueOrNull);
   return ref.watch(firebaseAuthUserChangesStreamProvider).value;
 }
 

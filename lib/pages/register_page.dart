@@ -1,6 +1,9 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:tasktrack/providers/firebase_firestore_providers.dart';
+import '../models/special_user_data.dart';
 import '../providers/firebase_auth_providers.dart';
 import '../services/firebase_auth/firebase_storage_service.dart';
 import '../widgets/register_avatar.dart';
@@ -19,49 +22,94 @@ class RegisterPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return Scaffold(
-      appBar: RootNavAppBar(
-        ref: ref,
-        title: Text(
-          'Welcome',
-          style: GoogleFonts.pacifico(fontSize: 30),
+    if (ref.watch(firebaseAuthCurrentUserProvider) != null) {
+      final SpecialUserData? tappedUser = ref.watch(tappedUserDataProvider);
+      final List<String> names = tappedUser!.displayName!.split(' ');
+      return Scaffold(
+        appBar: RootNavAppBar(
+          ref: ref,
+          title: Text(
+            'Edit Profile',
+            style: GoogleFonts.pacifico(fontSize: 30),
+          ),
+          appBar: AppBar(),
         ),
-        appBar: AppBar(),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.only(top: 25),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
+        body: ListView(
           children: [
-            Center(child: registerAvatar(context, ref)),
-            _registerForm(ref),
-            const Expanded(child: SizedBox()),
-            Expanded(
-              flex: 2,
-              child: ElevatedButton(
-                onPressed: () async {
-                  _submitForm(ref, context);
-                },
-                style: ElevatedButton.styleFrom(shape: const LinearBorder()),
-                child: Text(
-                  'Sign up',
-                  style: GoogleFonts.robotoCondensed(fontSize: 30),
+            Column(
+              children: [
+                const Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [Text('Profile Picture'), Text('Edit')],
                 ),
-              ),
+                CircleAvatar(
+                  radius: 70,
+                  backgroundImage:
+                      CachedNetworkImageProvider(tappedUser.photoURL!),
+                ),
+              ],
             ),
+            const Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text('Bio'),
+                TextField(
+                  decoration: InputDecoration(
+                      hintText: 'A brief summary of you and your tastes...'),
+                )
+              ],
+            ),
+            _buildTextField(controller: _firstName, initialValue: names[0])
           ],
         ),
-      ),
-    );
+      );
+    } else {
+      return Scaffold(
+        appBar: RootNavAppBar(
+          ref: ref,
+          title: Text(
+            'Welcome',
+            style: GoogleFonts.pacifico(fontSize: 30),
+          ),
+          appBar: AppBar(),
+        ),
+        body: Padding(
+          padding: const EdgeInsets.only(top: 25),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Center(child: registerAvatar(context, ref)),
+              _registerForm(ref),
+              const Expanded(child: SizedBox()),
+              Expanded(
+                flex: 2,
+                child: ElevatedButton(
+                  onPressed: () async {
+                    _submitForm(ref, context);
+                  },
+                  style: ElevatedButton.styleFrom(shape: const LinearBorder()),
+                  child: Text(
+                    'Sign up',
+                    style: GoogleFonts.robotoCondensed(fontSize: 30),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      );
+    }
   }
 
   Widget _buildTextField({
     required TextEditingController controller,
     String hintText = '',
+    String initialValue = '',
     bool obscureText = false,
     String? Function(String?)? validator,
   }) {
     return TextFormField(
+      initialValue: initialValue,
       controller: controller,
       decoration: InputDecoration(
         hintText: hintText,

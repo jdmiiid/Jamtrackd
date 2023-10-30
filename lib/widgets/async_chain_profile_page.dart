@@ -7,17 +7,16 @@ import 'package:tasktrack/widgets/profile_stat_colum.dart';
 import 'package:tasktrack/widgets/root_app_bar.dart';
 
 import '../models/post.dart';
-import '../models/special_user.dart';
+import '../models/special_user_data.dart';
 import '../providers/firebase_firestore_providers.dart';
 import '../providers/misc_providers.dart';
 import 'album_grid_view.dart';
 import 'bottom_nav_bar.dart';
 
 class AsyncChainProfilePage extends ConsumerWidget {
-  const AsyncChainProfilePage({Key? key, required this.tappedUser})
-      : super(key: key);
+  const AsyncChainProfilePage(this.tappedUser, {Key? key}) : super(key: key);
 
-  final SpecialUser tappedUser;
+  final SpecialUserData tappedUser;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -124,7 +123,7 @@ Widget buildSortDropdown(WidgetRef ref) {
 }
 
 Widget buildEmptyUserData(
-    BuildContext context, SpecialUser tappedUser, String bioText) {
+    BuildContext context, SpecialUserData tappedUser, String bioText) {
   return Padding(
     padding: const EdgeInsets.all(10.0),
     child: RefreshIndicator(
@@ -145,9 +144,9 @@ Widget buildEmptyUserData(
                         flex: 2,
                         child: FittedBox(
                           child: CircleAvatar(
-                            backgroundImage: tappedUser.downloadURL != null
+                            backgroundImage: tappedUser.photoURL != null
                                 ? CachedNetworkImageProvider(
-                                    tappedUser.downloadURL!)
+                                    tappedUser.photoURL!)
                                 : const AssetImage(
                                         'assets/images/no_profile_pic.jpeg')
                                     as ImageProvider<Object>?,
@@ -239,7 +238,7 @@ Widget buildEmptyUserData(
 
 Widget buildAlbumGrid(
     WidgetRef ref,
-    SpecialUser tappedUser,
+    SpecialUserData tappedUser,
     List<Post> userRatingData,
     List<String> oneTimeFollowerCount,
     List<String> oneTimeFollowingList,
@@ -258,14 +257,19 @@ Widget buildAlbumGrid(
                 IntrinsicHeight(
                   child: Row(
                     children: [
-                      CircleAvatar(
-                        backgroundImage: tappedUser.downloadURL != null
-                            ? CachedNetworkImageProvider(
-                                tappedUser.downloadURL!)
-                            : const AssetImage(
-                                    'assets/images/no_profile_pic.jpeg')
-                                as ImageProvider<Object>?,
-                        radius: 50,
+                      Container(
+                        padding: EdgeInsets.all(2),
+                        decoration: BoxDecoration(
+                            color: Theme.of(context).colorScheme.onBackground,
+                            shape: BoxShape.circle),
+                        child: CircleAvatar(
+                          backgroundImage: tappedUser.photoURL != null
+                              ? CachedNetworkImageProvider(tappedUser.photoURL!)
+                              : const AssetImage(
+                                      'assets/images/no_profile_pic.jpeg')
+                                  as ImageProvider<Object>?,
+                          radius: 50,
+                        ),
                       ),
                       Expanded(
                         child: Padding(
@@ -299,7 +303,7 @@ Widget buildAlbumGrid(
                               Flexible(
                                   child: StatelessLongToggleButton(
                                 isFollowingProvider: isFollowing,
-                                tappedUserID: tappedUser.userID!,
+                                tappedUserData: tappedUser,
                               ))
                             ],
                           ),

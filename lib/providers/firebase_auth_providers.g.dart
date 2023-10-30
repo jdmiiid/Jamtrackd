@@ -40,7 +40,7 @@ final firebaseAuthStateChangesStreamProvider =
 
 typedef FirebaseAuthStateChangesStreamRef = AutoDisposeStreamProviderRef<User?>;
 String _$firebaseAuthUserChangesStreamHash() =>
-    r'8515df105207356b28a54a9de6b82358d6132e5d';
+    r'8dff3ac04426f7691c83744ecde9ca45807d2bb6';
 
 /// See also [firebaseAuthUserChangesStream].
 @ProviderFor(firebaseAuthUserChangesStream)
@@ -56,7 +56,7 @@ final firebaseAuthUserChangesStreamProvider = StreamProvider<User?>.internal(
 
 typedef FirebaseAuthUserChangesStreamRef = StreamProviderRef<User?>;
 String _$firebaseAuthCurrentUserHash() =>
-    r'99a29d0133b79300b44a8df348f22188838f1e7a';
+    r'c750397c06349e570947790e9272bfa2a3a65b14';
 
 /// See also [firebaseAuthCurrentUser].
 @ProviderFor(firebaseAuthCurrentUser)

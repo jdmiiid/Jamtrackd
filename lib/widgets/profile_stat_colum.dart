@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:tasktrack/providers/firebase_auth_providers.dart';
 import 'package:tasktrack/providers/firebase_firestore_providers.dart';
 import 'package:tasktrack/providers/misc_providers.dart';
+
+import '../models/special_user_data.dart';
 
 class StatelessProfileStatColumn extends ConsumerWidget {
   const StatelessProfileStatColumn({
@@ -86,26 +89,29 @@ class StatelessFollowerColumn extends ConsumerWidget {
 class StatelessLongToggleButton extends ConsumerWidget {
   const StatelessLongToggleButton({
     required this.isFollowingProvider,
-    required this.tappedUserID,
+    required this.tappedUserData,
     Key? key,
   }) : super(key: key);
 
   final StateProvider<bool> isFollowingProvider;
-  final String tappedUserID;
+  final SpecialUserData tappedUserData;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isFollowing = ref.watch(isFollowingProvider);
     final authProvider = ref.watch(firebaseAuthCurrentUserProvider);
     final currentUserId = authProvider!.uid;
-    final isCurrentUser = tappedUserID == currentUserId;
+    final isCurrentUser = tappedUserData.userID == currentUserId;
 
     final followButtonLabel = isFollowing ? 'Unfollow' : 'Follow';
 
     return TextButton(
       onPressed: () {
         if (isCurrentUser) {
-          print('sus');
+          ref
+              .read(tappedUserDataProvider.notifier)
+              .update((state) => tappedUserData);
+          context.go('/register_page');
         } else {
           ref.read(isFollowingProvider.notifier).state = !isFollowing;
           ref
@@ -114,10 +120,12 @@ class StatelessLongToggleButton extends ConsumerWidget {
 
           if (!isFollowing) {
             addFirestoreFollow(
-                userGetterId: tappedUserID, userGiverId: currentUserId);
+                userGetterId: tappedUserData.userID!,
+                userGiverId: currentUserId);
           } else {
             deleteFirestoreFollow(
-                userGetterId: tappedUserID, userGiverId: currentUserId);
+                userGetterId: tappedUserData.userID!,
+                userGiverId: currentUserId);
           }
         }
       },

@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:tasktrack/models/special_user.dart';
-import 'package:tasktrack/providers/firebase_auth_providers.dart';
 import 'package:tasktrack/providers/firebase_firestore_providers.dart';
 
 import '../providers/misc_providers.dart';
@@ -56,7 +54,7 @@ class BottomNavBar extends ConsumerWidget {
               }
 
               if (index == 2) {
-                ref.read(tappedUserProvider.notifier).state = null;
+                ref.read(tappedUserDataProvider.notifier).state = null;
               }
               context.go('/${routerTabLocations[index]}');
             }),

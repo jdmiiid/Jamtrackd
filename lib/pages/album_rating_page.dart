@@ -10,7 +10,6 @@ import 'package:tasktrack/widgets/root_app_bar.dart';
 
 import '../models/album_rating.dart';
 import '../models/post.dart';
-import '../models/special_user.dart';
 import '../providers/firebase_firestore_providers.dart';
 import '../services/firebase_auth/firebase_storage_service.dart';
 
@@ -25,7 +24,7 @@ class AlbumRatingPage extends ConsumerWidget {
     final albumData = ref.watch(albumDataProvider) as AlbumOrArtist;
     final trackList = ref.watch(getTrackDataProvider);
     final userData = ref.watch(firebaseAuthCurrentUserProvider);
-    final specialUserDataAsync = ref.watch(userInfoFromUIDProvider(null));
+    final specialUserDataAsync = ref.watch(specialUserDataFromUIDProvider(null));
     final downloadUrl = ref
         .read(retrieveUserDownloadUrlProvider(userData!.uid))
         .whenData((value) => value)

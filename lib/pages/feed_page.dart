@@ -7,7 +7,7 @@ import 'package:tasktrack/providers/firebase_firestore_providers.dart';
 import 'package:tasktrack/widgets/bottom_nav_bar.dart';
 
 import '../models/post.dart';
-import '../models/special_user.dart';
+import '../models/special_user_data.dart';
 import '../widgets/list_tile_item.dart';
 import '../widgets/root_app_bar.dart';
 
@@ -168,14 +168,14 @@ class _FeedPageState extends ConsumerState<FeedPage> {
   Widget postItem(BuildContext context, Post post, WidgetRef ref) {
     const double paddingDouble = 8;
     final postSpecificUserObjectAsync =
-        ref.watch(userInfoFromUIDProvider(post.author));
+        ref.watch(specialUserDataFromUIDProvider(post.author));
 
     return postSpecificUserObjectAsync.when(
         loading: () =>
             const Text('loading within postspecificUserObject in postItem'),
         error: (Object error, StackTrace stackTrace) =>
             Text('error $error inside of postspecificasycn in PostItem'),
-        data: (SpecialUser? postSpecificUser) {
+        data: (SpecialUserData? postSpecificUser) {
           final StateProvider<bool> likedProvider =
               StateProvider<bool>((ref) => post.likes.contains(post.author));
 
@@ -246,11 +246,10 @@ class _FeedPageState extends ConsumerState<FeedPage> {
                             Flexible(
                               flex: 2,
                               child: CircleAvatar(
-                                backgroundImage: postSpecificUser!
-                                            .downloadURL !=
+                                backgroundImage: postSpecificUser!.photoURL !=
                                         null
                                     ? CachedNetworkImageProvider(
-                                        postSpecificUser.downloadURL!)
+                                        postSpecificUser.photoURL!)
                                     : const AssetImage(
                                             'assets/images/no_profile_pic.jpeg')
                                         as ImageProvider<Object>?,

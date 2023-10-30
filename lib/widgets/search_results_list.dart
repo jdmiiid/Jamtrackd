@@ -9,7 +9,7 @@ import 'package:tasktrack/widgets/circle_avatar.dart';
 import 'package:tasktrack/widgets/toggle_buttons.dart';
 import '../models/album_or_artist.dart';
 
-import '../models/special_user.dart';
+import '../models/special_user_data.dart';
 import '../providers/spotify_providers.dart';
 
 class SearchResultsList extends HookConsumerWidget {
@@ -114,7 +114,7 @@ class SearchResultsList extends HookConsumerWidget {
           loading: () => Text('Loading withing queriedUserSearch'),
           error: (Object error, StackTrace stackTrace) =>
               Text('error: $error within queriedUserSearch'),
-          data: (List<SpecialUser?> userList) {
+          data: (List<SpecialUserData?> userList) {
             return ListView.separated(
                 padding: const EdgeInsets.only(top: 10, left: 8, right: 8),
                 itemBuilder: (BuildContext context, int index) {
@@ -125,8 +125,8 @@ class SearchResultsList extends HookConsumerWidget {
                         children: [
                           CircleAvatar(
                             radius: 27,
-                            backgroundImage: user!.downloadURL != null
-                                ? CachedNetworkImageProvider(user.downloadURL!)
+                            backgroundImage: user!.photoURL != null
+                                ? CachedNetworkImageProvider(user.photoURL!)
                                 : const AssetImage(
                                         'assets/images/no_profile_pic.jpeg')
                                     as ImageProvider<Object>?,
@@ -149,7 +149,7 @@ class SearchResultsList extends HookConsumerWidget {
                       ),
                     ),
                     onTap: () {
-                      ref.read(tappedUserProvider.notifier).state = user;
+                      ref.read(tappedUserDataProvider.notifier).state = user;
                       context.push('/profile_page');
                     },
                   );

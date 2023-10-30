@@ -6,7 +6,7 @@ import 'package:tasktrack/providers/firebase_auth_providers.dart';
 import '../models/comment.dart';
 
 import '../models/post.dart';
-import '../models/special_user.dart';
+import '../models/special_user_data.dart';
 import 'spotify_providers.dart';
 
 part 'firebase_firestore_providers.g.dart';
@@ -15,7 +15,7 @@ final reviewLookProvider = StateProvider<Post?>((ref) => null);
 
 final rLookNeedsSetUpProvider = StateProvider<bool>((ref) => true);
 
-final tappedUserProvider = StateProvider<SpecialUser?>((ref) => null);
+final tappedUserDataProvider = StateProvider<SpecialUserData?>((ref) => null);
 
 final orderCriterionProvider = StateProvider<String>((ref) => 'timestamp');
 
@@ -46,16 +46,16 @@ Stream<List<String>> retrieveFollowingListStream(
 }
 
 @riverpod
-Future<SpecialUser?> userInfoFromUID(
-    UserInfoFromUIDRef ref, String? uid) async {
+Future<SpecialUserData?> specialUserDataFromUID(
+    SpecialUserDataFromUIDRef ref, String? uid) async {
   final varUID = uid ?? ref.watch(firebaseAuthCurrentUserProvider)!.uid;
 
   final firebaseQuery = getUsersCollectionRef().doc(varUID);
 
   final specialUser = await firebaseQuery
       .withConverter(
-          fromFirestore: SpecialUser.fromFirestore,
-          toFirestore: SpecialUser.toFirestore)
+          fromFirestore: SpecialUserData.fromFirestore,
+          toFirestore: SpecialUserData.toFirestore)
       .get();
 
   return specialUser.data();
@@ -63,26 +63,26 @@ Future<SpecialUser?> userInfoFromUID(
 
 // Unique User Sorting Algo
 @riverpod
-Future<List<SpecialUser?>> queriedUserSearch(QueriedUserSearchRef ref,
+Future<List<SpecialUserData?>> queriedUserSearch(QueriedUserSearchRef ref,
     {int userLimit = 10}) async {
   final String searchQuery = ref.watch(userSearchProvider);
 
-  final List<SpecialUser?> listOfSpecialUsers = [];
+  final List<SpecialUserData?> listOfSpecialUsers = [];
 
   final displayNameQuery = getUsersCollectionRef()
       .where('displayName', isGreaterThanOrEqualTo: searchQuery)
       .limit((userLimit / 2).floor())
       .withConverter(
-          fromFirestore: SpecialUser.fromFirestore,
-          toFirestore: SpecialUser.toFirestore)
+          fromFirestore: SpecialUserData.fromFirestore,
+          toFirestore: SpecialUserData.toFirestore)
       .get();
 
   final usernameQuery = getUsersCollectionRef()
       .where('username', isGreaterThanOrEqualTo: searchQuery)
       .limit((userLimit / 2).floor())
       .withConverter(
-          fromFirestore: SpecialUser.fromFirestore,
-          toFirestore: SpecialUser.toFirestore)
+          fromFirestore: SpecialUserData.fromFirestore,
+          toFirestore: SpecialUserData.toFirestore)
       .get();
 
   final results = await Future.wait([displayNameQuery, usernameQuery]);
@@ -96,16 +96,17 @@ Future<List<SpecialUser?>> queriedUserSearch(QueriedUserSearchRef ref,
   return listOfSpecialUsers.take(userLimit).toList();
 }
 
-List<SpecialUser?> collectSpecialUsersFromResults(List<QuerySnapshot> results) {
-  final listOfSpecialUsers = <SpecialUser?>[];
+List<SpecialUserData?> collectSpecialUsersFromResults(
+    List<QuerySnapshot> results) {
+  final listOfSpecialUsers = <SpecialUserData?>[];
   for (final querySnapshot in results) {
-    listOfSpecialUsers
-        .addAll(querySnapshot.docs.map((doc) => doc.data() as SpecialUser?));
+    listOfSpecialUsers.addAll(
+        querySnapshot.docs.map((doc) => doc.data() as SpecialUserData?));
   }
   return listOfSpecialUsers;
 }
 
-double calculateRelevanceScore(SpecialUser? user, String searchQuery) {
+double calculateRelevanceScore(SpecialUserData? user, String searchQuery) {
   if (user == null) {
     return 0.0;
   }

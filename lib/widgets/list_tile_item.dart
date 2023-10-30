@@ -204,10 +204,11 @@ class PostLikeButton extends ConsumerWidget {
             }
           },
           child: liked
-              ? Icon(Icons.favorite)
-              : Icon(
-                  Icons.favorite_border_outlined,
-                ),
+              ? Icon(
+                  Icons.favorite,
+                )
+              // CHECK THIS OUT
+              : Icon(Icons.favorite_border_outlined, size: 5),
         ),
       ],
     );
