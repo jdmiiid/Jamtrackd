@@ -1,58 +1,40 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:tasktrack/widgets/butt_nav_bar.dart';
-import 'package:tasktrack/widgets/see_tab_bar.dart';
+import 'package:tasktrack/models/themes.dart';
+import 'package:tasktrack/providers/go_router_providers.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:tasktrack/providers/misc_providers.dart';
+import 'package:tasktrack/services/firebase_auth/our_provider_observer.dart';
+import 'firebase_options.dart';
 
-import 'widgets/art_searcher.dart';
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  await dotenv.load(fileName: '.env');
 
-void main() {
-  runApp(const ProviderScope(child: MyApp()));
+  runApp(
+      ProviderScope(observers: [OurProviderObserver()], child: const MyApp()));
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends HookConsumerWidget {
   const MyApp({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return const MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Personal Taste App',
-      home: HomePage(),
-    );
-  }
-}
+  Widget build(BuildContext context, WidgetRef ref) {
+    final GoRouter goRouter = ref.watch(goRouterProvider);
+    final bool isDarkMode = ref.watch(themeProvider);
 
-class HomePage extends StatelessWidget {
-  const HomePage({super.key});
-
-  final Color primaryColor = const Color(0xff3f704d);
-  final Color secondaryColor = const Color(0xffd07746);
-
-  @override
-  Widget build(BuildContext context) {
     return DefaultTabController(
-      length: 5,
-      child: Scaffold(
-        appBar: PreferredSize(
-          preferredSize: const Size.fromRadius(32),
-          child: AppBar(
-            backgroundColor: primaryColor,
-            title: const Text(
-              'øbiñyu',
-              style: TextStyle(letterSpacing: 10, fontSize: 30),
-            ),
-          ),
-        ),
-        body: Column(
-          children: const [
-            ArtSearcher(),
-            Flexible(
-              child: SeeTabBar(),
-            ),
-          ],
-        ),
-        backgroundColor: const Color(0xfff8f7de),
-        bottomNavigationBar: const ButtNavBar(),
+      length: 3,
+      initialIndex: 1,
+      child: MaterialApp.router(
+        routerConfig: goRouter,
+        title: 'Jamtrackd',
+        debugShowCheckedModeBanner: false,
+        themeMode: isDarkMode ? ThemeMode.dark : ThemeMode.light,
+        theme: MyThemes.colorSchemedThemeData(isDarkMode: isDarkMode),
       ),
     );
   }
