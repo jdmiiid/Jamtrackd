@@ -111,7 +111,7 @@ class StatelessLongToggleButton extends ConsumerWidget {
           ref
               .read(tappedUserDataProvider.notifier)
               .update((state) => tappedUserData);
-          context.go('/register_page');
+          context.push('/profile_info_page');
         } else {
           ref.read(isFollowingProvider.notifier).state = !isFollowing;
           ref

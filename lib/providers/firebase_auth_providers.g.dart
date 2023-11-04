@@ -56,7 +56,7 @@ final firebaseAuthUserChangesStreamProvider = StreamProvider<User?>.internal(
 
 typedef FirebaseAuthUserChangesStreamRef = StreamProviderRef<User?>;
 String _$firebaseAuthCurrentUserHash() =>
-    r'c750397c06349e570947790e9272bfa2a3a65b14';
+    r'acd18923624fe8ca2a46e9e2e7110e98ba2a54af';
 
 /// See also [firebaseAuthCurrentUser].
 @ProviderFor(firebaseAuthCurrentUser)

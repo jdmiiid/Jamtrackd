@@ -20,11 +20,12 @@ SpecialUserData _$SpecialUserDataFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$SpecialUserData {
-  String? get username => throw _privateConstructorUsedError;
+  String get username => throw _privateConstructorUsedError;
   String? get bio => throw _privateConstructorUsedError;
   String? get userID => throw _privateConstructorUsedError;
   String? get displayName => throw _privateConstructorUsedError;
   String? get photoURL => throw _privateConstructorUsedError;
+  String? get email => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -39,11 +40,12 @@ abstract class $SpecialUserDataCopyWith<$Res> {
       _$SpecialUserDataCopyWithImpl<$Res, SpecialUserData>;
   @useResult
   $Res call(
-      {String? username,
+      {String username,
       String? bio,
       String? userID,
       String? displayName,
-      String? photoURL});
+      String? photoURL,
+      String? email});
 }
 
 /// @nodoc
@@ -59,17 +61,18 @@ class _$SpecialUserDataCopyWithImpl<$Res, $Val extends SpecialUserData>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? username = freezed,
+    Object? username = null,
     Object? bio = freezed,
     Object? userID = freezed,
     Object? displayName = freezed,
     Object? photoURL = freezed,
+    Object? email = freezed,
   }) {
     return _then(_value.copyWith(
-      username: freezed == username
+      username: null == username
           ? _value.username
           : username // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as String,
       bio: freezed == bio
           ? _value.bio
           : bio // ignore: cast_nullable_to_non_nullable
@@ -85,49 +88,55 @@ class _$SpecialUserDataCopyWithImpl<$Res, $Val extends SpecialUserData>
       photoURL: freezed == photoURL
           ? _value.photoURL
           : photoURL // ignore: cast_nullable_to_non_nullable
+              as String?,
+      email: freezed == email
+          ? _value.email
+          : email // ignore: cast_nullable_to_non_nullable
               as String?,
     ) as $Val);
   }
 }
 
 /// @nodoc
-abstract class _$$_SpecialUserDataCopyWith<$Res>
+abstract class _$$SpecialUserDataImplCopyWith<$Res>
     implements $SpecialUserDataCopyWith<$Res> {
-  factory _$$_SpecialUserDataCopyWith(
-          _$_SpecialUserData value, $Res Function(_$_SpecialUserData) then) =
-      __$$_SpecialUserDataCopyWithImpl<$Res>;
+  factory _$$SpecialUserDataImplCopyWith(_$SpecialUserDataImpl value,
+          $Res Function(_$SpecialUserDataImpl) then) =
+      __$$SpecialUserDataImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
-      {String? username,
+      {String username,
       String? bio,
       String? userID,
       String? displayName,
-      String? photoURL});
+      String? photoURL,
+      String? email});
 }
 
 /// @nodoc
-class __$$_SpecialUserDataCopyWithImpl<$Res>
-    extends _$SpecialUserDataCopyWithImpl<$Res, _$_SpecialUserData>
-    implements _$$_SpecialUserDataCopyWith<$Res> {
-  __$$_SpecialUserDataCopyWithImpl(
-      _$_SpecialUserData _value, $Res Function(_$_SpecialUserData) _then)
+class __$$SpecialUserDataImplCopyWithImpl<$Res>
+    extends _$SpecialUserDataCopyWithImpl<$Res, _$SpecialUserDataImpl>
+    implements _$$SpecialUserDataImplCopyWith<$Res> {
+  __$$SpecialUserDataImplCopyWithImpl(
+      _$SpecialUserDataImpl _value, $Res Function(_$SpecialUserDataImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? username = freezed,
+    Object? username = null,
     Object? bio = freezed,
     Object? userID = freezed,
     Object? displayName = freezed,
     Object? photoURL = freezed,
+    Object? email = freezed,
   }) {
-    return _then(_$_SpecialUserData(
-      username: freezed == username
+    return _then(_$SpecialUserDataImpl(
+      username: null == username
           ? _value.username
           : username // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as String,
       bio: freezed == bio
           ? _value.bio
           : bio // ignore: cast_nullable_to_non_nullable
@@ -143,6 +152,10 @@ class __$$_SpecialUserDataCopyWithImpl<$Res>
       photoURL: freezed == photoURL
           ? _value.photoURL
           : photoURL // ignore: cast_nullable_to_non_nullable
+              as String?,
+      email: freezed == email
+          ? _value.email
+          : email // ignore: cast_nullable_to_non_nullable
               as String?,
     ));
   }
@@ -150,17 +163,22 @@ class __$$_SpecialUserDataCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_SpecialUserData
+class _$SpecialUserDataImpl
     with DiagnosticableTreeMixin
     implements _SpecialUserData {
-  const _$_SpecialUserData(
-      {this.username, this.bio, this.userID, this.displayName, this.photoURL});
+  const _$SpecialUserDataImpl(
+      {required this.username,
+      this.bio,
+      this.userID,
+      this.displayName,
+      this.photoURL,
+      this.email});
 
-  factory _$_SpecialUserData.fromJson(Map<String, dynamic> json) =>
-      _$$_SpecialUserDataFromJson(json);
+  factory _$SpecialUserDataImpl.fromJson(Map<String, dynamic> json) =>
+      _$$SpecialUserDataImplFromJson(json);
 
   @override
-  final String? username;
+  final String username;
   @override
   final String? bio;
   @override
@@ -169,10 +187,12 @@ class _$_SpecialUserData
   final String? displayName;
   @override
   final String? photoURL;
+  @override
+  final String? email;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'SpecialUserData(username: $username, bio: $bio, userID: $userID, displayName: $displayName, photoURL: $photoURL)';
+    return 'SpecialUserData(username: $username, bio: $bio, userID: $userID, displayName: $displayName, photoURL: $photoURL, email: $email)';
   }
 
   @override
@@ -184,14 +204,15 @@ class _$_SpecialUserData
       ..add(DiagnosticsProperty('bio', bio))
       ..add(DiagnosticsProperty('userID', userID))
       ..add(DiagnosticsProperty('displayName', displayName))
-      ..add(DiagnosticsProperty('photoURL', photoURL));
+      ..add(DiagnosticsProperty('photoURL', photoURL))
+      ..add(DiagnosticsProperty('email', email));
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_SpecialUserData &&
+            other is _$SpecialUserDataImpl &&
             (identical(other.username, username) ||
                 other.username == username) &&
             (identical(other.bio, bio) || other.bio == bio) &&
@@ -199,23 +220,25 @@ class _$_SpecialUserData
             (identical(other.displayName, displayName) ||
                 other.displayName == displayName) &&
             (identical(other.photoURL, photoURL) ||
-                other.photoURL == photoURL));
+                other.photoURL == photoURL) &&
+            (identical(other.email, email) || other.email == email));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, username, bio, userID, displayName, photoURL);
+  int get hashCode => Object.hash(
+      runtimeType, username, bio, userID, displayName, photoURL, email);
 
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_SpecialUserDataCopyWith<_$_SpecialUserData> get copyWith =>
-      __$$_SpecialUserDataCopyWithImpl<_$_SpecialUserData>(this, _$identity);
+  _$$SpecialUserDataImplCopyWith<_$SpecialUserDataImpl> get copyWith =>
+      __$$SpecialUserDataImplCopyWithImpl<_$SpecialUserDataImpl>(
+          this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_SpecialUserDataToJson(
+    return _$$SpecialUserDataImplToJson(
       this,
     );
   }
@@ -223,17 +246,18 @@ class _$_SpecialUserData
 
 abstract class _SpecialUserData implements SpecialUserData {
   const factory _SpecialUserData(
-      {final String? username,
+      {required final String username,
       final String? bio,
       final String? userID,
       final String? displayName,
-      final String? photoURL}) = _$_SpecialUserData;
+      final String? photoURL,
+      final String? email}) = _$SpecialUserDataImpl;
 
   factory _SpecialUserData.fromJson(Map<String, dynamic> json) =
-      _$_SpecialUserData.fromJson;
+      _$SpecialUserDataImpl.fromJson;
 
   @override
-  String? get username;
+  String get username;
   @override
   String? get bio;
   @override
@@ -243,7 +267,9 @@ abstract class _SpecialUserData implements SpecialUserData {
   @override
   String? get photoURL;
   @override
+  String? get email;
+  @override
   @JsonKey(ignore: true)
-  _$$_SpecialUserDataCopyWith<_$_SpecialUserData> get copyWith =>
+  _$$SpecialUserDataImplCopyWith<_$SpecialUserDataImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

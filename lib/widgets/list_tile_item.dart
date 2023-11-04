@@ -169,7 +169,6 @@ class PostLikeButton extends ConsumerWidget {
     final intToAddToPostLikes = ref.watch(intToAddToPostLikesProvider);
 
     return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Text(
           '${indexedPostData.content.rating.toString()} | ${postLikeCount + intToAddToPostLikes}',
@@ -208,7 +207,7 @@ class PostLikeButton extends ConsumerWidget {
                   Icons.favorite,
                 )
               // CHECK THIS OUT
-              : Icon(Icons.favorite_border_outlined, size: 5),
+              : Icon(Icons.favorite_border_outlined, size: 15),
         ),
       ],
     );

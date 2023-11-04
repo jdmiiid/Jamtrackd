@@ -70,8 +70,8 @@ GoRouter goRouter(GoRouterRef ref) {
       ),
       GoRoute(path: '/login_page', builder: (context, state) => LoginPage()),
       GoRoute(
-        path: '/register_page',
-        builder: (context, state) => RegisterPage(),
+        path: '/profile_info_page',
+        builder: (context, state) => ProfileInfoPage(),
       ),
     ],
   );

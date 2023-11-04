@@ -112,11 +112,11 @@ class _$AlbumRatingCopyWithImpl<$Res, $Val extends AlbumRating>
 }
 
 /// @nodoc
-abstract class _$$_AlbumRatingCopyWith<$Res>
+abstract class _$$AlbumRatingImplCopyWith<$Res>
     implements $AlbumRatingCopyWith<$Res> {
-  factory _$$_AlbumRatingCopyWith(
-          _$_AlbumRating value, $Res Function(_$_AlbumRating) then) =
-      __$$_AlbumRatingCopyWithImpl<$Res>;
+  factory _$$AlbumRatingImplCopyWith(
+          _$AlbumRatingImpl value, $Res Function(_$AlbumRatingImpl) then) =
+      __$$AlbumRatingImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -131,11 +131,11 @@ abstract class _$$_AlbumRatingCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_AlbumRatingCopyWithImpl<$Res>
-    extends _$AlbumRatingCopyWithImpl<$Res, _$_AlbumRating>
-    implements _$$_AlbumRatingCopyWith<$Res> {
-  __$$_AlbumRatingCopyWithImpl(
-      _$_AlbumRating _value, $Res Function(_$_AlbumRating) _then)
+class __$$AlbumRatingImplCopyWithImpl<$Res>
+    extends _$AlbumRatingCopyWithImpl<$Res, _$AlbumRatingImpl>
+    implements _$$AlbumRatingImplCopyWith<$Res> {
+  __$$AlbumRatingImplCopyWithImpl(
+      _$AlbumRatingImpl _value, $Res Function(_$AlbumRatingImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -150,7 +150,7 @@ class __$$_AlbumRatingCopyWithImpl<$Res>
     Object? releaseDate = null,
     Object? favoriteTrack = null,
   }) {
-    return _then(_$_AlbumRating(
+    return _then(_$AlbumRatingImpl(
       artistName: null == artistName
           ? _value.artistName
           : artistName // ignore: cast_nullable_to_non_nullable
@@ -189,8 +189,8 @@ class __$$_AlbumRatingCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_AlbumRating extends _AlbumRating {
-  _$_AlbumRating(
+class _$AlbumRatingImpl extends _AlbumRating {
+  _$AlbumRatingImpl(
       {required this.artistName,
       required this.albumName,
       required this.title,
@@ -201,8 +201,8 @@ class _$_AlbumRating extends _AlbumRating {
       required this.favoriteTrack})
       : super._();
 
-  factory _$_AlbumRating.fromJson(Map<String, dynamic> json) =>
-      _$$_AlbumRatingFromJson(json);
+  factory _$AlbumRatingImpl.fromJson(Map<String, dynamic> json) =>
+      _$$AlbumRatingImplFromJson(json);
 
   @override
   final String artistName;
@@ -230,7 +230,7 @@ class _$_AlbumRating extends _AlbumRating {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_AlbumRating &&
+            other is _$AlbumRatingImpl &&
             (identical(other.artistName, artistName) ||
                 other.artistName == artistName) &&
             (identical(other.albumName, albumName) ||
@@ -254,12 +254,12 @@ class _$_AlbumRating extends _AlbumRating {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_AlbumRatingCopyWith<_$_AlbumRating> get copyWith =>
-      __$$_AlbumRatingCopyWithImpl<_$_AlbumRating>(this, _$identity);
+  _$$AlbumRatingImplCopyWith<_$AlbumRatingImpl> get copyWith =>
+      __$$AlbumRatingImplCopyWithImpl<_$AlbumRatingImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_AlbumRatingToJson(
+    return _$$AlbumRatingImplToJson(
       this,
     );
   }
@@ -274,11 +274,11 @@ abstract class _AlbumRating extends AlbumRating {
       required final String response,
       required final String url,
       required final String releaseDate,
-      required final String favoriteTrack}) = _$_AlbumRating;
+      required final String favoriteTrack}) = _$AlbumRatingImpl;
   _AlbumRating._() : super._();
 
   factory _AlbumRating.fromJson(Map<String, dynamic> json) =
-      _$_AlbumRating.fromJson;
+      _$AlbumRatingImpl.fromJson;
 
   @override
   String get artistName;
@@ -298,6 +298,6 @@ abstract class _AlbumRating extends AlbumRating {
   String get favoriteTrack;
   @override
   @JsonKey(ignore: true)
-  _$$_AlbumRatingCopyWith<_$_AlbumRating> get copyWith =>
+  _$$AlbumRatingImplCopyWith<_$AlbumRatingImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

@@ -21,10 +21,11 @@ class AlbumRatingPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final albumData = ref.watch(albumDataProvider) as AlbumOrArtist;
+    final albumData = ref.watch(albumDataProvider);
     final trackList = ref.watch(getTrackDataProvider);
     final userData = ref.watch(firebaseAuthCurrentUserProvider);
-    final specialUserDataAsync = ref.watch(specialUserDataFromUIDProvider(null));
+    final specialUserDataAsync =
+        ref.watch(specialUserDataFromUIDProvider(null));
     final downloadUrl = ref
         .read(retrieveUserDownloadUrlProvider(userData!.uid))
         .whenData((value) => value)
@@ -82,7 +83,7 @@ class AlbumRatingPage extends ConsumerWidget {
 
             return Scaffold(
               appBar: RootNavAppBar(
-                  title: Text(albumData.name), appBar: AppBar(), ref: ref),
+                  title: Text(albumData!.name), appBar: AppBar(), ref: ref),
               body: Padding(
                 padding: const EdgeInsets.only(top: 10, bottom: 10),
                 child: Stack(

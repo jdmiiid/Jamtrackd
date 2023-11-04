@@ -113,9 +113,10 @@ class _$PostCopyWithImpl<$Res, $Val extends Post>
 }
 
 /// @nodoc
-abstract class _$$_PostCopyWith<$Res> implements $PostCopyWith<$Res> {
-  factory _$$_PostCopyWith(_$_Post value, $Res Function(_$_Post) then) =
-      __$$_PostCopyWithImpl<$Res>;
+abstract class _$$PostImplCopyWith<$Res> implements $PostCopyWith<$Res> {
+  factory _$$PostImplCopyWith(
+          _$PostImpl value, $Res Function(_$PostImpl) then) =
+      __$$PostImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -132,9 +133,10 @@ abstract class _$$_PostCopyWith<$Res> implements $PostCopyWith<$Res> {
 }
 
 /// @nodoc
-class __$$_PostCopyWithImpl<$Res> extends _$PostCopyWithImpl<$Res, _$_Post>
-    implements _$$_PostCopyWith<$Res> {
-  __$$_PostCopyWithImpl(_$_Post _value, $Res Function(_$_Post) _then)
+class __$$PostImplCopyWithImpl<$Res>
+    extends _$PostCopyWithImpl<$Res, _$PostImpl>
+    implements _$$PostImplCopyWith<$Res> {
+  __$$PostImplCopyWithImpl(_$PostImpl _value, $Res Function(_$PostImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -148,7 +150,7 @@ class __$$_PostCopyWithImpl<$Res> extends _$PostCopyWithImpl<$Res, _$_Post>
     Object? likes = null,
     Object? downloadURL = freezed,
   }) {
-    return _then(_$_Post(
+    return _then(_$PostImpl(
       postID: null == postID
           ? _value.postID
           : postID // ignore: cast_nullable_to_non_nullable
@@ -183,8 +185,8 @@ class __$$_PostCopyWithImpl<$Res> extends _$PostCopyWithImpl<$Res, _$_Post>
 
 /// @nodoc
 @JsonSerializable()
-class _$_Post implements _Post {
-  const _$_Post(
+class _$PostImpl implements _Post {
+  const _$PostImpl(
       {required this.postID,
       required this.author,
       required this.username,
@@ -194,7 +196,8 @@ class _$_Post implements _Post {
       required this.downloadURL})
       : _likes = likes;
 
-  factory _$_Post.fromJson(Map<String, dynamic> json) => _$$_PostFromJson(json);
+  factory _$PostImpl.fromJson(Map<String, dynamic> json) =>
+      _$$PostImplFromJson(json);
 
   @override
   final String postID;
@@ -226,7 +229,7 @@ class _$_Post implements _Post {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_Post &&
+            other is _$PostImpl &&
             (identical(other.postID, postID) || other.postID == postID) &&
             (identical(other.author, author) || other.author == author) &&
             (identical(other.username, username) ||
@@ -254,12 +257,12 @@ class _$_Post implements _Post {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_PostCopyWith<_$_Post> get copyWith =>
-      __$$_PostCopyWithImpl<_$_Post>(this, _$identity);
+  _$$PostImplCopyWith<_$PostImpl> get copyWith =>
+      __$$PostImplCopyWithImpl<_$PostImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_PostToJson(
+    return _$$PostImplToJson(
       this,
     );
   }
@@ -273,9 +276,9 @@ abstract class _Post implements Post {
       required final AlbumRating content,
       required final String timestamp,
       required final List<dynamic> likes,
-      required final String? downloadURL}) = _$_Post;
+      required final String? downloadURL}) = _$PostImpl;
 
-  factory _Post.fromJson(Map<String, dynamic> json) = _$_Post.fromJson;
+  factory _Post.fromJson(Map<String, dynamic> json) = _$PostImpl.fromJson;
 
   @override
   String get postID;
@@ -293,5 +296,6 @@ abstract class _Post implements Post {
   String? get downloadURL;
   @override
   @JsonKey(ignore: true)
-  _$$_PostCopyWith<_$_Post> get copyWith => throw _privateConstructorUsedError;
+  _$$PostImplCopyWith<_$PostImpl> get copyWith =>
+      throw _privateConstructorUsedError;
 }

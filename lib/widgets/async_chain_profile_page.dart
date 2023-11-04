@@ -58,7 +58,7 @@ class AsyncChainProfilePage extends ConsumerWidget {
                               padding: EdgeInsets.only(right: 10),
                               child: Icon(Icons.settings_outlined),
                             ),
-                            onTap: () => context.go('/settings_page'),
+                            onTap: () => context.push('/settings_page'),
                           )
                         ],
                       ),
@@ -258,7 +258,7 @@ Widget buildAlbumGrid(
                   child: Row(
                     children: [
                       Container(
-                        padding: EdgeInsets.all(2),
+                        padding: const EdgeInsets.all(2),
                         decoration: BoxDecoration(
                             color: Theme.of(context).colorScheme.onBackground,
                             shape: BoxShape.circle),

@@ -6,7 +6,7 @@ part of 'post.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_Post _$$_PostFromJson(Map<String, dynamic> json) => _$_Post(
+_$PostImpl _$$PostImplFromJson(Map<String, dynamic> json) => _$PostImpl(
       postID: json['postID'] as String,
       author: json['author'] as String,
       username: json['username'] as String,
@@ -16,7 +16,8 @@ _$_Post _$$_PostFromJson(Map<String, dynamic> json) => _$_Post(
       downloadURL: json['downloadURL'] as String?,
     );
 
-Map<String, dynamic> _$$_PostToJson(_$_Post instance) => <String, dynamic>{
+Map<String, dynamic> _$$PostImplToJson(_$PostImpl instance) =>
+    <String, dynamic>{
       'postID': instance.postID,
       'author': instance.author,
       'username': instance.username,

@@ -7,11 +7,12 @@ part 'special_user_data.g.dart';
 @freezed
 class SpecialUserData with _$SpecialUserData {
   const factory SpecialUserData({
-    String? username,
+    required String username,
     String? bio,
     String? userID,
     String? displayName,
     String? photoURL,
+    String? email,
   }) = _SpecialUserData;
 
   factory SpecialUserData.fromJson(Map<String, dynamic> json) =>
@@ -28,6 +29,7 @@ class SpecialUserData with _$SpecialUserData {
       bio: data['bio'],
       displayName: data['displayName'],
       photoURL: data['photoURL'],
+      email: data['email'],
     );
   }
 }

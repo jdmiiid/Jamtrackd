@@ -99,11 +99,11 @@ class _$AlbumOrArtistCopyWithImpl<$Res, $Val extends AlbumOrArtist>
 }
 
 /// @nodoc
-abstract class _$$_AlbumOrArtistCopyWith<$Res>
+abstract class _$$AlbumOrArtistImplCopyWith<$Res>
     implements $AlbumOrArtistCopyWith<$Res> {
-  factory _$$_AlbumOrArtistCopyWith(
-          _$_AlbumOrArtist value, $Res Function(_$_AlbumOrArtist) then) =
-      __$$_AlbumOrArtistCopyWithImpl<$Res>;
+  factory _$$AlbumOrArtistImplCopyWith(
+          _$AlbumOrArtistImpl value, $Res Function(_$AlbumOrArtistImpl) then) =
+      __$$AlbumOrArtistImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -116,11 +116,11 @@ abstract class _$$_AlbumOrArtistCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_AlbumOrArtistCopyWithImpl<$Res>
-    extends _$AlbumOrArtistCopyWithImpl<$Res, _$_AlbumOrArtist>
-    implements _$$_AlbumOrArtistCopyWith<$Res> {
-  __$$_AlbumOrArtistCopyWithImpl(
-      _$_AlbumOrArtist _value, $Res Function(_$_AlbumOrArtist) _then)
+class __$$AlbumOrArtistImplCopyWithImpl<$Res>
+    extends _$AlbumOrArtistCopyWithImpl<$Res, _$AlbumOrArtistImpl>
+    implements _$$AlbumOrArtistImplCopyWith<$Res> {
+  __$$AlbumOrArtistImplCopyWithImpl(
+      _$AlbumOrArtistImpl _value, $Res Function(_$AlbumOrArtistImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -133,7 +133,7 @@ class __$$_AlbumOrArtistCopyWithImpl<$Res>
     Object? artists = freezed,
     Object? images = freezed,
   }) {
-    return _then(_$_AlbumOrArtist(
+    return _then(_$AlbumOrArtistImpl(
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
@@ -164,8 +164,10 @@ class __$$_AlbumOrArtistCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_AlbumOrArtist with DiagnosticableTreeMixin implements _AlbumOrArtist {
-  const _$_AlbumOrArtist(
+class _$AlbumOrArtistImpl
+    with DiagnosticableTreeMixin
+    implements _AlbumOrArtist {
+  const _$AlbumOrArtistImpl(
       {required this.id,
       required this.type,
       required this.name,
@@ -175,8 +177,8 @@ class _$_AlbumOrArtist with DiagnosticableTreeMixin implements _AlbumOrArtist {
       : _artists = artists,
         _images = images;
 
-  factory _$_AlbumOrArtist.fromJson(Map<String, dynamic> json) =>
-      _$$_AlbumOrArtistFromJson(json);
+  factory _$AlbumOrArtistImpl.fromJson(Map<String, dynamic> json) =>
+      _$$AlbumOrArtistImplFromJson(json);
 
   @override
   final String id;
@@ -229,7 +231,7 @@ class _$_AlbumOrArtist with DiagnosticableTreeMixin implements _AlbumOrArtist {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_AlbumOrArtist &&
+            other is _$AlbumOrArtistImpl &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.type, type) || other.type == type) &&
             (identical(other.name, name) || other.name == name) &&
@@ -253,12 +255,12 @@ class _$_AlbumOrArtist with DiagnosticableTreeMixin implements _AlbumOrArtist {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_AlbumOrArtistCopyWith<_$_AlbumOrArtist> get copyWith =>
-      __$$_AlbumOrArtistCopyWithImpl<_$_AlbumOrArtist>(this, _$identity);
+  _$$AlbumOrArtistImplCopyWith<_$AlbumOrArtistImpl> get copyWith =>
+      __$$AlbumOrArtistImplCopyWithImpl<_$AlbumOrArtistImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_AlbumOrArtistToJson(
+    return _$$AlbumOrArtistImplToJson(
       this,
     );
   }
@@ -271,10 +273,10 @@ abstract class _AlbumOrArtist implements AlbumOrArtist {
       required final String name,
       @JsonKey(name: 'release_date') final String? releaseDate,
       final List<Artist>? artists,
-      final List<dynamic>? images}) = _$_AlbumOrArtist;
+      final List<dynamic>? images}) = _$AlbumOrArtistImpl;
 
   factory _AlbumOrArtist.fromJson(Map<String, dynamic> json) =
-      _$_AlbumOrArtist.fromJson;
+      _$AlbumOrArtistImpl.fromJson;
 
   @override
   String get id;
@@ -291,6 +293,6 @@ abstract class _AlbumOrArtist implements AlbumOrArtist {
   List<dynamic>? get images;
   @override
   @JsonKey(ignore: true)
-  _$$_AlbumOrArtistCopyWith<_$_AlbumOrArtist> get copyWith =>
+  _$$AlbumOrArtistImplCopyWith<_$AlbumOrArtistImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

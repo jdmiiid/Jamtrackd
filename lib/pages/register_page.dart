@@ -1,3 +1,4 @@
+import 'package:Jamtrackd/widgets/bottom_nav_bar.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -9,8 +10,8 @@ import '../services/firebase_auth/firebase_storage_service.dart';
 import '../widgets/register_avatar.dart';
 import '../widgets/root_app_bar.dart';
 
-class RegisterPage extends ConsumerWidget {
-  RegisterPage({Key? key}) : super(key: key);
+class ProfileInfoPage extends ConsumerWidget {
+  ProfileInfoPage({super.key});
 
   final TextEditingController _firstName = TextEditingController();
   final TextEditingController _lastName = TextEditingController();
@@ -18,7 +19,7 @@ class RegisterPage extends ConsumerWidget {
   final TextEditingController _regPassword = TextEditingController();
   final TextEditingController _confirmPassword = TextEditingController();
   final TextEditingController _username = TextEditingController();
-  final formKey = GlobalKey<FormState>();
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -34,34 +35,142 @@ class RegisterPage extends ConsumerWidget {
           ),
           appBar: AppBar(),
         ),
-        body: ListView(
-          children: [
-            Column(
-              children: [
-                const Row(
+        body: CustomScrollView(
+          slivers: [
+            SliverPadding(
+              padding: const EdgeInsets.only(left: 8, right: 8, top: 10),
+              sliver: SliverToBoxAdapter(
+                child: _buildWidgetWithLabel(
+                  labelText: 'Profile Picture',
+                  child: Stack(children: [
+                    CircleAvatar(
+                      radius: 70,
+                      backgroundImage:
+                          CachedNetworkImageProvider(tappedUser.photoURL!),
+                    ),
+                    Positioned(
+                        bottom: 0,
+                        right: 0,
+                        child: Container(
+                          padding: const EdgeInsets.all(7),
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: Theme.of(context).colorScheme.primary,
+                          ),
+                          child: Icon(
+                            Icons.edit,
+                            color: Theme.of(context).colorScheme.onPrimary,
+                          ),
+                        ))
+                  ]),
+                ),
+              ),
+            ),
+            SliverPadding(
+              padding: const EdgeInsets.only(left: 8, right: 8),
+              sliver: SliverFillRemaining(
+                hasScrollBody: false,
+                child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [Text('Profile Picture'), Text('Edit')],
+                  children: [
+                    _buildWidgetWithLabel(
+                      labelText: 'Bio',
+                      child: const TextField(
+                        maxLines: null,
+                        decoration: InputDecoration(
+                            hintText:
+                                'A brief summary of you and your tastes...'),
+                      ),
+                    ),
+                    Expanded(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Row(children: [
+                            Expanded(
+                                flex: 4,
+                                child: _buildWidgetWithLabel(
+                                  labelText: 'First Name',
+                                  child: _buildEditTextField(
+                                      controller: _firstName, name: names[0]),
+                                )),
+                            const Expanded(child: SizedBox()),
+                            Expanded(
+                              flex: 4,
+                              child: _buildWidgetWithLabel(
+                                labelText: 'Last Name',
+                                child: _buildEditTextField(
+                                    controller: _lastName, name: names[1]),
+                              ),
+                            ),
+                          ]),
+                          _buildWidgetWithLabel(
+                            labelText: 'Email',
+                            child: _buildEditTextField(controller: _regEmail),
+                          ),
+                          _buildWidgetWithLabel(
+                              labelText: 'Username',
+                              child: IntrinsicHeight(
+                                child: Row(
+                                  crossAxisAlignment:
+                                      CrossAxisAlignment.stretch,
+                                  children: [
+                                    Expanded(
+                                        flex: 15,
+                                        child: _buildEditTextField(
+                                            controller: _username,
+                                            name: tappedUser.username)),
+                                    const Expanded(child: SizedBox()),
+                                    Expanded(
+                                      flex: 11,
+                                      child: TextButton(
+                                        onPressed: () {},
+                                        style: TextButton.styleFrom(
+                                            backgroundColor: Theme.of(context)
+                                                .colorScheme
+                                                .surface),
+                                        child: const Row(
+                                          children: [
+                                            Text(
+                                              'Edit Password',
+                                            ),
+                                            Icon(
+                                              Icons.chevron_right_rounded,
+                                            )
+                                          ],
+                                        ),
+                                      ),
+                                    )
+                                  ],
+                                ),
+                              )),
+                        ],
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 20),
+                      child: TextButton(
+                        style: ButtonStyle(
+                            backgroundColor: MaterialStateProperty.all(
+                                Theme.of(context).colorScheme.primary)),
+                        onPressed: () {
+                          print('update specialuserdata here');
+                        },
+                        child: Text(
+                          'Update Profile',
+                          style: TextStyle(
+                              fontSize: 20,
+                              color: Theme.of(context).colorScheme.onPrimary),
+                        ),
+                      ),
+                    )
+                  ],
                 ),
-                CircleAvatar(
-                  radius: 70,
-                  backgroundImage:
-                      CachedNetworkImageProvider(tappedUser.photoURL!),
-                ),
-              ],
+              ),
             ),
-            const Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text('Bio'),
-                TextField(
-                  decoration: InputDecoration(
-                      hintText: 'A brief summary of you and your tastes...'),
-                )
-              ],
-            ),
-            _buildTextField(controller: _firstName, initialValue: names[0])
           ],
         ),
+        bottomNavigationBar: BottomNavBar(),
       );
     } else {
       return Scaffold(
@@ -101,15 +210,36 @@ class RegisterPage extends ConsumerWidget {
     }
   }
 
-  Widget _buildTextField({
+  Widget _buildWidgetWithLabel(
+      {required String labelText, required Widget child}) {
+    return Column(
+      children: [
+        Align(alignment: Alignment.centerLeft, child: Text(labelText)),
+        child,
+      ],
+    );
+  }
+
+  Widget _buildEditTextField(
+      {required TextEditingController controller, String? name}) {
+    return TextFormField(
+      controller: controller..text = name ?? '',
+      decoration: const InputDecoration(
+        filled: true,
+        border: OutlineInputBorder(
+            gapPadding: 0, borderRadius: BorderRadius.all(Radius.circular(10))),
+      ),
+      autocorrect: false,
+    );
+  }
+
+  Widget _buildRegisterTextField({
     required TextEditingController controller,
     String hintText = '',
-    String initialValue = '',
     bool obscureText = false,
     String? Function(String?)? validator,
   }) {
     return TextFormField(
-      initialValue: initialValue,
       controller: controller,
       decoration: InputDecoration(
         hintText: hintText,
@@ -137,7 +267,7 @@ class RegisterPage extends ConsumerWidget {
                 children: [
                   Expanded(
                     flex: 6,
-                    child: _buildTextField(
+                    child: _buildRegisterTextField(
                       controller: _firstName,
                       hintText: 'First Name*',
                       validator: (firstname) {
@@ -151,7 +281,7 @@ class RegisterPage extends ConsumerWidget {
                   const Expanded(child: SizedBox()),
                   Expanded(
                     flex: 6,
-                    child: _buildTextField(
+                    child: _buildRegisterTextField(
                       controller: _lastName,
                       hintText: 'Last Name*',
                       validator: (value) {
@@ -164,7 +294,7 @@ class RegisterPage extends ConsumerWidget {
                   )
                 ],
               ),
-              _buildTextField(
+              _buildRegisterTextField(
                 controller: _username,
                 hintText: 'Username*',
                 validator: (username) {
@@ -176,7 +306,7 @@ class RegisterPage extends ConsumerWidget {
                   return null;
                 },
               ),
-              _buildTextField(
+              _buildRegisterTextField(
                 controller: _regEmail,
                 hintText: 'Email*',
                 validator: (value) {
@@ -190,7 +320,7 @@ class RegisterPage extends ConsumerWidget {
                 children: [
                   Expanded(
                     flex: 6,
-                    child: _buildTextField(
+                    child: _buildRegisterTextField(
                       controller: _regPassword,
                       hintText: 'Password*',
                       obscureText: true,
@@ -207,7 +337,7 @@ class RegisterPage extends ConsumerWidget {
                   ),
                   Expanded(
                     flex: 6,
-                    child: _buildTextField(
+                    child: _buildRegisterTextField(
                       controller: _confirmPassword,
                       hintText: 'Confirm Password',
                       obscureText: true,

@@ -1,8 +1,8 @@
 import 'dart:io';
 
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 
+import '../../models/special_user_data.dart';
 import 'firebase_storage_service.dart';
 
 class FirebaseAuthService {
@@ -32,14 +32,13 @@ class FirebaseAuthService {
                 await FirebaseStorageService()
                     .uploadImageAsset(userCredential.user!.uid, pPicAsset!)
                     .then((downloadUrl) async {
-                  await userCredential.user!.updatePhotoURL(downloadUrl);
+                  final SpecialUserData userWithSomeData = SpecialUserData(
+                      displayName: '$firstName $lastName',
+                      photoURL: downloadUrl,
+                      username: username);
+                  SpecialUserData.toFirestore(userWithSomeData, null);
                 });
               }),
-              userCredential.user!.updateDisplayName('$firstName $lastName'),
-              FirebaseFirestore.instance
-                  .collection('users')
-                  .doc(userCredential.user!.uid)
-                  .set({'username': username})
             },
           );
 

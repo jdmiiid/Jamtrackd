@@ -1,3 +1,5 @@
+import 'package:Jamtrackd/providers/firebase_firestore_providers.dart';
+import 'package:Jamtrackd/providers/spotify_providers.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -34,7 +36,8 @@ class AlbumGridView extends ConsumerWidget {
             child: Image.network(albeezy.content.url),
           ),
           onTap: () {
-            context.push('/ratings_page');
+            ref.read(reviewLookProvider.notifier).update((state) => albeezy);
+            context.push('/review_look_page');
           },
         );
       },

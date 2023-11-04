@@ -6,8 +6,8 @@ part of 'album_or_artist.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_AlbumOrArtist _$$_AlbumOrArtistFromJson(Map<String, dynamic> json) =>
-    _$_AlbumOrArtist(
+_$AlbumOrArtistImpl _$$AlbumOrArtistImplFromJson(Map<String, dynamic> json) =>
+    _$AlbumOrArtistImpl(
       id: json['id'] as String,
       type: json['type'] as String,
       name: json['name'] as String,
@@ -18,7 +18,7 @@ _$_AlbumOrArtist _$$_AlbumOrArtistFromJson(Map<String, dynamic> json) =>
       images: json['images'] as List<dynamic>?,
     );
 
-Map<String, dynamic> _$$_AlbumOrArtistToJson(_$_AlbumOrArtist instance) =>
+Map<String, dynamic> _$$AlbumOrArtistImplToJson(_$AlbumOrArtistImpl instance) =>
     <String, dynamic>{
       'id': instance.id,
       'type': instance.type,

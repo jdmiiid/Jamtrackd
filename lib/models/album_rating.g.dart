@@ -6,8 +6,8 @@ part of 'album_rating.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_AlbumRating _$$_AlbumRatingFromJson(Map<String, dynamic> json) =>
-    _$_AlbumRating(
+_$AlbumRatingImpl _$$AlbumRatingImplFromJson(Map<String, dynamic> json) =>
+    _$AlbumRatingImpl(
       artistName: json['artistName'] as String,
       albumName: json['albumName'] as String,
       title: json['title'] as String?,
@@ -18,7 +18,7 @@ _$_AlbumRating _$$_AlbumRatingFromJson(Map<String, dynamic> json) =>
       favoriteTrack: json['favoriteTrack'] as String,
     );
 
-Map<String, dynamic> _$$_AlbumRatingToJson(_$_AlbumRating instance) =>
+Map<String, dynamic> _$$AlbumRatingImplToJson(_$AlbumRatingImpl instance) =>
     <String, dynamic>{
       'artistName': instance.artistName,
       'albumName': instance.albumName,
