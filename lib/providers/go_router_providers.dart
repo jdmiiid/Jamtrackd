@@ -6,7 +6,6 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../pages/login_page.dart';
 import '../pages/review_page_look.dart';
-import '../pages/test_page.dart';
 import '../pages/album_rating_page.dart';
 import '../pages/albums_list_page.dart';
 import '../pages/profile_page.dart';
