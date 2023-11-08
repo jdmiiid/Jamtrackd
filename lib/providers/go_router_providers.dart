@@ -13,6 +13,7 @@ import '../pages/profile_page.dart';
 import '../pages/register_or_edit_profile.dart';
 import '../pages/search_page.dart';
 import '../pages/settings_page.dart';
+import '../pages/verify_email_page.dart';
 import 'firebase_auth_providers.dart';
 
 // 2. Add a part file
@@ -28,8 +29,8 @@ GoRouter goRouter(GoRouterRef ref) {
         path: '/',
         pageBuilder: (context, state) => NoTransitionPage(
           child: ref.watch(firebaseAuthCurrentUserProvider) != null
-              // ? const VerifyEmailPage()
-              ? const TestPage()
+              ? const VerifyEmailPage()
+              // ? const TestPage()
               : LoginPage(),
         ),
       ),

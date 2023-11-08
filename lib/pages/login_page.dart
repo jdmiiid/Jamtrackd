@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import '../providers/misc_providers.dart';
+import '../services/firebase_auth/firebase_auth_service.dart';
 import '../widgets/root_app_bar.dart';
 import '../widgets/root_svg_picture.dart';
 import '../providers/firebase_auth_providers.dart';
@@ -92,6 +93,13 @@ class LoginPage extends ConsumerWidget {
                   ElevatedButton(
                     onPressed: () => context.push('/profile_info_page'),
                     child: const Text('Register'),
+                  ),
+                  ElevatedButton(
+                    onPressed: () => ref
+                        .read(firebaseAuthServiceProvider)
+                        .sendPasswordResetEmail(
+                            email: 'fancyturkeys@gmail.com'),
+                    child: const Text('Send an email to only Joel Button'),
                   ),
                 ],
               ),
