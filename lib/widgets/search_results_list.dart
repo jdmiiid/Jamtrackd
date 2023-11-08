@@ -1,5 +1,4 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -111,7 +110,7 @@ class SearchResultsList extends HookConsumerWidget {
           error: (error, stacktrace) => Text('your error is $error'));
     } else {
       return ref.watch(queriedUserSearchProvider(userLimit: 2)).when(
-          loading: () => Text('Loading withing queriedUserSearch'),
+          loading: () => const Text('Loading withing queriedUserSearch'),
           error: (Object error, StackTrace stackTrace) =>
               Text('error: $error within queriedUserSearch'),
           data: (List<SpecialUserData?> userList) {

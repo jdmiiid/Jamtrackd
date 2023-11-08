@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import '../models/album_or_artist.dart';
 import '../providers/firebase_auth_providers.dart';
 import '../providers/misc_providers.dart';
 import '../providers/spotify_providers.dart';

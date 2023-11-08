@@ -23,12 +23,11 @@ final firebaseAuthInstanceProvider = Provider<FirebaseAuth>.internal(
 
 typedef FirebaseAuthInstanceRef = ProviderRef<FirebaseAuth>;
 String _$firebaseAuthStateChangesStreamHash() =>
-    r'7feea1566e66cc7ef8129fa1ac095fc941a0fac8';
+    r'4350749099ba366c79a597af4fcda65682b52d0f';
 
 /// See also [firebaseAuthStateChangesStream].
 @ProviderFor(firebaseAuthStateChangesStream)
-final firebaseAuthStateChangesStreamProvider =
-    AutoDisposeStreamProvider<User?>.internal(
+final firebaseAuthStateChangesStreamProvider = StreamProvider<User?>.internal(
   firebaseAuthStateChangesStream,
   name: r'firebaseAuthStateChangesStreamProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
@@ -38,25 +37,9 @@ final firebaseAuthStateChangesStreamProvider =
   allTransitiveDependencies: null,
 );
 
-typedef FirebaseAuthStateChangesStreamRef = AutoDisposeStreamProviderRef<User?>;
-String _$firebaseAuthUserChangesStreamHash() =>
-    r'8dff3ac04426f7691c83744ecde9ca45807d2bb6';
-
-/// See also [firebaseAuthUserChangesStream].
-@ProviderFor(firebaseAuthUserChangesStream)
-final firebaseAuthUserChangesStreamProvider = StreamProvider<User?>.internal(
-  firebaseAuthUserChangesStream,
-  name: r'firebaseAuthUserChangesStreamProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$firebaseAuthUserChangesStreamHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
-
-typedef FirebaseAuthUserChangesStreamRef = StreamProviderRef<User?>;
+typedef FirebaseAuthStateChangesStreamRef = StreamProviderRef<User?>;
 String _$firebaseAuthCurrentUserHash() =>
-    r'acd18923624fe8ca2a46e9e2e7110e98ba2a54af';
+    r'1ae8856c154b33ffb0999990a1675a44ba0bf036';
 
 /// See also [firebaseAuthCurrentUser].
 @ProviderFor(firebaseAuthCurrentUser)

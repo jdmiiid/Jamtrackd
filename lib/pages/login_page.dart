@@ -90,7 +90,7 @@ class LoginPage extends ConsumerWidget {
                     style: TextStyle(fontSize: 14),
                   ),
                   ElevatedButton(
-                    onPressed: () => context.push('/register_page'),
+                    onPressed: () => context.push('/profile_info_page'),
                     child: const Text('Register'),
                   ),
                 ],
