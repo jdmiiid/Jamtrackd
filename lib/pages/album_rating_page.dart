@@ -264,7 +264,7 @@ class AlbumRatingPage extends ConsumerWidget {
 
                             Post finalPost = Post(
                                 author: userData.uid,
-                                username: specialUserData!.username!,
+                                username: specialUserData!.username,
                                 content: AlbumRating(
                                   albumName: albumData.name,
                                   releaseDate:

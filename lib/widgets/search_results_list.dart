@@ -137,7 +137,7 @@ class SearchResultsList extends HookConsumerWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  user.username!,
+                                  user.username,
                                   style: TextStyle(fontWeight: FontWeight.bold),
                                 ),
                                 Text(user.displayName ?? 'Null here')

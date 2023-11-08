@@ -7,22 +7,12 @@ import 'package:Jamtrackd/providers/firebase_auth_providers.dart';
 
 part 'firebase_storage_service.g.dart';
 
-
-final pPicAssetProvider = StateProvider<File?>((ref) => null);
+final pPicAssetProvider = AutoDisposeStateProvider<File?>((ref) => null);
 
 class FirebaseStorageService {
   FirebaseStorageService();
 
   final storageRef = FirebaseStorage.instance.ref();
-
-  Future<void> _uploadImage(
-      Reference ref, File imageFile, WidgetRef widgetRef) async {
-    try {
-      await ref.putFile(imageFile);
-    } on FirebaseException catch (e) {
-      print(e);
-    }
-  }
 
   Future<void> pickUploadImage(WidgetRef ref) async {
     final userData = ref.watch(firebaseAuthCurrentUserProvider);
@@ -55,6 +45,27 @@ class FirebaseStorageService {
       // Handle the exception when the upload or retrieval fails
       print('Error uploading image: $e');
       return null;
+    }
+  }
+
+  Future<void> _uploadImage(
+      Reference ref, File imageFile, WidgetRef widgetRef) async {
+    try {
+      await ref.putFile(imageFile);
+    } on FirebaseException catch (e) {
+      print(e);
+    }
+  }
+
+  Future<String?> deleteProfilePicture({required String uid}) async {
+    final pPicRef = storageRef.child('profile_pics/$uid');
+    try {
+      await pPicRef.delete();
+      return null; // Return null if the function completes normally.
+    } on FirebaseException catch (e) {
+      // Caught an exception from Firebase.
+      print("Failed with error '${e.code}': ${e.message}");
+      return "Error: ${e.message}"; // Return a custom error message as a string.
     }
   }
 }

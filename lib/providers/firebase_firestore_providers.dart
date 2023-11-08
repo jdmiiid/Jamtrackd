@@ -113,7 +113,7 @@ double calculateRelevanceScore(SpecialUserData? user, String searchQuery) {
 
   final searchSet = Set<String>.from(searchQuery.split(' '));
   final displayNameSet = Set<String>.from(user.displayName?.split(' ') ?? []);
-  final usernameSet = Set<String>.from(user.username!.split(' '));
+  final usernameSet = Set<String>.from(user.username.split(' '));
 
   final displayNameScore = calculateJaccardIndex(searchSet, displayNameSet);
   final usernameScore = calculateJaccardIndex(searchSet, usernameSet);
@@ -429,7 +429,7 @@ Future<void> deleteFirestoreCommentLike(
 
 @riverpod
 Stream<List<Post>> postCollectionStream(PostCollectionStreamRef ref,
-    {String tappedUserID = ''}) async* {
+    {required String tappedUserID}) async* {
   final String orderCriterion = ref.watch(orderCriterionProvider);
   final bool upOrDown = ref.watch(upOrDownProvider);
 

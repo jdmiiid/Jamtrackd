@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
+import '../pages/register_or_edit_profile.dart';
 import '../services/firebase_auth/firebase_storage_service.dart';
 
 Widget registerAvatar(BuildContext context, WidgetRef ref) {

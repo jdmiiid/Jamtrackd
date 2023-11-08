@@ -16,11 +16,12 @@ class AlbumOrArtist with _$AlbumOrArtist {
     required String id,
     required String type,
     required String name,
-    @JsonKey(name: 'release_date') String? releaseDate,
     List<Artist>? artists,
     List? images,
   }) = _AlbumOrArtist;
 
   factory AlbumOrArtist.fromJson(Map<String, dynamic> json) =>
-      _$AlbumOrArtistFromJson(json);
+      _$AlbumOrArtistFromJson(json).copyWith(
+        releaseDate: json['release_date'],
+      );
 }

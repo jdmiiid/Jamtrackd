@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:Jamtrackd/widgets/bottom_nav_bar.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
@@ -109,41 +111,41 @@ class ProfileInfoPage extends ConsumerWidget {
                             child: _buildEditTextField(controller: _regEmail),
                           ),
                           _buildWidgetWithLabel(
-                              labelText: 'Username',
-                              child: IntrinsicHeight(
-                                child: Row(
-                                  crossAxisAlignment:
-                                      CrossAxisAlignment.stretch,
-                                  children: [
-                                    Expanded(
-                                        flex: 15,
-                                        child: _buildEditTextField(
-                                            controller: _username,
-                                            name: tappedUser.username)),
-                                    const Expanded(child: SizedBox()),
-                                    Expanded(
-                                      flex: 11,
-                                      child: TextButton(
-                                        onPressed: () {},
-                                        style: TextButton.styleFrom(
-                                            backgroundColor: Theme.of(context)
-                                                .colorScheme
-                                                .surface),
-                                        child: const Row(
-                                          children: [
-                                            Text(
-                                              'Edit Password',
-                                            ),
-                                            Icon(
-                                              Icons.chevron_right_rounded,
-                                            )
-                                          ],
-                                        ),
+                            labelText: 'Username',
+                            child: IntrinsicHeight(
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.stretch,
+                                children: [
+                                  Expanded(
+                                      flex: 15,
+                                      child: _buildEditTextField(
+                                          controller: _username,
+                                          name: tappedUser.username)),
+                                  const Expanded(child: SizedBox()),
+                                  Expanded(
+                                    flex: 11,
+                                    child: TextButton(
+                                      onPressed: () {},
+                                      style: TextButton.styleFrom(
+                                          backgroundColor: Theme.of(context)
+                                              .colorScheme
+                                              .surface),
+                                      child: const Row(
+                                        children: [
+                                          Text(
+                                            'Edit Password',
+                                          ),
+                                          Icon(
+                                            Icons.chevron_right_rounded,
+                                          )
+                                        ],
                                       ),
-                                    )
-                                  ],
-                                ),
-                              )),
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ),
+                          ),
                         ],
                       ),
                     ),
@@ -256,8 +258,6 @@ class ProfileInfoPage extends ConsumerWidget {
       flex: 7,
       child: Form(
         key: formKey,
-        autovalidateMode:
-            AutovalidateMode.always, // Enable real-time validation
         child: Padding(
           padding: const EdgeInsets.only(left: 8, right: 8),
           child: Column(
@@ -269,7 +269,7 @@ class ProfileInfoPage extends ConsumerWidget {
                     flex: 6,
                     child: _buildRegisterTextField(
                       controller: _firstName,
-                      hintText: 'First Name*',
+                      hintText: 'First Name',
                       validator: (firstname) {
                         if (firstname!.trim().isEmpty) {
                           return "First name required";
@@ -283,7 +283,7 @@ class ProfileInfoPage extends ConsumerWidget {
                     flex: 6,
                     child: _buildRegisterTextField(
                       controller: _lastName,
-                      hintText: 'Last Name*',
+                      hintText: 'Last Name',
                       validator: (value) {
                         if (value!.trim().isEmpty) {
                           return "Last Name Required";
@@ -296,7 +296,7 @@ class ProfileInfoPage extends ConsumerWidget {
               ),
               _buildRegisterTextField(
                 controller: _username,
-                hintText: 'Username*',
+                hintText: 'Username',
                 validator: (username) {
                   if (username!.isEmpty || username.length < 3) {
                     return "Username must have 4 characters";
@@ -308,7 +308,7 @@ class ProfileInfoPage extends ConsumerWidget {
               ),
               _buildRegisterTextField(
                 controller: _regEmail,
-                hintText: 'Email*',
+                hintText: 'Email',
                 validator: (value) {
                   if (value!.isEmpty) {
                     return "Please enter email";
@@ -322,7 +322,7 @@ class ProfileInfoPage extends ConsumerWidget {
                     flex: 6,
                     child: _buildRegisterTextField(
                       controller: _regPassword,
-                      hintText: 'Password*',
+                      hintText: 'Password',
                       obscureText: true,
                       validator: (password) {
                         if (password!.length < 5) {
@@ -363,36 +363,41 @@ class ProfileInfoPage extends ConsumerWidget {
 
   Future<void> _submitForm(WidgetRef ref, BuildContext context) async {
     if (formKey.currentState!.validate()) {
-      showDialog(
-        context: context,
-        barrierDismissible: false,
-        builder: (context) => const Center(
-          child: CircularProgressIndicator(),
-        ),
-      );
+      final isMounted = formKey.currentState!.mounted;
 
-      final pPicAsset = ref.watch(pPicAssetProvider);
+      if (isMounted) {
+        showDialog(
+          context: context,
+          barrierDismissible: false,
+          builder: (context) => const Center(
+            child: CircularProgressIndicator(),
+          ),
+        );
 
-      await ref
-          .watch(firebaseAuthServiceProvider)
-          .createUserWithEmailAndPassword(
-            username: _username.text,
-            firstName: _firstName.text.trim(),
-            lastName: _lastName.text.trim(),
-            email: _regEmail.text,
-            password: _regPassword.text,
-            pPicAsset: pPicAsset,
-          )
-          .then(
-        (createUserMessage) async {
-          if (createUserMessage != null) {
+        final pPicAsset = ref.watch(pPicAssetProvider);
+
+        try {
+          final createUserMessage = await ref
+              .watch(firebaseAuthServiceProvider)
+              .createUserWithEmailAndPassword(
+                username: _username.text,
+                firstName: _firstName.text.trim(),
+                lastName: _lastName.text.trim(),
+                email: _regEmail.text,
+                password: _regPassword.text,
+                pPicAsset: pPicAsset,
+              );
+
+          if (createUserMessage != null && isMounted) {
             print(createUserMessage);
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(content: Text(createUserMessage)),
             );
           }
-        },
-      );
+        } catch (e) {
+          print(e);
+        }
+      }
     }
   }
 }

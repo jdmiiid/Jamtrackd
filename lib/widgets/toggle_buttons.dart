@@ -4,7 +4,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import '../providers/misc_providers.dart';
 
 class ToggleButtonsForSearch extends ConsumerWidget {
-  ToggleButtonsForSearch({super.key});
+  const ToggleButtonsForSearch({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -30,7 +30,7 @@ class ToggleButtonsForSearch extends ConsumerWidget {
       onPressed: (int index) {
         ref.read(selectedToggleIndexProvider.notifier).state = index;
       },
-      children: const [Text('Tunes'), Text('Users')],
+      children: const [Text('Music'), Text('Users')],
     );
   }
 }

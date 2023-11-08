@@ -49,7 +49,7 @@ class AsyncChainProfilePage extends ConsumerWidget {
                         tappedUser.bio ?? "This is a null bio";
                     return Scaffold(
                       appBar: RootNavAppBar(
-                        title: Text(tappedUser.username!),
+                        title: Text(tappedUser.username),
                         appBar: AppBar(),
                         ref: ref,
                         actions: [
@@ -181,7 +181,7 @@ Widget buildEmptyUserData(
                   alignment: Alignment.centerLeft,
                   padding: const EdgeInsets.only(top: 5),
                   child: Text(
-                    tappedUser.username!,
+                    tappedUser.username,
                     style: const TextStyle(fontWeight: FontWeight.bold),
                   ),
                 ),
@@ -322,7 +322,7 @@ Widget buildAlbumGrid(
                           alignment: Alignment.centerLeft,
                           padding: const EdgeInsets.only(top: 5),
                           child: Text(
-                            tappedUser.username!,
+                            tappedUser.username,
                             style: const TextStyle(fontWeight: FontWeight.bold),
                           ),
                         ),

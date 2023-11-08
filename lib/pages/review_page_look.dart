@@ -1,3 +1,4 @@
+import 'package:Jamtrackd/providers/misc_providers.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
@@ -9,12 +10,12 @@ import '../providers/firebase_firestore_providers.dart';
 import '../widgets/root_app_bar.dart';
 
 class ReviewPageLook extends ConsumerWidget {
-  ReviewPageLook({super.key});
-
-  bool fetched = false;
+  const ReviewPageLook({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final bool initialFetched = ref.watch(postFetchedProvider);
+
     final Post? reviewLookData = ref.watch(reviewLookProvider);
     final List<Comment> commentsList = ref.watch(stateNotifierCommentsList);
 
@@ -47,10 +48,10 @@ class ReviewPageLook extends ConsumerWidget {
             isInitial: true,
           );
 
-      fetched = true;
+      ref.read(postFetchedProvider.notifier).update((state) => true);
     }
 
-    if (!fetched) {
+    if (!initialFetched) {
       fetchInitialData();
     }
 

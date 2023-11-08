@@ -24,3 +24,5 @@ final selectedToggleIndexProvider = StateProvider<int>((ref) => 0);
 final showSortsProvider = StateProvider<bool>((ref) => false);
 
 final addToStatColumn = StateProvider<int>((ref) => 0);
+
+final postFetchedProvider = StateProvider<bool>((ref) => false);

@@ -6,11 +6,11 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../pages/login_page.dart';
 import '../pages/review_page_look.dart';
-import '../pages/verify_email_page.dart';
+import '../pages/test_page.dart';
 import '../pages/album_rating_page.dart';
 import '../pages/albums_list_page.dart';
 import '../pages/profile_page.dart';
-import '../pages/register_page.dart';
+import '../pages/register_or_edit_profile.dart';
 import '../pages/search_page.dart';
 import '../pages/settings_page.dart';
 import 'firebase_auth_providers.dart';
@@ -28,7 +28,8 @@ GoRouter goRouter(GoRouterRef ref) {
         path: '/',
         pageBuilder: (context, state) => NoTransitionPage(
           child: ref.watch(firebaseAuthCurrentUserProvider) != null
-              ? const VerifyEmailPage()
+              // ? const VerifyEmailPage()
+              ? const TestPage()
               : LoginPage(),
         ),
       ),
