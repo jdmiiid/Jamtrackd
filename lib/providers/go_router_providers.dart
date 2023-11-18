@@ -1,3 +1,4 @@
+import 'package:Jamtrackd/pages/feed_page_joel_redesign.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -30,6 +31,7 @@ GoRouter goRouter(GoRouterRef ref) {
           child: ref.watch(firebaseAuthCurrentUserProvider) != null
               ? const VerifyEmailPage()
               // ? const TestPage()
+              // ? JoelFeedPage()
               : LoginPage(),
         ),
       ),

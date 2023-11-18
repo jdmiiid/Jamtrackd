@@ -7,8 +7,7 @@ import '../providers/firebase_firestore_providers.dart';
 import '../widgets/bottom_nav_bar.dart';
 
 import '../models/post.dart';
-import '../models/special_user_data.dart';
-import '../widgets/list_tile_item.dart';
+
 import '../widgets/root_app_bar.dart';
 
 class FeedPage extends ConsumerStatefulWidget {
@@ -69,7 +68,6 @@ class _FeedPageState extends ConsumerState<FeedPage> {
                                     initialPostsLimit, ref, followingList);
                           },
                           child: NotificationListener<ScrollNotification>(
-                            // Wrap the ListView with NotificationListener
                             onNotification: (notification) {
                               if (notification is ScrollEndNotification &&
                                   _scrollController.position.maxScrollExtent -
@@ -100,11 +98,12 @@ class _FeedPageState extends ConsumerState<FeedPage> {
                                   );
                                 } else {
                                   return Center(
-                                      child: Container(
-                                          padding:
-                                              const EdgeInsets.only(top: 8),
-                                          child: const Text(
-                                              'You reached the bottom!')));
+                                    child: Container(
+                                      padding: const EdgeInsets.only(top: 8),
+                                      child:
+                                          const Text('You reached the bottom!'),
+                                    ),
+                                  );
                                 }
                               },
                               separatorBuilder: (context, index) => Divider(
@@ -164,196 +163,99 @@ class _FeedPageState extends ConsumerState<FeedPage> {
       ),
     );
   }
+}
 
-  Widget postItem(BuildContext context, Post post, WidgetRef ref) {
-    const double paddingDouble = 8;
-    final postSpecificUserObjectAsync =
-        ref.watch(specialUserDataFromUIDProvider(post.author));
+Widget postItem(BuildContext context, Post post, WidgetRef ref) {
+  final bodyHeight = MediaQuery.of(context).size.height -
+      AppBar().preferredSize.height -
+      kBottomNavigationBarHeight;
 
-    return postSpecificUserObjectAsync.when(
-        loading: () =>
-            const Text('loading within postspecificUserObject in postItem'),
-        error: (Object error, StackTrace stackTrace) =>
-            Text('error $error inside of postspecificasycn in PostItem'),
-        data: (SpecialUserData? postSpecificUser) {
-          final StateProvider<bool> likedProvider =
-              StateProvider<bool>((ref) => post.likes.contains(post.author));
-
-          return SizedBox(
-            height: MediaQuery.of(context).size.height * .3,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                VerticalDivider(
-                  width: 1,
-                  thickness: 1,
-                  color: Theme.of(context).colorScheme.primary,
-                ),
-                Expanded(
-                  flex: 4,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Expanded(
-                        flex: 3,
-                        child: Container(
-                          color: Theme.of(context).colorScheme.primary,
-                          child: Padding(
-                            padding: const EdgeInsets.only(left: 2, right: 2),
-                            child: Align(
-                              alignment: Alignment.centerLeft,
-                              child: AutoSizeText(
-                                post.content.title ?? 'Title',
-                                maxLines: 2,
-                                style: TextStyle(
-                                  color:
-                                      Theme.of(context).colorScheme.onPrimary,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 25,
-                                ),
-                                minFontSize: 15,
-                                stepGranularity: 5,
-                                overflow: TextOverflow.ellipsis,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                      Expanded(
-                        flex: 10,
-                        child: Padding(
-                          padding:
-                              const EdgeInsets.only(left: 4, right: 4, top: 5),
-                          child: Text(
-                            post.content.response.isEmpty
-                                ? 'Nothing here... Boring!'
-                                : post.content.response,
-                            overflow: TextOverflow.ellipsis,
-                            maxLines: 7,
-                          ),
-                        ),
-                      ),
-                      Divider(
-                        height: 2,
-                        thickness: 2,
-                        color: Theme.of(context).colorScheme.primary,
-                      ),
-                      Expanded(
-                        flex: 4,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            Flexible(
-                              flex: 2,
-                              child: CircleAvatar(
-                                backgroundImage: postSpecificUser!.photoURL !=
-                                        null
-                                    ? CachedNetworkImageProvider(
-                                        postSpecificUser.photoURL!)
-                                    : const AssetImage(
-                                            'assets/images/no_profile_pic.jpeg')
-                                        as ImageProvider<Object>?,
-                              ),
-                            ),
-                            Flexible(
-                              flex: 3,
-                              child: AutoSizeText(
-                                post.username,
-                                minFontSize: 10,
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
-                                style: const TextStyle(
-                                    fontWeight: FontWeight.w600),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                VerticalDivider(
-                  thickness: 1,
-                  color: Theme.of(context).colorScheme.primary,
-                  width: 1,
-                ),
-                Expanded(
-                  flex: 7,
-                  child: Padding(
-                    padding: const EdgeInsets.only(
-                        top: paddingDouble, bottom: paddingDouble),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        Expanded(
-                          child: Padding(
-                            padding: const EdgeInsets.only(left: 18, right: 18),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Expanded(
-                                  child: FittedBox(
-                                    child: Text(
-                                      post.content.albumName,
-                                      style: const TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                      overflow: TextOverflow.ellipsis,
-                                    ),
-                                  ),
-                                ),
-                                FittedBox(
-                                  fit: BoxFit.fitWidth,
-                                  child: Text(
-                                    '${post.content.artistName} | ${post.content.releaseDate}',
-                                  ),
-                                ),
-                                Expanded(
-                                  flex: 5,
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(4.0),
-                                    child: ClipRRect(
-                                      borderRadius: const BorderRadius.all(
-                                          Radius.circular(5)),
-                                      child: FittedBox(
-                                        fit: BoxFit.fill,
-                                        child: Container(
-                                          decoration: BoxDecoration(
-                                            border: Border.all(
-                                              width: 7,
-                                              color: Theme.of(context)
-                                                  .colorScheme
-                                                  .primary,
-                                            ),
-                                          ),
-                                          child:
-                                              Image.network(post.content.url),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                Expanded(
-                                  child: FittedBox(
-                                    child: PostLikeButton(
-                                      postLikeCount: post.likes.length,
-                                      indexedPostData: post,
-                                      postLikedProvider: likedProvider,
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                        const Icon(Icons.chevron_right),
-                      ],
+  return SizedBox(
+    // postItem height is set to 1/3 of the body height
+    height: bodyHeight * 0.3,
+    child: Column(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: [
+        Expanded(
+          flex: 3,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    AutoSizeText(
+                      post.content.albumName,
+                      maxFontSize: 30,
+                      minFontSize: 20,
+                      stepGranularity: 5,
+                      maxLines: 2,
+                      style:
+                          TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
                     ),
-                  ),
+                    Text(
+                      post.content.releaseDate,
+                      style: TextStyle(
+                        fontWeight: FontWeight.normal,
+                        fontSize: 17,
+                      ),
+                    ),
+                    Expanded(
+                      child: Container(
+                        decoration: BoxDecoration(
+                            border: Border.all(color: Colors.green)),
+                        child: Text(
+                          'sdlfhsdfjdsklf dsjflsk jdlsfj sdlkfjs lkjdlksf jsdlkfjs sdjkfhsdkfh skjfh sdkfh skjhs dkfjhs khsdkjf  ksdjflkj skldjf sfdj hsdkjfhs  k',
+                          style: TextStyle(
+                            fontSize: 20,
+                          ),
+                        ),
+                      ),
+                    )
+                  ],
                 ),
-              ],
-            ),
-          );
-        });
-  }
+              ),
+              ClipRRect(
+                borderRadius: const BorderRadius.all(Radius.circular(12.5)),
+                child: CachedNetworkImage(
+                  imageUrl: post.content.url,
+                ),
+              ),
+            ],
+          ),
+        ),
+        Expanded(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Row(children: [
+                CircleAvatar(),
+                SizedBox(width: 5),
+                Text('Username'),
+              ]),
+              FittedBox(
+                child: Row(
+                  children: [
+                    Text('450'),
+                    Icon(
+                      Icons.favorite,
+                      size: 12,
+                    ),
+                    Text(' | '),
+                    Text('9.0'),
+                    Icon(
+                      Icons.star,
+                      size: 12,
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+      ],
+    ),
+  );
 }
