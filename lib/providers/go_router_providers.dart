@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 // 1. Import the riverpod_annotation package
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
+import '../pages/feed_page_joel_redesign.dart';
 import '../pages/login_page.dart';
 import '../pages/review_page_look.dart';
 import '../pages/album_rating_page.dart';
@@ -30,6 +31,7 @@ GoRouter goRouter(GoRouterRef ref) {
           child: ref.watch(firebaseAuthCurrentUserProvider) != null
               ? const VerifyEmailPage()
               // ? const TestPage()
+              // ? JoelFeedPage()
               : LoginPage(),
         ),
       ),
