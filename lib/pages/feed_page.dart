@@ -170,92 +170,105 @@ Widget postItem(BuildContext context, Post post, WidgetRef ref) {
       AppBar().preferredSize.height -
       kBottomNavigationBarHeight;
 
-  return SizedBox(
-    // postItem height is set to 1/3 of the body height
-    height: bodyHeight * 0.3,
-    child: Column(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: [
-        Expanded(
-          flex: 3,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    AutoSizeText(
-                      post.content.albumName,
-                      maxFontSize: 30,
-                      minFontSize: 20,
-                      stepGranularity: 5,
-                      maxLines: 2,
-                      style:
-                          TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
-                    ),
-                    Text(
-                      post.content.releaseDate,
-                      style: TextStyle(
-                        fontWeight: FontWeight.normal,
-                        fontSize: 17,
+  return Padding(
+    padding: const EdgeInsets.only(left: 10, right: 10, top: 10),
+    child: SizedBox(
+      // postItem height is set to 1/3 of the body height
+      height: bodyHeight * 0.3,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          Expanded(
+            flex: 3,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Expanded(
+                  flex: 10,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      AutoSizeText(
+                        post.content.albumName,
+                        minFontSize: 19,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: const TextStyle(
+                            fontSize: 24, fontWeight: FontWeight.bold),
                       ),
-                    ),
-                    Expanded(
-                      child: Container(
-                        decoration: BoxDecoration(
-                            border: Border.all(color: Colors.green)),
-                        child: Text(
-                          'sdlfhsdfjdsklf dsjflsk jdlsfj sdlkfjs lkjdlksf jsdlkfjs sdjkfhsdkfh skjfh sdkfh skjhs dkfjhs khsdkjf  ksdjflkj skldjf sfdj hsdkjfhs  k',
-                          style: TextStyle(
-                            fontSize: 20,
-                          ),
+                      Text(
+                        post.content.releaseDate,
+                        style: const TextStyle(
+                          fontWeight: FontWeight.normal,
+                          fontSize: 17,
                         ),
                       ),
-                    )
-                  ],
+                      Text(
+                        post.content.response,
+                        style: TextStyle(
+                          fontSize: 19.5,
+                        ),
+                        maxLines: 5,
+                        overflow: TextOverflow.ellipsis,
+                      )
+                    ],
+                  ),
                 ),
-              ),
-              ClipRRect(
-                borderRadius: const BorderRadius.all(Radius.circular(12.5)),
-                child: CachedNetworkImage(
-                  imageUrl: post.content.url,
+                const Expanded(child: SizedBox()),
+                ClipRRect(
+                  borderRadius: const BorderRadius.all(Radius.circular(12.5)),
+                  child: CachedNetworkImage(
+                    imageUrl: post.content.url,
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
-        ),
-        Expanded(
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Row(children: [
-                CircleAvatar(),
-                SizedBox(width: 5),
-                Text('Username'),
-              ]),
-              FittedBox(
-                child: Row(
-                  children: [
-                    Text('450'),
-                    Icon(
-                      Icons.favorite,
-                      size: 12,
+          Expanded(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Expanded(
+                  flex: 5,
+                  child: Row(children: [
+                    CircleAvatar(),
+                    SizedBox(width: 5),
+                    Expanded(
+                      child: Text(
+                        post.username,
+                        style: TextStyle(fontSize: 16),
+                        overflow: TextOverflow.ellipsis,
+                      ),
                     ),
-                    Text(' | '),
-                    Text('9.0'),
-                    Icon(
-                      Icons.star,
-                      size: 12,
-                    ),
-                  ],
+                  ]),
                 ),
-              ),
-            ],
+                Expanded(child: SizedBox()),
+                Expanded(
+                  flex: 4,
+                  child: FittedBox(
+                    child: Row(
+                      children: [
+                        Text('405'),
+                        Icon(
+                          Icons.favorite,
+                          size: 12,
+                        ),
+                        Text(' | '),
+                        Text(post.content.rating.toString()),
+                        Icon(
+                          Icons.star,
+                          size: 12,
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     ),
   );
 }
