@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>API_KEY</key>
+	<string>AIzaSyBSEFwUCMgh5_ri6OGF1jxqka046Xfn1fA</string>
+	<key>GCM_SENDER_ID</key>
+	<string>77492506614</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.jdmiiim.Jamtrackd</string>
+	<key>PROJECT_ID</key>
+	<string>jdmiiim</string>
+	<key>STORAGE_BUCKET</key>
+	<string>jdmiiim.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:77492506614:ios:0bbc4a5ee5c38c30ddc1d7</string>
+</dict>
+</plist>

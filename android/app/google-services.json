@@ -7,9 +7,9 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:77492506614:android:1c7051518e6ecaafddc1d7",
+        "mobilesdk_app_id": "1:77492506614:android:b78a1560fbbf004cddc1d7",
         "android_client_info": {
-          "package_name": "com.jdmiiim.Jamtrackd"
+          "package_name": "com.jamtrackd.android"
         }
       },
       "oauth_client": [
@@ -29,6 +29,13 @@
             {
               "client_id": "77492506614-m255139mpq40dc1707ufvj32uoojqqvg.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "77492506614-8ke8rve7qbfmbg3svhj6b52g6ru4de7a.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.jdmiiim.tasktrack"
+              }
             }
           ]
         }

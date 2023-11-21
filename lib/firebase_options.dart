@@ -17,24 +17,15 @@ import 'package:flutter/foundation.dart'
 class DefaultFirebaseOptions {
   static FirebaseOptions get currentPlatform {
     if (kIsWeb) {
-      throw UnsupportedError(
-        'DefaultFirebaseOptions have not been configured for web - '
-        'you can reconfigure this by running the FlutterFire CLI again.',
-      );
+      return web;
     }
     switch (defaultTargetPlatform) {
       case TargetPlatform.android:
-        throw UnsupportedError(
-          'DefaultFirebaseOptions have not been configured for android - '
-          'you can reconfigure this by running the FlutterFire CLI again.',
-        );
+        return android;
       case TargetPlatform.iOS:
         return ios;
       case TargetPlatform.macOS:
-        throw UnsupportedError(
-          'DefaultFirebaseOptions have not been configured for macos - '
-          'you can reconfigure this by running the FlutterFire CLI again.',
-        );
+        return macos;
       case TargetPlatform.windows:
         throw UnsupportedError(
           'DefaultFirebaseOptions have not been configured for windows - '
@@ -52,14 +43,39 @@ class DefaultFirebaseOptions {
     }
   }
 
-  static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyBSEFwUCMgh5_ri6OGF1jxqka046Xfn1fA',
-    appId: '1:77492506614:ios:b03431c3c02f1a72ddc1d7',
+  static const FirebaseOptions web = FirebaseOptions(
+    apiKey: 'AIzaSyDB-aLrJ1Qxsjde4haGfKRIUFZ7k_XyXVc',
+    appId: '1:77492506614:web:d05a7e38e0b3f48eddc1d7',
+    messagingSenderId: '77492506614',
+    projectId: 'jdmiiim',
+    authDomain: 'jdmiiim.firebaseapp.com',
+    storageBucket: 'jdmiiim.appspot.com',
+    measurementId: 'G-V3SJ00ECNL',
+  );
+
+  static const FirebaseOptions android = FirebaseOptions(
+    apiKey: 'AIzaSyAtl5D3imkTdAcglzLiRvg2Ohsf82DuyLg',
+    appId: '1:77492506614:android:b78a1560fbbf004cddc1d7',
     messagingSenderId: '77492506614',
     projectId: 'jdmiiim',
     storageBucket: 'jdmiiim.appspot.com',
-    iosClientId:
-        '77492506614-8ke8rve7qbfmbg3svhj6b52g6ru4de7a.apps.googleusercontent.com',
+  );
+
+  static const FirebaseOptions ios = FirebaseOptions(
+    apiKey: 'AIzaSyBSEFwUCMgh5_ri6OGF1jxqka046Xfn1fA',
+    appId: '1:77492506614:ios:0bbc4a5ee5c38c30ddc1d7',
+    messagingSenderId: '77492506614',
+    projectId: 'jdmiiim',
+    storageBucket: 'jdmiiim.appspot.com',
+    iosBundleId: 'com.jdmiiim.Jamtrackd',
+  );
+
+  static const FirebaseOptions macos = FirebaseOptions(
+    apiKey: 'AIzaSyBSEFwUCMgh5_ri6OGF1jxqka046Xfn1fA',
+    appId: '1:77492506614:ios:0bbc4a5ee5c38c30ddc1d7',
+    messagingSenderId: '77492506614',
+    projectId: 'jdmiiim',
+    storageBucket: 'jdmiiim.appspot.com',
     iosBundleId: 'com.jdmiiim.Jamtrackd',
   );
 }
