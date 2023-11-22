@@ -2,7 +2,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:flutter/material.dart';
 
 class RatingBubble extends ConsumerWidget {
-  const RatingBubble(this.rating, this.color, {super.key});
+  const RatingBubble({super.key, required this.rating, required this.color});
 
   final String rating;
   final Color color;

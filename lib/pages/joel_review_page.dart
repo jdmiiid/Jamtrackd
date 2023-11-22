@@ -1,4 +1,5 @@
 import 'package:Jamtrackd/widgets/rating_bubble.dart';
+import 'package:Jamtrackd/widgets/user_link_button.dart';
 import 'package:flutter/material.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -197,7 +198,6 @@ class JoelReviewPage extends ConsumerWidget {
       error: (Object error, StackTrace stackTrace) => Text(
           'Error inside postSpecificUserObjectAsync in postItem: $error'),
       data: (SpecialUserData? postSpecificUser) {
-
         return Container(
           padding: const EdgeInsets.all(10.0),
           child: Column(
@@ -216,29 +216,8 @@ class JoelReviewPage extends ConsumerWidget {
                   fit: BoxFit.contain,
                 ),
               ),
-              RatingBubble(post.content.rating.toString(), ratingColor),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  CircleAvatar(
-                    backgroundImage:
-                      postSpecificUser!.photoURL == null
-                        ? const AssetImage('assets/images/no_profile_pic.jpeg')
-                          as ImageProvider<Object>?
-                        : CachedNetworkImageProvider(postSpecificUser.photoURL!)
-                  ),
-                  const SizedBox(
-                    width: 10
-                  ),
-                  Text(
-                    post.username,
-                    style: TextStyle(
-                      fontSize: 25,
-                      color: Theme.of(context).colorScheme.primary
-                    ),
-                  )
-                ],
-              ),
+              RatingBubble(rating: post.content.rating.toString(), color: ratingColor),
+              UserLinkButton(user: postSpecificUser!),
               Text(
                 post.content.response,
                 textAlign: TextAlign.center,
